@@ -1,7 +1,21 @@
-<?lua std.html() ?>
+<?lua 
+    local die = function(m)
+        echo(m)
+        debug.traceback=nil
+        error("Permission denied")
+    end
+    std.html()
+    local user = "mrsang"
+    local db = require("db.model").get("mrsang","user",nil)
+    if db == nil then die("cannot get db data") end
+    local data = db:getAll()
+    db:close()
+    if data == nil or data[0] == nil then die("Cannot fetch user info") end
+    data = data[0]
+?>
 <html>
     <head>
-        <script type="text/javascript" src="../os/scripts/jquery-3.2.1.min.js"></script>
+        <!--script type="text/javascript" src="../os/scripts/jquery-3.2.1.min.js"></script-->
         <script type="text/javascript" src="main.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link rel="stylesheet" type="text/css" href="font-awesome.css" />
@@ -9,23 +23,22 @@
     <body>
         <div class="layout">
             <h1>
-                <span class="name">Xuan Sang LE</span>
+                <span class="name"><?=data.fullname?></span>
                 <span class="cv">Curriculum Vitae</span>
             </h1>
             <p class="coordination">
-                <span class="fa fa-home"></span>
-                33 rue Robespierre, 29200, Brest, France</p>
+                <span class="fa fa-home"></span><?=data.address?></p>
             <p class="coordination">
                 <span class="fa fa-phone"></span>
-                <span class="text">+33 07 82 38 28 84</span>
+                <span class="text"><?=data.Phone?></span>
                 <span class="fa fa-envelope-o"></span>
-                <span class="text">xsang.le@gmail.com</span>
+                <span class="text"><?=data.email?></span>
                 <span class="fa fa-globe"></span>
-                <span class="text">lxsang.me</span>
+                <span class="text"><?=data.url?></span>
             </p>
             <p class="shortbio">
                 <span class="fa fa-quote-left"></span>
-                <span>Currently PhD in computer science (I'm going to defend my thesis in May 2017), my research addresses the application of object oriented design (OOD) on SW/HW system engineering. I'm interesting and/or involved in two main topics: Software Engineering (SE) and Embedded System Design (ESD). From the SE perspective, my study focuses on object-oriented based software architectures, languages (especially dynamic languages) and development tools/platforms. From the ESD perspective, my researches target the application of OOD principles on hardware and embedded and/or robotic system design. One of my privileged application domain in this theme is the object-oriented middleware design for distributed and edge-computing on hybrid (SW/HW) smart sensor network.</span>
+                <span><?=data.shortbiblio?></span>
                 <span class="fa fa-quote-right"></span>
             </p>
             <div class="container">
