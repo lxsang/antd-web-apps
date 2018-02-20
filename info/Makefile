@@ -1,6 +1,6 @@
 BUILDDIR = ../build/info
 
-copyfiles = fonts/ index.ls style.css font-awesome.css
+copyfiles = fonts index.ls style.css font-awesome.css
 
 main:
 	- mkdir $(BUILDDIR)
