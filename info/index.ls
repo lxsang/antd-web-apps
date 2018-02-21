@@ -1,14 +1,22 @@
-<?lua 
+<?lua
+    std.html()
+    local user = "mrsang"
     local die = function(m)
         echo(m)
         debug.traceback=nil
         error("Permission denied")
     end
-    std.html()
-    local user = "mrsang"
-    local db = require("db.model").get("mrsang","user",nil)
+    local sectionByCID = function(id)
+        local db = require("db.model").get(user,"cv_sections",nil)
+        if db == nil then die("Cannot get the cv_sections table") end
+        local cond = { exp = { ["="] = { cid = id } } , order = { start = "DESC" } }
+        local data, a = db:find(cond)
+        db:close()
+        return data, a
+    end
+    local db = require("db.model").get(user,"user",nil)
     if db == nil then die("cannot get db data") end
-    local data = db:getAll()
+    local data, a = db:getAll()
     db:close()
     if data == nil or data[0] == nil then die("Cannot fetch user info") end
     data = data[0]
@@ -16,12 +24,15 @@
 <html>
     <head>
         <!--script type="text/javascript" src="../os/scripts/jquery-3.2.1.min.js"></script-->
-        <script type="text/javascript" src="main.js"></script>
+        <script type="text/javascript" src="rst/showdown.min.js"></script>
         <link rel="stylesheet" type="text/css" href="style.css" />
-        <link rel="stylesheet" type="text/css" href="font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />
+        <title>Porfolio</title>
     </head>
     <body>
-        <div class="layout">
+    <div class="layout">
+        
+        <div class = "cv-content">
             <h1>
                 <span class="name"><?=data.fullname?></span>
                 <span class="cv">Curriculum Vitae</span>
@@ -34,217 +45,147 @@
                 <span class="fa fa-envelope-o"></span>
                 <span class="text"><?=data.email?></span>
                 <span class="fa fa-globe"></span>
-                <span class="text"><?=data.url?></span>
+                <span class="text"><a href ="<?=data.url?>"><?=data.url?></a></span>
             </p>
             <p class="shortbio">
                 <span class="fa fa-quote-left"></span>
                 <span><?=data.shortbiblio?></span>
                 <span class="fa fa-quote-right"></span>
             </p>
-            <div class="container">
-                <h1>Education</h1>
+<?lua
+    -- query the the sections list
+    db = require("db.model").get(user,"cv_cat",nil)
+    if db == nil then die("Cannot get the cv_cat table") end
+    local cond = { exp = { ["="] = { pid = 0 } }, order = { name = "ASC" } }
+    data, a = db:find(cond)
+    if data then
+        for k, idx in pairs(a) do
+            local cat = data[idx]
+            cond = { exp = { ["="] = { pid = cat.id } }, order = { name = "ASC" } }
+            local children, b = db:find(cond)
+            if children and #children > 0 then -- we have the sub childrent  
+?>
+            <div class="container" id = "<?='toc'..idx?>">
+                <h1><?=cat.name:gsub("^%d+%.","")?></h1>
+            <?lua
+                for l, j in pairs(b) do
+                    local child = children[j]
+            ?>
                 <div class="sub-container">
-                    <h2>Academic Qualifications</h2>
-
+                    <h2><?=child.name:gsub("^%d+%.","")?></h2>
+                    <?lua
+                        local entries, c = sectionByCID(child.id)
+                        if entries then
+                            for m, k in pairs(c) do
+                                local entry = entries[k]
+                    ?>
                     <div class= "entry">
                         <p>
-                            <span class= "fa  fa-bookmark"></span>
-                            <span class= "title">Universite de Bretagne Occidental</span>
+                            <?lua if entry.title ~= "" then ?>
+                                <span class= "fa  fa-bookmark"></span>
+                                <span class= "title"><?=entry.title?></span>
+                            <?lua end ?>
                             <span class= "title-optional"></span>
-                            <span class="location">Brest, France</span>
+                            <span class="location"><?=entry.location?></span>
                         </p>
                         <div class="entry-short-des">
-                            <span>PhD in computer science</span>
-                            <span class="date">2014-2017</span>
-                        </div>
-                        <div class="entry-description">
-                        </div>
-                    </div>
-
-                    <div class= "entry">
-                        <p>
-                            <span class= "fa  fa-bookmark"></span>
-                            <span class= "title">Universite de Bretagne Occidental</span>
-                            <span class= "title-optional"></span>
-                            <span class="location">Brest, France</span>
-                        </p>
-                        <div class="entry-short-des">
-                            <span>PhD in computer science</span>
-                            <span class="date">2014-2017</span>
-                        </div>
-                        <div class="entry-description">
-                        </div>
-                    </div>
-
-                    <div class= "entry">
-                        <p>
-                            <span class= "fa  fa-bookmark"></span>
-                            <span class= "title">Universite de Bretagne Occidental</span>
-                            <span class= "title-optional"></span>
-                            <span class="location">Brest, France</span>
-                        </p>
-                        <div class="entry-short-des">
-                            <span>PhD in computer science</span>
-                            <span class="date">2014-2017</span>
-                        </div>
-                        <div class="entry-description">
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="sub-container">
-                    <h2>Notable Projects</h2>
-
-                    <div class= "entry">
-                        <p>
-                            <span class= "fa  fa-bookmark"></span>
-                            <span class= "title">PHD Project (Ongoing)</span>
-                            <span class= "title-optional">
-                                Software/FPGA Co-design for Edge-computing: Promoting Object-oriented Design
+                            <span><?=entry.subtitle?></span>
+                            <span class="date">
+                            <?lua
+                                if entry["start"]:match("^20%d.*") and entry['end']:match("^20%d.*")  then
+                                    echo(entry.start.."-"..entry['end'])
+                                end
+                            ?>
                             </span>
-                            <span class="location"></span>
-                        </p>
-                        <div class="entry-short-des">
-                            <span></span>
-                            <span class="date">At: Mines-Télécom, Mines Douai and ENSTA Bretagne, France</span>
                         </div>
                         <div class="entry-description">
-                            Working as a PhD student, my research focuses on the application of the object-oriented design methodol- ogy in embedded systems. The work mainly focuses on: (1) the use of object-oriented design principles on hardware design, especially on FPGA design. (2) The implementation of an object oriented and distributed platform for edge-computing on hybrid (SW/HW) sensor network, based on a Virtual Machine (Smalltalk) solution. The goal facilitates the development, deployment and maintenance of distributed applications on that hybrid and reconfigurable system. This project is a collaboration between ENSTA Bretagne and École des Mines de Douai.
+                                <?=entry.content?>
                         </div>
                     </div>
-
+                    <?lua
+                            end
+                        end
+                    ?>
+                </div>
+            <?lua
+                end
+            ?>
+            </div>
+        <?lua
+            else
+        ?>
+            <div class="container" id="<?='toc'..idx?>">
+                <h1><?=cat.name:gsub("^%d+%.","")?></h1>
+        <?lua
+                local entries, c = sectionByCID(cat.id)
+                if entries then
+                    for m, k in pairs(c) do
+                        local entry = entries[k]
+        ?>
                     <div class= "entry">
                         <p>
-                            <span class= "fa  fa-bookmark"></span>
-                            <span class= "title">Master 2 project (Internship)</span>
-                            <span class= "title-optional">
-                                Optimization by parallelization of the 3d elastic free form deformation algorithm
-                            </span>
-                            <span class="location"></span>
+                            <?lua if entry.title ~= "" then ?>
+                                <span class= "fa  fa-bookmark"></span>
+                                <span class= "title"><?=entry.title?></span>
+                            <?lua end ?>
+                            <span class= "title-optional"></span>
+                            <span class="location"><?=entry.location?></span>
                         </p>
                         <div class="entry-short-des">
-                            <span></span>
-                            <span class="date">At: Mines-Télécom, Mines Douai and ENSTA Bretagne, France</span>
+                            <span><?=entry.subtitle?></span>
+                            <span class="date">
+                            <?lua
+                                if entry["start"]:match("^20%d.*") and entry['end']:match("^20%d.*") then
+                                    echo(entry.start.."-"..entry['end'])
+                                end
+                            ?>
+                            </span>
                         </div>
                         <div class="entry-description">
-                            Working as a PhD student, my research focuses on the application of the object-oriented design methodol- ogy in embedded systems. The work mainly focuses on: (1) the use of object-oriented design principles on hardware design, especially on FPGA design. (2) The implementation of an object oriented and distributed platform for edge-computing on hybrid (SW/HW) sensor network, based on a Virtual Machine (Smalltalk) solution. The goal facilitates the development, deployment and maintenance of distributed applications on that hybrid and reconfigurable system. This project is a collaboration between ENSTA Bretagne and École des Mines de Douai.
+                                <?=entry.content?>
                         </div>
                     </div>
-
-
-                </div>
-
-
+            <?lua
+                    end
+                end
+            echo ("</div>")
+            end
+        end
+        db:close()
+    end
+        ?>
+            <div class = "container">
+                <h1 style="margin:0;"></h1>
+                <p style="text-align:right; padding:0; margin:0;color:#878887;">Powered by antd server, (C) 2017-2018 Xuan Sang LE</p>
             </div>
-
-
-            <div class="container">
-                <h1>Previous employment</h1>
-
-                <div class= "entry">
-                    <p>
-                        <span class= "fa  fa-bookmark"></span>
-                        <span class= "title">ENSTA Bretagne</span>
-                        <span class= "title-optional"></span>
-                        <span class="location">Brest, France</span>
-                    </p>
-                    <div class="entry-short-des">
-                        <span>3 years CDD</span>
-                        <span class="date">2014-2017</span>
-                    </div>
-                    <div class="entry-description">
-                        Working as researcher, partition in the research of the application of object-oriented design methodology in embedded systems.
-                    </div>
-                </div>
-
-                <div class= "entry">
-                    <p>
-                        <span class= "fa  fa-bookmark"></span>
-                        <span class= "title">ENSTA Bretagne</span>
-                        <span class= "title-optional"></span>
-                        <span class="location">Brest, France</span>
-                    </p>
-                    <div class="entry-short-des">
-                        <span>3 years CDD</span>
-                        <span class="date">2014-2017</span>
-                    </div>
-                    <div class="entry-description">
-                        Working as researcher, partition in the research of the application of object-oriented design methodology in embedded systems.
-                    </div>
-                </div>
-
-                <div class= "entry">
-                    <p>
-                        <span class= "fa  fa-bookmark"></span>
-                        <span class= "title">ENSTA Bretagne</span>
-                        <span class= "title-optional"></span>
-                        <span class="location">Brest, France</span>
-                    </p>
-                    <div class="entry-short-des">
-                        <span>3 years CDD</span>
-                        <span class="date">2014-2017</span>
-                    </div>
-                    <div class="entry-description">
-                        Working as researcher, partition in the research of the application of object-oriented design methodology in embedded systems.
-                    </div>
-                </div>
-
-
-            </div>
-
-             <div class="container">
-                <h1>Technical and Personal skills</h1>
-                <div class= "entry">
-                    <p>
-                        <span class= "fa  fa-bookmark"></span>
-                        <span class= "title">Programming language</span>
-                        <span class= "title-optional"></span>
-                        <span class="location"></span>
-                    </p>
-                    <div class="entry-short-des">
-                        <span></span>
-                        <span class="date"></span>
-                    </div>
-                    <div class="entry-description">
-                        Proficient in: C, C++, Pharo (Smalltalk), Python, Ruby, Java, PHP, Lua, Shell script, VHDL, HTML, Javascript, CSS. Also basic ability with: Assembly, Matlab.
-                    </div>
-                </div>
-
-                <div class= "entry">
-                    <p>
-                        <span class= "fa  fa-bookmark"></span>
-                        <span class= "title">Programming language</span>
-                        <span class= "title-optional"></span>
-                        <span class="location"></span>
-                    </p>
-                    <div class="entry-short-des">
-                        <span></span>
-                        <span class="date"></span>
-                    </div>
-                    <div class="entry-description">
-                        Proficient in: C, C++, Pharo (Smalltalk), Python, Ruby, Java, PHP, Lua, Shell script, VHDL, HTML, Javascript, CSS. Also basic ability with: Assembly, Matlab.
-                    </div>
-                </div>
-
-                <div class= "entry">
-                    <p>
-                        <span class= "fa  fa-bookmark"></span>
-                        <span class= "title">Programming language</span>
-                        <span class= "title-optional"></span>
-                        <span class="location"></span>
-                    </p>
-                    <div class="entry-short-des">
-                        <span></span>
-                        <span class="date"></span>
-                    </div>
-                    <div class="entry-description">
-                        Proficient in: C, C++, Pharo (Smalltalk), Python, Ruby, Java, PHP, Lua, Shell script, VHDL, HTML, Javascript, CSS. Also basic ability with: Assembly, Matlab.
-                    </div>
-                </div>
-
-            </div>
-
         </div>
+        <div class = "cv-toc">
+            <ul>
+            <?lua
+                if data then
+                    for k, idx in pairs(a) do
+                        local cat = data[idx]
+            ?>
+                <li><a href="#<?='toc'..idx?>"><?=cat.name:gsub("^%d+%.","")?></a></li>
+            <?lua
+                    end
+                end
+            ?>
+            </ul>
+        </div>
+    </div>
+    <script>
+        window.onload = function()
+        {
+            var els = document.getElementsByClassName("entry-description");
+            var converter = new showdown.Converter();
+            for(var i in els)
+            {
+                var text  = els[i].innerHTML;
+                var html      = converter.makeHtml(text);
+                els[i].innerHTML = html;
+            }
+        }
+    </script>
     </body>
 </html>

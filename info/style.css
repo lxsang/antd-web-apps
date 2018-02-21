@@ -24,7 +24,10 @@
     width:800px;
     font-family: "FuturaNormal";
     text-align: justify;
-     margin:0 auto;
+    margin:0 auto;
+    display: flex;
+    flex-direction: row-reverse;
+    /*color: #414339;*/
 }
 h1 {
     font-size: 25px;
@@ -37,9 +40,35 @@ h1 .name{
     border-right: 2px solid #878887;
     padding-right: 10px;
 }
-
+.cv-toc{
+    display: block;
+    text-align: right;
+    min-width: 180px;
+    margin-top: 135px;
+    margin-right: 10px;
+    border-right: 1px dashed #878887;
+}
+.cv-toc ul{
+    margin: 0;
+    padding:0;
+    padding-right: 10px;
+    list-style: none;
+}
+.cv-toc ul a{
+    color:#414339;
+    text-decoration:  none;
+    display: inline-block;
+    padding-bottom: 3px;
+}
+.cv-toc ul a:hover{
+    border-bottom: 1px dashed #878887;
+}
+.cv-content{
+    display: block;
+}
 h1 .cv{
     color:#878887;
+    padding-left: 10px;
 }
 
 .coordination {
@@ -84,11 +113,13 @@ h1 .cv{
 }
 .entry .location{
     float:right;
-    font-family: "FuturaBold";
+    font-family: "FuturaItalic";
+    color: #662702;
 }
 .entry-short-des{
     font-family: "FuturaItalic";
     padding-left: 13px;
+    margin-bottom: 5px;
 }
 .entry-short-des  span.date{
     float:right;

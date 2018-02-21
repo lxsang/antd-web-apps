@@ -1,0 +1,84 @@
+#layout{
+    width:100%;
+    font-family: "Ubuntu";
+    font-size: 14px;
+    /*margin:0 auto;
+    display: flex;
+    flex-direction: row-reverse;
+    color: #414339;*/
+}
+#top{
+    background-color: #2c2c2c;
+    color: white;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+
+    height: 50px;
+}
+#top ul{
+    padding:0;
+    margin: 0;
+    padding-top: 16px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    list-style: none;
+}
+#top ul li{
+    /*float: left;*/
+    padding-left:10px;
+    padding-right: 10px;
+}
+#top ul li i{
+    margin-right: 3px;
+}
+#top ul li a{
+    text-decoration: none;
+    color: white;
+}
+#top ul li a:hover{
+    border-bottom: 1px dashed white;
+}
+#bottom{
+    position: fixed;
+    bottom: 0;
+    height: 20px;
+    text-align: center;
+    color:#878887;
+    font-size: 12px;
+    width: 100%;
+    padding:5px;
+    border-top: 1px solid #878887;
+}
+#container{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+#container img{
+    max-height: 250px;
+}
+#vcard {
+    margin-left: 20px;
+}
+#vcard p.greeting{
+    font-size: 30px;
+    color:  #414339;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 15px;
+}
+#vcard p.dedicate{
+    color:  #414339;
+    /*font-family: "HermitLight";
+    text-align: justify;
+    */
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    line-height: 1.6;
+    width: 500px;
+    
+}
