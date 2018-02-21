@@ -65,7 +65,7 @@
             local children, b = db:find(cond)
             if children and #children > 0 then -- we have the sub childrent  
 ?>
-            <div class="container" id = "<?='toc'..idx?>">
+            <div class="container" id =<?='"toc'..idx..'"'?>>
                 <h1><?=cat.name:gsub("^%d+%.","")?></h1>
             <?lua
                 for l, j in pairs(b) do
@@ -114,7 +114,7 @@
         <?lua
             else
         ?>
-            <div class="container" id="<?='toc'..idx?>">
+            <div class="container" id =<?='"toc'..idx..'"'?>>
                 <h1><?=cat.name:gsub("^%d+%.","")?></h1>
         <?lua
                 local entries, c = sectionByCID(cat.id)
@@ -166,7 +166,7 @@
                     for k, idx in pairs(a) do
                         local cat = data[idx]
             ?>
-                <li><a href="#<?='toc'..idx?>"><?=cat.name:gsub("^%d+%.","")?></a></li>
+                <li><a href=<?='"#toc'..idx..'"'?>><?=cat.name:gsub("^%d+%.","")?></a></li>
             <?lua
                     end
                 end
