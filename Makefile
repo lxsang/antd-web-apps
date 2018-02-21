@@ -1,6 +1,6 @@
 BUILDDIR = ./build
 projs = grs info
-copyfiles =  index.html
+copyfiles =  index.ls
 main: copy
 	for f in $(projs); do  make -C  "$${f}" ; done
 

@@ -1,3 +1,18 @@
+<?lua
+    std.html()
+    local user = "mrsang"
+    local die = function(m)
+        echo(m)
+        debug.traceback=nil
+        error("Permission denied")
+    end
+    local db = require("db.model").get(user,"user",nil)
+    if db == nil then die("cannot get db data") end
+    local data, a = db:getAll()
+    db:close()
+    if data == nil or data[0] == nil then die("Cannot fetch user info") end
+    data = data[0]
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,7 +41,7 @@
                         <p class = "dedicate">
                             <span class="fa fa-quote-left"></span>
                             <span>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                                    <?=data.shortbiblio?>
                             </span>
                             <span class="fa fa-quote-right"></span>
                         </p>
