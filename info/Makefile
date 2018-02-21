@@ -1,10 +1,10 @@
 BUILDDIR = ../build/info
 
-copyfiles = fonts/ index.ls style.css font-awesome.css
+copyfiles =  index.ls style.css
 
 main:
 	- mkdir $(BUILDDIR)
 	cp -rf $(copyfiles) $(BUILDDIR)
-
+	cd $(BUILDDIR) && ln -s ../gresources .rst
 clean:
 	rm -rf $(BUILDDIR)/*  
