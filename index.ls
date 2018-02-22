@@ -27,6 +27,7 @@
         <script src="grs/gscripts/riot.compiler.min.js"> </script>
         <script>
             var scheme = undefined;
+            var obs = undefined;
             function mailtoMe()
             {
                 if(scheme) return;
@@ -34,26 +35,30 @@
                 $.get( "grs/sendto.html")
                 .done(function(d) {
                     scheme = $.parseHTML(d)
-                    var observable = riot.observable()
+                    obs = riot.observable()
                     $("#desktop").append(scheme)
-                    riot.mount($(scheme), {observable:observable})
-                    observable.on("exit", function(){
+                    scheme = scheme[0]
+                    obs.on("exit", function(){
+                        obs.off("rendered")
+                        obs.off("exit")
+                        obs = undefined;
                         $(scheme).remove()
                         scheme = undefined
                     })
-                    observable.on("rendered", function(){
-                        $("#send").click(function(){
-                            $("#status").html("");
-                            var els = $("[data-class='data']")
+                    obs.on("rendered", function(d){
+                        $("[data-id='send']", scheme).click(function(){
+                            var status = $("[data-id='status']", scheme)
+                            status.html("");
+                            var els = $("[data-class='data']", scheme)
                             var data = {}
                             
                             for(var i = 0; i < els.length; i++)
                                 data[els[i].name] = $(els[i]).val()
                             if(data.email == "" || data.subject == "" || data.content == "" || data.name == "")
-                                return $("#status").html("Please enter all the fields");
+                                return status.html("Please enter all the fields");
                             var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                             if(!re.test(String(data.email).toLowerCase()))
-                                return $("#status").html("Email is not correct");
+                                return status.html("Email is not correct");
                             
                             $.ajax({
                                 type: 'POST',
@@ -67,14 +72,15 @@
                                     alert(r.error)
                                 else
                                 {
-                                    observable.trigger("exit")
-                                    alert("Thank")
+                                    obs.trigger("exit")
+                                    alert("Email sent. Thank")
                                 }
                             }).fail(function(){
                                 alert("Service unavailable at the moment")
                             })
                         })
                     })
+                    riot.mount(scheme, {observable:obs})
                 })
                 .fail(function() {
                     alert( "Cannot get the form" );

@@ -198,7 +198,7 @@ button{
     margin-right: 10px;
     box-shadow: 1px 1px 1px #9f9F9F;
 }
-#status{
+div[data-id="status"]{
     padding-left: 10px;
     padding-top:5px;
     color:#724841;
