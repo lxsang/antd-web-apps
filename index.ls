@@ -66,7 +66,10 @@
                                 if(r.error)
                                     alert(r.error)
                                 else
+                                {
+                                    observable.trigger("exit")
                                     alert("Thank")
+                                }
                             }).fail(function(){
                                 alert("Service unavailable at the moment")
                             })

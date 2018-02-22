@@ -10,7 +10,7 @@ local content = "Contact request from:"..rq.name.."\n Email:"..rq.email.."\n"..r
 
 local cmd = 'echo "'..utils.escape(from..suject..content)..'"| sendmail '..to
 
-print(cmd)
+--print(cmd)
 local r = os.execute(cmd)
 
 if r then
