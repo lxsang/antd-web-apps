@@ -27,7 +27,6 @@
         <script src="grs/gscripts/riot.compiler.min.js"> </script>
         <script>
             var scheme = undefined;
-            var obs = undefined;
             function mailtoMe()
             {
                 if(scheme) return;
@@ -35,13 +34,10 @@
                 $.get( "grs/sendto.html")
                 .done(function(d) {
                     scheme = $.parseHTML(d)
-                    obs = riot.observable()
+                    var obs = riot.observable()
+                    $(scheme).css("visibility","hidden")
                     $("#desktop").append(scheme)
-                    scheme = scheme[0]
                     obs.on("exit", function(){
-                        obs.off("rendered")
-                        obs.off("exit")
-                        obs = undefined;
                         $(scheme).remove()
                         scheme = undefined
                     })
@@ -79,6 +75,7 @@
                                 alert("Service unavailable at the moment")
                             })
                         })
+                        $(scheme).css("visibility","visible")
                     })
                     riot.mount(scheme, {observable:obs})
                 })
