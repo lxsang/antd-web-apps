@@ -4,8 +4,8 @@
 
 @font-face {
     font-family: 'Ubuntu';
-    src: url('gfonts/ubuntu-regular-webfont.woff2') format('woff2'),
-         url('gfonts/ubuntu-regular-webfont.woff') format('woff');
+    src: url('resources/themes/antos/fonts//ubuntu-regular-webfont.woff2') format('woff2'),
+         url('resources/themes/antos/fonts//ubuntu-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -13,8 +13,8 @@
 
 @font-face {
     font-family: 'Ubuntu';
-    src: url('gfonts/ubuntu-bold-webfont.woff2') format('woff2'),
-         url('gfonts/ubuntu-bold-webfont.woff') format('woff');
+    src: url('resources/themes/antos/fonts//ubuntu-bold-webfont.woff2') format('woff2'),
+         url('resources/themes/antos/fonts//ubuntu-bold-webfont.woff') format('woff');
     font-weight: bold;
     font-style: normal;
 
@@ -22,8 +22,8 @@
 
 @font-face {
     font-family: 'Ubuntu';
-    src: url('gfonts/ubuntu-bolditalic-webfont.woff2') format('woff2'),
-         url('gfonts/ubuntu-bolditalic-webfont.woff') format('woff');
+    src: url('resources/themes/antos/fonts//ubuntu-bolditalic-webfont.woff2') format('woff2'),
+         url('resources/themes/antos/fonts//ubuntu-bolditalic-webfont.woff') format('woff');
     font-weight: bold;
     font-style: italic;
 
@@ -31,8 +31,8 @@
 
 @font-face {
     font-family: 'Ubuntu';
-    src: url('gfonts/ubuntu-italic-webfont.woff2') format('woff2'),
-         url('gfonts/ubuntu-italic-webfont.woff') format('woff');
+    src: url('resources/themes/antos/fonts//ubuntu-italic-webfont.woff2') format('woff2'),
+         url('resources/themes/antos/fonts//ubuntu-italic-webfont.woff') format('woff');
     font-weight: normal;
     font-style: italic;
 

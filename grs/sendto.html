@@ -1,0 +1,27 @@
+<afx-app-window apptitle="Send me an email" minimizable="false" resizable = "false" width="450" height="350">
+    <afx-vbox >
+        <div data-height="5"></div>
+        <afx-hbox data-height="20" class = "inputbox">
+            <div data-width = "47" class = "label">Name:</div>
+            <input data-class = "data" type = "text" name = "name" />
+        </afx-hbox>
+        <div data-height="5"></div>
+        <afx-hbox data-height="20" class = "inputbox">
+            <div data-width = "45" class = "label">From:</div>
+            <input data-class = "data" type = "text" name = "email" />
+        </afx-hbox>
+        <div data-height="5"></div>
+        <afx-hbox data-height="20" class = "inputbox">
+            <div data-width = "60" class = "label">Subject:</div>
+            <input data-class = "data" type = "text" name = "subject" />
+        </afx-hbox>
+        <div data-height="5"></div>
+        <textarea data-class = "data"  name = "content"></textarea>
+        <div data-height="5"></div> 
+        <afx-hbox data-height="30">
+            <div id="status"></div>
+            <button id = "send" data-width = "60" >Send</button>
+        </afx-hbox>
+        <div data-height="5"></div>
+    </afx-vbox>
+</afx-app-window>

@@ -1,6 +1,6 @@
 BUILDDIR = ../build/info
 
-copyfiles =  index.ls style.css
+copyfiles =  index.ls style.css sendmail.lua
 
 main:
 	- mkdir $(BUILDDIR)

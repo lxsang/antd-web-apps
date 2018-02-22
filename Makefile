@@ -1,7 +1,7 @@
 BUILDDIR = ./build
 projs = grs info
 copyfiles =  index.ls
-main: copy
+main: clean copy
 	for f in $(projs); do  make -C  "$${f}" ; done
 
 copy:
