@@ -21,7 +21,7 @@
 
 
 .layout{
-    width:800px;
+    max-width:960px;
     font-family: "Futura";
     text-align: justify;
     margin:0 auto;

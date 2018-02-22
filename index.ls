@@ -16,7 +16,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Xuan Sang LE, personal site</title>
+        <title>Hi, I'm Xuan Sang LE</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="grs/ubuntu-regular.css" />
