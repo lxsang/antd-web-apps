@@ -101,7 +101,7 @@ button{
     color: white;
     border: 0;
     border-radius: 5px;
-    padding:3px;
+    padding:5px;
     margin-right: 10px;
     box-shadow: 1px 1px 1px #9f9F9F;
 }
@@ -110,32 +110,106 @@ button{
     flex-direction: row;
 
 }
-#container .card .date{
-    padding-top:20px;
+#container .card .side{
+    padding-top:28px;
     padding-bottom: 0;
     margin: 0;
-    min-width: 74px;
-    line-height: 1.0;
+    display: block;
+    margin-right: 10px;
+    width: 120px;
+    flex: 1 0 auto;
     color:#3170B2;
-
+    text-align: right;
 }
-#container .card .date .day{
-    font-weight: bold;
+#container .card .side .date{
+    display: inline-block;
+    color: #662702;
+    padding-right: 5px;
+    padding-bottom: 7px;
+    border-right: 1px solid #cccccc;
+}
+#container .card .side .tags{
     display: block;
-    font-size: 60px;
-    
+    padding-right: 5px;
+    line-height: 1.1;
+    font-size: 13px;
+    color:#878887;
+    border-right: 1px solid #cccccc;
 }
-#container .card .date .monthyear{
-    font-weight: bold;
-    display: block;
-    
+#container .card .side .tags a{
+    color:#878887;
+    text-decoration: none;
 }
+#container .card .side .tags a:hover{
+    text-decoration: underline;
+    text-decoration-color: #cccccc;
+}
+/*
+#container .card .side .tags a:before{
+    font-family: "FontAwesome";
+    content: "\f02b";
+    padding-right: 3px;
+    color: #cccccc; 
+}*/
 #container .blogentry{
     padding-top:20px;
     /*border-bottom: 1px solid #cccccc;
     padding-bottom: 20px;*/
 }
-#container h1{
+#container .blogentry p {
+    margin: 0;
+    text-indent: 20pt;
+    margin-bottom: 20px;
+}
+#container .blogentry img{
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#container .blogentry a{
+    text-decoration: none;
+    color:#3170B2;
+}
+#container .blogentry hr{
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #878887;
+    padding: 0; 
+}
+#container .blogentry table{
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border-collapse: collapse;
+}
+#container .blogentry table th,#container .blogentry table td{
+    border: 1px solid #878787;
+    padding:3px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#container .blogentry pre table {
+    margin: 0;
+    text-align: left;
+}
+#container .blogentry pre table td, #container .blogentry pre table td{
+    border:0;
+    padding:0;
+}
+/*
+#
+#container .blogentry table th, #container .blogentry table tr, #container .blogentry table td{
+    border: 1px solid #878787;
+    margin:0;
+}
+#container .blogentry table th{
+    background-color: #878787;
+    padding:3px;
+}*/
+#container .blogentry h1{
     font-size: 20px;
     padding:0;
     margin: 0;
@@ -165,15 +239,20 @@ div.search-icon:before{
     font-size: 18px;
     border-bottom: 1px solid #878887;
 }
-div.logo:before{
+div.logo{
     display: block;
-    width: 75px;
+    width: 122px;
     height:50px;
-    color:white;
-    font-family: "FontAwesome";
-    font-size:48px;
-    line-height: 1.0;
-    content: "\f0ac";
+    background-image: url(mrsang.min.png);
+    background-repeat: no-repeat;
+    background-position: right; 
+    background-size: 34% 85%;
+}
+div.logo a{
+    display: block;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
 }
 div.detail {
     display: flex;
@@ -191,7 +270,7 @@ div.detail a{
     display: block;
     
     height: 32px;
-    border: 1px solid #cccccc;
+    border: 1px solid #878887;
     text-decoration: none;
     border-radius: 16px;
     margin-left: 10px;
@@ -203,5 +282,88 @@ div.detail a:before{
     font-family: "FontAwesome";
     line-height: 2.0;
     padding-left:8px;
-    color: #cccccc;
+    color: #878887;
+}
+div.notfound {
+    max-width: 400px;
+    margin: 0 auto;
+}
+div.notfound p{
+    margin: 0;
+    margin-top:20px;
+    color: #662702;
+    font-weight: bold;
+    padding:0;
+    border-radius: 10px;
+}
+div.notfound p:before{
+    font-size:16px;
+    content:"\f06a";
+    font-family: "FontAwesome";
+    line-height: 2.0;
+    padding-right:8px;
+}
+div.notfound blockquote{
+    margin: 0;
+}
+div.notfound blockquote span{
+    display: block;
+    text-align: right;
+    font-style: italic;
+}
+td.hljs-ln-numbers {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	text-align: center;
+	color: #ccc;
+	vertical-align: top;
+    font-size: 14;
+	/* your custom style here */
+}
+
+/* for block of code */
+#container .blogentry .hljs-ln td.hljs-ln-code {
+	padding-left: 10px;
+}
+div.commentform .inputbox{
+    display:flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ccc;
+}
+div.commentform .inputbox input{
+    margin-top:3px;
+}
+div.commentform .inputbox .label{
+    padding-right: 5px;
+}
+div.commentform .inputboxbt{
+    display: flex;
+    flex-direction: row-reverse;
+}
+div.commentform textarea{
+    min-height: 120px;
+    flex:1;
+    margin:0;
+    margin-top:7px;
+    width: calc( 100% - 20px );
+}
+div.commentform {
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    /*border-radius: 5px;*/
+    margin-bottom: 20px;
+}
+
+#container h1.commentsec{
+    text-align: center;
+    border-top:  1px dashed #3170B2;
+    color:#3170B2;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
