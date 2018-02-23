@@ -215,6 +215,15 @@ button{
     margin: 0;
     padding-bottom: 5px;
 }
+#container .blogentry h2{
+    font-size: 18px;
+}
+#container .blogentry h3{
+    font-size: 16px;
+}
+#container .blogentry h4{
+    font-size: 15px;
+}
 input.search-box{
     flex:1;
     padding:0;
