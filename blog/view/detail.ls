@@ -1,6 +1,8 @@
 <?lua
-    local data = _G.dbmodel
-    if not #data then
+    local arg = {...}
+    local data = arg[1]
+    local order = arg[2]
+    if not #data or #order == 0 then
 ?>
     <div class = "notfound">
        <p>No entry found</p>
@@ -11,6 +13,8 @@
     </div>
 <?lua
         return
+    else
+        data = data[0]
     end
 
 ?>

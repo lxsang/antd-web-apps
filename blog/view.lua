@@ -14,14 +14,18 @@ end
 view.render = function(action, data, sort)
     view.html("top")
     local path = BLOG_ROOT.."/view"
+    local fn = nil
+    local e
     if action == "id" then
-        _G.dbmodel = data[0]
-        doscript(path.."/detail.ls")
+        fn, e = loadscript(path.."/detail.ls")
     else
-        _G.dbmodel = { data = data, order = sort }
-        doscript(path.."/entries.ls")
+        fn, e = loadscript(path.."/entries.ls")
     end
-    _G.dbmodel = nil
+    if fn then
+        fn(data, sort)
+    else
+        echo(e)
+    end
     view.html("bot")
 end
 return view

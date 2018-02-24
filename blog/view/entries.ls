@@ -1,6 +1,8 @@
 <?lua
-    local model = _G.dbmodel
-    if #model.order == 0 then
+    local arg = {...}
+    local datas = arg[1]
+    local order = arg[2]
+    if #order == 0 then
 ?>
     <div class = "notfound">
        <p>No entry found</p>
@@ -13,8 +15,8 @@
         return
     end
 
-    for idx,v in pairs(model.order) do
-        local data = model.data[v]
+    for idx,v in pairs(order) do
+        local data = datas[v]
 ?>
 <div class = "card">
     <div class = "side">
