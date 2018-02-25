@@ -10,7 +10,6 @@ view.html = function(name)
 end
 
 view.render = function(action, data, sort)
-    view.html("top")
     local path = BLOG_ROOT.."/view"
     local fn = nil
     local e
@@ -22,6 +21,7 @@ view.render = function(action, data, sort)
         --fn = require("blog.view.compiledd")
     else
         --fn = require("blog.view.compiledd")
+
         fn, e = loadscript(path.."/entries.ls")
     end
     if fn then
@@ -30,6 +30,7 @@ view.render = function(action, data, sort)
             echo(o)
         end
     else
+        loadscript(path.."/top.ls")("Welcome to my blog")
         echo(e)
     end
     view.html("bot")

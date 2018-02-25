@@ -2,7 +2,11 @@
     local arg = {...}
     local data = arg[1]
     local order = arg[2]
+    local content = nil;
+    local topview = loadscript(BLOG_ROOT.."/view/top.ls")
+    local title = "Welcome to my blog"
     if not #data or #order == 0 then
+        topview(title)
 ?>
     <div class = "notfound">
        <p>No entry found</p>
@@ -15,6 +19,15 @@
         return
     else
         data = data[0]
+        content = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%","%%%%")
+        local a,b = content:find("<[Hh]1[^>]*>")
+        if a then
+            local c,d = content:find("</[Hh]1>")
+            if c then
+                title = content:sub(b+1, c-1)
+            end
+        end
+        topview(title)
     end
 
 ?>
@@ -41,8 +54,6 @@
     <div class = "blogentry">
         <div class = "shortcontent">
             <?lua
-            
-                local content = bytes.__tostring(std.b64decode(data.rendered))
                 local r, s = content:find("<hr/?>")
                 if r then
                     echo(content:sub(0,r-1))
