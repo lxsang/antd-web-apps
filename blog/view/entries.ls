@@ -47,12 +47,26 @@
         <div class = "shortcontent">
             <?lua
                 local content = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%","%%%%")
-
                 local r, s = content:find("(<hr/?>)")
+                local title = nil
                 if r then 
                     content = content:sub(0,r-1)
                 end
-                echo(content)
+                local a,b = content:find("<[Hh]1[^>]*>")
+                local c,d 
+                if a then
+                    c,d = content:find("</[Hh]1>")
+                    if c then
+                        title = content:sub(b+1, c-1)
+                    end
+                end
+                if title then
+                    echo(content:sub(0, b))
+                    echo("<a class = 'title_link' href='./r:id:"..data.id.."'>"..title.."</a>")
+                    echo(content:sub(c))
+                else
+                    echo(content)
+                end
             ?>
         </div>
         <div class = "detail">

@@ -246,6 +246,9 @@ button{
     padding-bottom: 5px;
     text-align: left;
 }
+#container .blogentry .title_link {
+    color:#2c2c2c;
+}
 #container .blogentry h2{
     font-size: 18px;
     text-align: left;
@@ -389,6 +392,7 @@ div.commentform .inputbox{
 }
 div.commentform .inputbox input{
     margin-top:3px;
+    flex:1;
 }
 div.commentform .inputbox .label{
     padding-right: 5px;
