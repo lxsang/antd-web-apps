@@ -4,6 +4,10 @@
     local order = arg[2]
     local content = nil;
     local topview = loadscript(BLOG_ROOT.."/view/top.ls")
+    local class = "card"
+    if HEADER.mobile then
+        class = "card mobile"
+    end
     local title = "Welcome to my blog"
     if not #data or #order == 0 then
         topview(title)
@@ -31,7 +35,7 @@
     end
 
 ?>
-<div class = "card">
+<div class = "<?=class?>">
     <div class = "side">
         <span class = "date"><?=data.ctimestr:gsub("%s+.*$","")?></span>
         <span class = "tags">

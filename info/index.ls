@@ -160,6 +160,9 @@
                 <p style="text-align:right; padding:0; margin:0;color:#878887;">Powered by antd server, (C) 2017-2018 Xuan Sang LE</p>
             </div>
         </div>
+        <?lua
+        if not HEADER.mobile then
+        ?>
         <div class = "cv-toc">
             <ul>
             <?lua
@@ -174,6 +177,7 @@
             ?>
             </ul>
         </div>
+        <?lua end ?>
     </div>
     <script>
         window.onload = function()

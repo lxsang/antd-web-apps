@@ -6,6 +6,8 @@
         debug.traceback=nil
         error("Permission denied")
     end
+    local mobilecls = ""
+    if HEADER.mobile then mobilecls = "mobile" end
     local db = require("db.model").get(user,"user",nil)
     if db == nil then die("cannot get db data") end
     local data, a = db:getAll()
@@ -96,7 +98,7 @@
                 </ul>
             </div>
             <div id = "center">
-                <div id = "container">
+                <div id = "container" class="<?=mobilecls?>" >
                     <img src = "grs/images/mrsang.png" ></img>
                     <div id = "vcard">
                         <p class = "greeting">Hi, I'm <b>Xuan Sang LE</b></p>

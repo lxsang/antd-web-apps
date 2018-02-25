@@ -2,6 +2,10 @@
     local arg = {...}
     local datas = arg[1]
     local order = arg[2]
+    local class = "card"
+    if HEADER.mobile then
+        class = "card mobile"
+    end
     loadscript(BLOG_ROOT.."/view/top.ls")("Welcome to my blog")
     if #order == 0 then
 ?>
@@ -19,7 +23,7 @@
     for idx,v in pairs(order) do
         local data = datas[v]
 ?>
-<div class = "card">
+<div class = "<?=class?>">
     <div class = "side">
         <span class = "date"><?=data.ctimestr:gsub("%s+.*$","")?></span>
         <span class = "tags">

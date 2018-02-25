@@ -1,6 +1,10 @@
 <?lua
     local arg = {...}
     local title = arg[1]
+    local cls = ""
+    if HEADER.mobile then
+        cls = "navmobile"
+    end
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,16 +31,26 @@
     </head>
     <body>
         <div id = "top">
-            <div id = "navbar">
+            <div id = "navbar" class = "<?=cls?>">
                 <div class = "logo"><a href = "https://lxsang.me"></a></div>
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="./">Home</a></li>
                         <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
                         <li><i class = "fa fa-paper-plane"></i><a href="#" onclick="" >Contact</a></li>
+                        <?lua
+                        if not HEADER.mobile then
+                        ?>
                         <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">AntOS</a></li>
+                        <?lua end ?>
                 </ul>
+                <?lua
+                if not HEADER.mobile then
+                ?>
                 <input type = "text" class = "search-box"></input>
                 <div class= "search-icon"></div>
+                <?lua
+                end
+                ?>
             </div>
         </div>
         <div id = "center">
