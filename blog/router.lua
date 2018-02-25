@@ -2,7 +2,6 @@ BLOG_ROOT = __ROOT__.."/blog"
 MAX_ENTRY = 10
 local user = "mrsang"
 local handle = function(p)
-    std.html()
     local args = {}
     local sort = {}
     local i = 1
@@ -28,4 +27,12 @@ local handle = function(p)
         end
     end
 end
-return handle
+std.html()
+local action = REQUEST.query.action
+if not action then action = "r:top:10" end
+local r, s = action:find("^r:")
+if r then
+    handle(action:sub(s+1))
+else
+    echo("Unknow action "..action)
+end

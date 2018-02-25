@@ -27,9 +27,11 @@
             local i = 1
             for tag in data.tags:gmatch(",*([^,]+)") do
                 tag = std.trim(tag, " ")
-                local b64tag = std.b64encode(tag)
-                atags[i] = '<a href = "./bytag:'..b64tag:gsub("=","")..':'..MAX_ENTRY..'">'..tag.."</a>"
-                i = i+ 1
+                if tag ~= "" then
+                    local b64tag = std.b64encode(tag)
+                    atags[i] = '<a href = "./r:bytag:'..b64tag:gsub("=","")..':'..MAX_ENTRY..'">'..tag.."</a>"
+                    i = i+ 1
+                end
             end
             echo(table.concat(atags, ", "))
         ?>
@@ -40,7 +42,7 @@
         <div class = "shortcontent">
             <?lua
             
-                local content = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%","%%%%")
+                local content = bytes.__tostring(std.b64decode(data.rendered))
                 local r, s = content:find("<hr/?>")
                 if r then
                     echo(content:sub(0,r-1))

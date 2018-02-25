@@ -2,10 +2,8 @@ local view = {}
 
 view.html = function(name)
     local path = BLOG_ROOT.."/view/"..name..".html"
-    local f = io.open(path, "rb")
-    if f then
-        echo(f:read("*all"))
-        f:close()
+    if unix.exists(path) then
+        std.f(path)
     else
         echo("Cannot find "..path)
     end
@@ -17,12 +15,20 @@ view.render = function(action, data, sort)
     local fn = nil
     local e
     if action == "id" then
+        --echo(bytes.__tostring(std.b64decode(data[0].rendered)):gsub("%%","%%%%"))
+        --return true
         fn, e = loadscript(path.."/detail.ls")
+        --echo(data[0].rendered)
+        --fn = require("blog.view.compiledd")
     else
+        --fn = require("blog.view.compiledd")
         fn, e = loadscript(path.."/entries.ls")
     end
     if fn then
-        fn(data, sort)
+        local r,o = pcall(fn, data, sort)
+        if not r then
+            echo(o)
+        end
     else
         echo(e)
     end
