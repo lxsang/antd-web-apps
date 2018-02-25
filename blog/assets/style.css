@@ -135,9 +135,24 @@ button{
     color:#3170B2;
     text-align: right;
 }
+#container .card .side .fb-like{
+    border-right: 1px solid #cccccc;
+    display: block;
+    padding: 5px;
+    padding-bottom: 0;
+}
+#container .card .side .twitter-share-button{
+    display: inline;
+    padding:5px;
+    padding-bottom: 0;
+    border-right: 1px solid #cccccc;
+}
 #container .mobile .side{
     width: 100%;
     text-align: left;
+}
+#container .mobile .side .fb-like, #container .mobile .side .twitter-share-button {
+    border:0;
 }
 #container .card .side .date{
     display: inline-block;

@@ -41,7 +41,10 @@
             echo(table.concat(atags, ", "))
         ?>
         </span>
-
+        <div class="fb-like" data-href="https://blog.lxsang.me/r:id:<?=data.id?>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+        <div class="g-plusone" data-size="medium"></div>
+        <a class="twitter-share-button" href="https://twitter.com/intent/tweet">
+Tweet</a>
     </div>
     <div class = "blogentry">
         <div class = "shortcontent">
