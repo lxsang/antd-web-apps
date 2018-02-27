@@ -1,8 +1,16 @@
 local get = {}
-get.fetch = function(user, exp, limit)
+get.fetch = function(user, cnd, limit)
     local db = require("db.model").get(user,"blogs",nil)
     if not db then return nil end
-    local cond = { exp = exp, order = { ctime = "DESC" }}
+    local exp = {}
+    exp[1] = {["="] = { publish = 1 }}
+    if cnd then   
+        exp[2] = cnd
+    else
+
+    end
+
+    local cond = { exp = {["and"] = exp }, order = { ctime = "DESC" }}
     if limit then
         cond.limit = limit
     end
