@@ -33,7 +33,7 @@
         end
         topview(title)
     end
-
+    local url = "https://blog.lxsang.me/r:id:"..data.id
 ?>
 <div class = "<?=class?>">
     <div class = "side">
@@ -53,9 +53,9 @@
             echo(table.concat(atags, ", "))
         ?>
         </span>
-        <div class="fb-like" data-href="https://blog.lxsang.me/r:id:<?=data.id?>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-        <div class="g-plusone" data-size="medium"></div>
-        <a class="twitter-share-button" href="https://twitter.com/intent/tweet"></a>
+        <div class="fb-like" data-href="<?=url?>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+        <div class="g-plusone" data-action="share" data-size="medium" data-href="<?=url?>"></div>
+        <a class="twitter-share-button" href='https://twitter.com/intent/tweet?url=<?=url?>&text=<?=data.title?>'></a>
     </div>
     <div class = "blogentry">
         <div class = "shortcontent">
@@ -69,8 +69,30 @@
                 end
             ?>
         </div>
-        <h1 class = "commentsec">Comments</h1>
-        <div class = "commentform">
+        <h1 class = "commentsec"></h1>
+
+        <div id="disqus_thread"></div>
+        <script>
+
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            
+            var disqus_config = function () {
+                this.page.url = "<?=url?>";  // Replace PAGE_URL with your page's canonical URL variable
+                this.page.identifier = "<?=std.md5(url)?>"; // Replace PAGE_IDENTIFIER with your 
+            };
+        
+            (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://https-blog-lxsang-me.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+        <!--div class = "commentform">
             <div  class = "inputbox">
                 <div class = "label">Name:</div>
                 <input data-class = "data" type = "text" name = "name" />
@@ -86,6 +108,6 @@
                 <div data-id="status"></div>
                 <button data-id = "send" >Comment</button>
             </div>
-        </div>
+        </div-->
     </div>
 </div>
