@@ -91,8 +91,8 @@
         <div id = "desktop">
             <div id = "top">
                 <ul>
-                    <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" target="_blank">Porfolio</a></li>
-                    <li><i class = "fa fa-newspaper-o"></i><a href="https://blog.lxsang.me" target="_blank">Blog</a></li>
+                    <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
+                    <li><i class = "fa fa-newspaper-o"></i><a href="https://blog.lxsang.me" >Blog</a></li>
                     <li><i class = "fa fa-paper-plane"></i><a href="#" onclick="mailtoMe()" >Contact</a></li>
                     <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">Web OS</a></li>
                 </ul>
@@ -109,6 +109,7 @@
                             </span>
                             <span class="fa fa-quote-right"></span>
                         </p>
+                        <a href="https://info.lxsang.me" class ="about">Find out more about me</a>
                     </div>
                 </div>
             </div>

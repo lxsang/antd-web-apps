@@ -219,6 +219,20 @@ button{
     margin-right: 10px;
     box-shadow: 1px 1px 1px #9f9F9F;
 }
+a.about{
+    display: block;
+    text-decoration: none;
+    padding:5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px #9f9F9F;
+    background-color: #5fa6cf;
+    text-align: center;
+    color: white;
+    margin-top: 10px;
+    font-weight: bold;
+}
 div[data-id="status"]{
     padding-left: 10px;
     padding-top:5px;
