@@ -276,6 +276,10 @@ button{
     font-size: 15px;
     text-align: left;
 }
+#container .blogentry .embeded-video{
+    display: block;
+    margin: 0 auto;
+}
 input.search-box{
     flex:1;
     padding:0;
