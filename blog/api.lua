@@ -46,6 +46,7 @@ end
 get.maxid = function(user)
     local db = require("db.model").get(user,"blogs",nil)
     local cond = { fields = { "MAX(id)" }}
+    cond.exp = {["="] = { publish = 1 }}
     local data = db:find(cond)
     db:close()
     return data[1]["MAX(id)"]
