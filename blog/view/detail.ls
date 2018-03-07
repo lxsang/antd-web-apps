@@ -22,7 +22,7 @@
 <?lua
         return
     else
-        data = data[0]
+        data = data[1]
         content = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%","%%%%")
         local a,b = content:find("<[Hh]1[^>]*>")
         if a then

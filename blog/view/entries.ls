@@ -2,7 +2,12 @@
     local arg = {...}
     local datas = arg[1]
     local order = arg[2]
+    local minid = arg[3]
+    local maxid = arg[4]
+    local action = arg[5]
     local class = "card"
+    local first_id = nil
+    local last_id = nil
     if HEADER.mobile then
         class = "card mobile"
     end
@@ -22,6 +27,8 @@
 
     for idx,v in pairs(order) do
         local data = datas[v]
+        if not last_id then last_id = data.id end
+        first_id = data.id
 ?>
 <div class = "<?=class?>">
     <div class = "side">
@@ -81,4 +88,22 @@
 </div>
 <?lua
     end
+    local beforelk = "./r:beforeof:"..first_id..":"..MAX_ENTRY
+    local afterlk = "./r:afterof:"..last_id..":"..MAX_ENTRY
+    if action == "bytag" or action == "search" then
+        beforelk = "./r:"..action..":"..LAST_QUERY..":"..MAX_ENTRY..":before:"..first_id
+        afterlk = "./r:"..action..":"..LAST_QUERY..":"..MAX_ENTRY..":after:"..last_id
+    end
 ?>
+<div class = "time-travel">
+<?lua
+    if first_id ~= minid then
+?>
+<a href = "<?=beforelk?>" class = "past"><< Older posts</a>
+<?lua
+    end
+    if last_id ~= maxid then
+?>
+<a href = "<?=afterlk?>" class = "future">Newer posts >></a>
+<?lua end ?>
+</div>

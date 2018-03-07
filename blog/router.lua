@@ -1,5 +1,6 @@
 BLOG_ROOT = __ROOT__.."/blog"
-MAX_ENTRY = 10
+MAX_ENTRY = 15
+LAST_QUERY = nil
 local user = "mrsang"
 local handle = function(p)
     local args = {}
@@ -12,6 +13,8 @@ local handle = function(p)
     end
     table.sort(sort)
     local api = require("blog.api")
+    local minid = api.minid(user)
+    local maxid = api.maxid(user)
     if #args == 0 or api == nil then
         echo("Unknow request "..p)
     elseif not api[args[1]] then
@@ -23,13 +26,13 @@ local handle = function(p)
         if data == nil then
             echo("Cannot query data")
         else
-            require("blog.view").render(action, data, sort)
+            require("blog.view").render(action, data, sort, minid, maxid)
         end
     end
 end
 std.html()
 local action = REQUEST.query.action
-if not action then action = "r:top:10" end
+if not action then action = "r:top:"..MAX_ENTRY end
 local r, s = action:find("^r:")
 if r then
     handle(action:sub(s+1))

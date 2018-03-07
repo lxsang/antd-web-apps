@@ -442,3 +442,18 @@ div.commentform {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+div.time-travel{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+div.time-travel a{
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none;
+    flex:1;
+    color:#3170B2;
+}

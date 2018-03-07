@@ -12,8 +12,8 @@
     if db == nil then die("cannot get db data") end
     local data, a = db:getAll()
     db:close()
-    if data == nil or data[0] == nil then die("Cannot fetch user info") end
-    data = data[0]
+    if data == nil or data[1] == nil then die("Cannot fetch user info") end
+    data = data[1]
 ?>
 <!DOCTYPE html>
 <html lang="en">

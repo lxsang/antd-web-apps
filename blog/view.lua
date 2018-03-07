@@ -9,7 +9,7 @@ view.html = function(name)
     end
 end
 
-view.render = function(action, data, sort)
+view.render = function(action, data, sort, min, max)
     local path = BLOG_ROOT.."/view"
     local fn = nil
     local e
@@ -25,7 +25,7 @@ view.render = function(action, data, sort)
         fn, e = loadscript(path.."/entries.ls")
     end
     if fn then
-        local r,o = pcall(fn, data, sort)
+        local r,o = pcall(fn, data, sort, min, max, action)
         if not r then
             echo(o)
         end
