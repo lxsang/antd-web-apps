@@ -29,6 +29,10 @@
         <script src="grs/gscripts/riot.compiler.min.js"> </script>
         <script>
             var scheme = undefined;
+            String.prototype.__ = function()
+            {
+                return this
+            }
             function mailtoMe()
             {
                 if(scheme) return;
