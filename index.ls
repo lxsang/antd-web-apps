@@ -25,8 +25,8 @@
         <link rel="stylesheet" type="text/css" href="grs/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="grs/mainsite.css" />
         <script src="grs/gscripts/jquery-3.2.1.min.js"> </script>
-        <script src="grs/resources/antos_tags.js" type="riot/tag"></script>
         <script src="grs/gscripts/riot.min.js"> </script>
+        <script src="grs/resources/antos_tags.js" type="riot/tag"></script>
         <script>
             var scheme = undefined;
             String.prototype.__ = function()
