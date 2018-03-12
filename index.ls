@@ -26,7 +26,7 @@
         <link rel="stylesheet" type="text/css" href="grs/mainsite.css" />
         <script src="grs/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="grs/gscripts/riot.min.js"> </script>
-        <script src="grs/resources/antos_tags.js" type="riot/tag"></script>
+        <script src="grs/resources/antos_tags.js"></script>
         <script>
             var scheme = undefined;
             String.prototype.__ = function()
@@ -48,6 +48,7 @@
                         scheme = undefined
                     })
                     obs.on("rendered", function(d){
+                        $(".afx-window-title", scheme).html("Send me an email")
                         $("[data-id='send']", scheme).click(function(){
                             var status = $("[data-id='status']", scheme)
                             status.html("");
