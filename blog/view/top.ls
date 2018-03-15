@@ -1,6 +1,7 @@
 <?lua
     local arg = {...}
     local title = arg[1]
+    local render = arg[2]
     local cls = ""
     if HEADER.mobile then
         cls = "navmobile"
@@ -21,19 +22,22 @@
         <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
         <link rel="stylesheet" type="text/css" href="assets/style.css" />
         <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
-        <script src="rst/hljs/highlight.pack.js"> </script>
-        <script src="rst/hljs/highlightjs-line-numbers.min.js"> </script>
         <script src="rst/gscripts/riot.min.js"> </script>
         <script src="rst/resources/antos_tags.js"></script>
         <script src="rst/main.js"></script>
-
-        <script>
+<?lua if render then ?>
+        <script src="rst/hljs/highlight.pack.js"> </script>
+        <script src="rst/hljs/highlightjs-line-numbers.min.js"> </script>
+<?lua end ?>
+        <script>    
             $(document).ready(function() {
+<?lua if render then ?>
                 $('pre code').each(function(i, block) {
                   hljs.highlightBlock(block);
                   hljs.lineNumbersBlock(block);
                 });
               });
+<?lua end ?>
             window.twttr = (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0],
                     t = window.twttr || {};

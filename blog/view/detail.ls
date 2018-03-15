@@ -10,7 +10,7 @@
     end
     local title = "Welcome to my blog"
     if not #data or #order == 0 then
-        topview(title)
+        topview(title, false)
 ?>
     <div class = "notfound">
        <p>No entry found</p>
@@ -31,7 +31,7 @@
                 title = content:sub(b+1, c-1)
             end
         end
-        topview(title)
+        topview(title, true)
     end
     local url = "https://blog.lxsang.me/r:id:"..data.id
 ?>

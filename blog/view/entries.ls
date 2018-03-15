@@ -11,7 +11,7 @@
     if HEADER.mobile then
         class = "card mobile"
     end
-    loadscript(BLOG_ROOT.."/view/top.ls")("Welcome to my blog")
+    loadscript(BLOG_ROOT.."/view/top.ls")("Welcome to my blog", false)
     if #order == 0 then
 ?>
     <div class = "notfound">
