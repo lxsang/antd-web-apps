@@ -1,6 +1,6 @@
 BUILDDIR = ../build/grs
 
-copyfiles =  font-awesome.css fonts images showdown.min.js ubuntu-regular.css mainsite.css sendto.html hermit-light.css hljs
+copyfiles =  font-awesome.css fonts images showdown.min.js main.js ubuntu-regular.css mainsite.css sendto.html hermit-light.css hljs
 
 main:
 	- mkdir $(BUILDDIR)

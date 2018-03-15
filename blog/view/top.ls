@@ -23,6 +23,10 @@
         <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="rst/hljs/highlight.pack.js"> </script>
         <script src="rst/hljs/highlightjs-line-numbers.min.js"> </script>
+        <script src="rst/gscripts/riot.min.js"> </script>
+        <script src="rst/resources/antos_tags.js"></script>
+        <script src="rst/main.js"></script>
+
         <script>
             $(document).ready(function() {
                 $('pre code').each(function(i, block) {
@@ -72,7 +76,7 @@
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="./">Home</a></li>
                         <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
-                        <li><i class = "fa fa-paper-plane"></i><a href="#" onclick="" >Contact</a></li>
+                        <li><i class = "fa fa-paper-plane"></i><a href="#" onclick="mailtoMe('rst/sendto.html')" >Contact</a></li>
                         <?lua
                         if not HEADER.mobile then
                         ?>
@@ -89,6 +93,6 @@
                 ?>
             </div>
         </div>
-        <div id = "center">
+        <div id = "desktop">
             <div id = "container">
              
