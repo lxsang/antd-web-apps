@@ -36,7 +36,6 @@
                   hljs.highlightBlock(block);
                   hljs.lineNumbersBlock(block);
                 });
-              });
 <?lua end ?>
             window.twttr = (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0],
@@ -69,6 +68,7 @@
             po.src = 'https://apis.google.com/js/plusone.js';
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
             })();
+        });
         </script>
     </head>
     <body>
