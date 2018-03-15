@@ -3,11 +3,11 @@ String.prototype.__ = function()
 {
     return this
 }
-function mailtoMe( sch)
+function mailtoMe(prefix)
 {
     if(scheme) return;
     // get scheme
-    $.get(sch)
+    $.get(prefix+"/sendto.html")
     .done(function(d) {
         scheme = $.parseHTML(d)
         var obs = riot.observable()
@@ -35,7 +35,7 @@ function mailtoMe( sch)
                 
                 $.ajax({
                     type: 'POST',
-                    url: "info/sendmail.lua",
+                    url: prefix + "/sendmail.lua",
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     dataType: 'json',
