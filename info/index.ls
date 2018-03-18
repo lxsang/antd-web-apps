@@ -24,7 +24,7 @@
 <html>
     <head>
         <!--script type="text/javascript" src="../os/scripts/jquery-3.2.1.min.js"></script-->
-        <script type="text/javascript" src="rst/showdown.min.js"></script>
+        <script type="text/javascript" src="rst/gscripts/showdown.min.js"></script>
         <!--link rel="stylesheet" type="text/css" href="grs/ubuntu-regular.css" /-->
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />

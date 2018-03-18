@@ -16,6 +16,8 @@
         <meta property="og:title"         content="Xuan Sang LE's blog" />
         <meta property="og:description"   content="My personal space" />
         <meta charset="UTF-8">
+        <!--meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://platform.twitter.com/widgets.js https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/plusone.js https://platform.twitter.com/js/button.556f0ea0e4da4e66cfdc182016dbd6db.js https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.fr.G6aVHqjZQ7w.O/m=plusone/rt=j/sv=1/d=1/ed=1/am=AQE/rs=AGLTcCM3jVZaR98LsOLZhkxFJYLRGgZQ6A/cb=gapi.loaded_0 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.fr.G6aVHqjZQ7w.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/am=AQE/rs=AGLTcCM3jVZaR98LsOLZhkxFJYLRGgZQ6A/cb=gapi.loaded_1"-->
+
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="rst/ubuntu-regular.css" />
         <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />
