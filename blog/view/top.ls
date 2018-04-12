@@ -21,20 +21,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="rst/ubuntu-regular.css" />
         <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />
-        <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
         <link rel="stylesheet" type="text/css" href="assets/style.css" />
-        <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="rst/gscripts/riot.min.js"> </script>
         <script src="rst/resources/antos_tags.js"></script>
+        <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="rst/main.js"></script>
 <?lua if render then ?>
+        <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
+        <link rel="stylesheet" type="text/css" href="rst/katex/katex.min.css" />
         <script src="rst/hljs/highlight.pack.js"> </script>
         <script src="rst/hljs/highlightjs-line-numbers.min.js"> </script>
+        <script src="rst/katex/katex.min.js"> </script>
+        <script src="rst/katex/auto-render.min.js"> </script>
 <?lua end ?>
         <script>    
             
 <?lua if render then ?>
             $(document).ready(function() {
+                renderMathInElement($("#container")[0]);
                 $('pre code').each(function(i, block) {
                   hljs.highlightBlock(block);
                   hljs.lineNumbersBlock(block);
