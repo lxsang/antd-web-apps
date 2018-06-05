@@ -88,7 +88,8 @@ get.bytag = function(user, b64tag, limit, action, id)
     return data, sort
 end
 
-get.analyse = function(user)
+get.analyse = function(user, n)
+    if not n then n = 5 end
     local path = "/home/mrsang/aiws/blog-clustering"
     local gettext = loadfile(path.."/gettext.lua")()
     local cluster = loadfile(path.."/cluster.lua")()
@@ -111,7 +112,7 @@ get.analyse = function(user)
             db:delete({["="] = {["1"] = 1}})
             -- get similarity and put to the table
             for id,v in pairs(vectors) do
-                local top = cluster.top_similarity(id,vectors,3)
+                local top = cluster.top_similarity(id,vectors,n)
                 for a,b in pairs(top) do
                     local record = {pid = id, sid = a, score = b}
                     db:insert(record)

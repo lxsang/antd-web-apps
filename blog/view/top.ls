@@ -87,10 +87,11 @@
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="./">Home</a></li>
                         <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
-                        <li><i class = "fa fa-paper-plane"></i><a href="#" onclick="mailtoMe('rst')" >Contact</a></li>
+                        <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('rst')" >Contact</a></li>
                         <?lua
                         if not HEADER.mobile then
                         ?>
+                        <li> <i class = "fa fa-paper-plane"></i><a href="#" onclick="subscribe('rst')">Subscribe</a></li>
                         <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">AntOS</a></li>
                         <?lua end ?>
                 </ul>
