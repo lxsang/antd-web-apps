@@ -34,6 +34,22 @@
         topview(title, true)
     end
     local url = "https://blog.lxsang.me/r:id:"..data.id
+    -- fetch the similar posts from database
+    local db = require("db.model").get(BLOG_ADMIN,"st_similarity", nil)
+    local similar_posts = nil
+    if db then
+        local records = db:find({ exp = {["="] = {pid = data.id}}, order = {score = "DESC"}})
+        --echo("records size is #"..#records)
+        local pdb = require("db.model").get(BLOG_ADMIN,"blogs", nil)
+        if(pdb) then
+            similar_posts = {}
+            for k,v in pairs(records) do
+                similar_posts[k] = { st = v, post = pdb:get(v.sid) }
+            end
+            pdb:close()
+        end
+        db:close()
+    end
 ?>
 <div class = "<?=class?>">
     <div class = "side">
@@ -54,7 +70,7 @@
         ?>
         </span>
         <div class="fb-like" data-href="<?=url?>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-        <div class="g-plusone" data-action="share" data-size="medium" data-href="<?=url?>"></div>
+        <!--div class="g-plusone" data-action="share" data-size="medium" data-href="<?=url?>"></div-->
         <a class="twitter-share-button" href='https://twitter.com/intent/tweet?url=<?=url?>&text=<?=data.title?>'></a>
     </div>
     <div class = "blogentry">
@@ -69,8 +85,18 @@
                 end
             ?>
         </div>
+        <?lua
+        if similar_posts then
+        ?>
+        <h1 class = "commentsec">Related posts</h1>
+        <?lua
+            echo("<ul>")
+            for k,v in pairs(similar_posts) do
+                echo("<li><a href='./r:id:"..v.st.sid.."'>"..v.post.title.."</a> (<b>Score</b>: "..string.format("%2.2f",v.st.score)..")</li>")
+            end
+            echo("</ul>")
+        end?>
         <h1 class = "commentsec"></h1>
-
         <div id="disqus_thread"></div>
         <script>
 

@@ -1,7 +1,8 @@
 BLOG_ROOT = __ROOT__.."/blog"
 MAX_ENTRY = 15
 LAST_QUERY = nil
-local user = "mrsang"
+BLOG_ADMIN = "mrsang"
+local user = BLOG_ADMIN
 local handle = function(p)
     local args = {}
     local sort = {}
