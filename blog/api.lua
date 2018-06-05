@@ -88,5 +88,43 @@ get.bytag = function(user, b64tag, limit, action, id)
     return data, sort
 end
 
-return get
+get.analyse = function(user)
+    local path = "/home/mrsang/aiws/blog-clustering"
+    local gettext = loadfile(path.."/gettext.lua")()
+    local cluster = loadfile(path.."/cluster.lua")()
+    local data = gettext.get({publish=1})
+    local documents = {}
+    if data then
+        local sw = gettext.stopwords(path.."/stopwords.txt")
+        for k,v in pairs(data) do
+            local bag = cluster.bow(data[k].content, sw)
+            documents[data[k].id] = bag
+        end
+        cluster.tfidf(documents)
+        --local v = cluster.search("arm", documents)
+        --echo(JSON.encode(v))
+        local vectors, maxv, size = cluster.get_vectors(documents)
+        local sample_data = {pid = 1, sid = 2, score = 0.1}
+        local db = require("db.model").get(user, "st_similarity", sample_data)
+        if db then
+            -- purge the table
+            db:delete({["="] = {["1"] = 1}})
+            -- get similarity and put to the table
+            for id,v in pairs(vectors) do
+                local top = cluster.top_similarity(id,vectors,3)
+                for a,b in pairs(top) do
+                    local record = {pid = id, sid = a, score = b}
+                    db:insert(record)
+                end
+            end
+            db:close()
+            return "<h3>Analyse complete</h3>"
+        else
+            return "<h3>Cannot get database objectw/h3>"
+        end
+    else
+        return "<h3>Cannot find data to analyse</h3>"
+    end
+end
 
+return get
