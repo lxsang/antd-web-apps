@@ -3,6 +3,7 @@
     local data = arg[1]
     local order = arg[2]
     local content = nil;
+    local url = nil
     local topview = loadscript(BLOG_ROOT.."/view/top.ls")
     local class = "card"
     if HEADER.mobile then
@@ -31,9 +32,9 @@
                 title = content:sub(b+1, c-1)
             end
         end
-        topview(title, true)
+        url = "https://blog.lxsang.me/r:id:"..data.id
+        topview(title, true, url, data.tags)
     end
-    local url = "https://blog.lxsang.me/r:id:"..data.id
     -- fetch the similar posts from database
     local db = require("db.model").get(BLOG_ADMIN,"st_similarity", nil)
     local similar_posts = nil

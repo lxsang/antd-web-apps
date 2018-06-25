@@ -2,6 +2,8 @@
     local arg = {...}
     local title = arg[1]
     local render = arg[2]
+    local url = arg[3]
+    local tags = arg[4]
     local cls = ""
     if HEADER.mobile then
         cls = "navmobile"
@@ -27,6 +29,10 @@
         <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="rst/main.js"></script>
 <?lua if render then ?>
+        <meta property="og:url"                content="<?=url?>" />
+        <meta property="og:type"               content="article" />
+        <meta property="og:title"              content="<?=title?>" />
+        <meta property="og:description"        content="<?=tags?>" />
         <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
         <link rel="stylesheet" type="text/css" href="rst/katex/katex.min.css" />
         <script src="rst/hljs/highlight.pack.js"> </script>
