@@ -24,12 +24,13 @@
         <script src="rst/resources/antos_tags.js"></script>
         <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="rst/main.js"></script>
+        <meta property="og:image" content="" />
 <?lua if render then ?>
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@blog.lxsang.me" />
         <meta name="twitter:creator" content="@lexsang" />
         <meta property="og:url" content="<?=url?>" />
-        <meta property="og:type" content="blog" />
+        <meta property="og:type" content="article" />
         <meta property="og:title" content="<?=title?>" />
         <meta property="og:description" content="<?=tags?>" />
         <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
@@ -40,7 +41,7 @@
         <script src="rst/katex/auto-render.min.js"> </script>
 <?lua else ?>
         <meta property="og:url"           content="https://blog.lxsang.me" />
-        <meta property="og:type"          content="blog" />
+        <meta property="og:type"          content="article" />
         <meta property="og:title"         content="Xuan Sang LE's blog" />
         <meta property="og:description"   content="My personal space" />
 <?lua end ?>
