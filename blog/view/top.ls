@@ -13,10 +13,6 @@
 <html lang="en">
     <head>
         <title><?=title?></title>
-        <meta property="og:url"           content="https://blog.lxsang.me" />
-        <meta property="og:type"          content="website" />
-        <meta property="og:title"         content="Xuan Sang LE's blog" />
-        <meta property="og:description"   content="My personal space" />
         <meta charset="UTF-8">
         <!--meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://platform.twitter.com/widgets.js https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/plusone.js https://platform.twitter.com/js/button.556f0ea0e4da4e66cfdc182016dbd6db.js https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.fr.G6aVHqjZQ7w.O/m=plusone/rt=j/sv=1/d=1/ed=1/am=AQE/rs=AGLTcCM3jVZaR98LsOLZhkxFJYLRGgZQ6A/cb=gapi.loaded_0 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.fr.G6aVHqjZQ7w.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/am=AQE/rs=AGLTcCM3jVZaR98LsOLZhkxFJYLRGgZQ6A/cb=gapi.loaded_1"-->
 
@@ -29,16 +25,24 @@
         <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="rst/main.js"></script>
 <?lua if render then ?>
-        <meta property="og:url"                content="<?=url?>" />
-        <meta property="og:type"               content="article" />
-        <meta property="og:title"              content="<?=title?>" />
-        <meta property="og:description"        content="<?=tags?>" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@blog.lxsang.me" />
+        <meta name="twitter:creator" content="@lexsang" />
+        <meta property="og:url" content="<?=url?>" />
+        <meta property="og:type" content="blog" />
+        <meta property="og:title" content="<?=title?>" />
+        <meta property="og:description" content="<?=tags?>" />
         <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
         <link rel="stylesheet" type="text/css" href="rst/katex/katex.min.css" />
         <script src="rst/hljs/highlight.pack.js"> </script>
         <script src="rst/hljs/highlightjs-line-numbers.min.js"> </script>
         <script src="rst/katex/katex.min.js"> </script>
         <script src="rst/katex/auto-render.min.js"> </script>
+<?lua else ?>
+        <meta property="og:url"           content="https://blog.lxsang.me" />
+        <meta property="og:type"          content="blog" />
+        <meta property="og:title"         content="Xuan Sang LE's blog" />
+        <meta property="og:description"   content="My personal space" />
 <?lua end ?>
         <script>    
             
