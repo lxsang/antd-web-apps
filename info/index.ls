@@ -161,7 +161,7 @@
             </div>
         </div>
         <?lua
-        if not HEADER.mobile then
+        if (not HEADER.mobile) and (REQUEST.query.print ~= "true") then
         ?>
         <div class = "cv-toc">
             <ul>
