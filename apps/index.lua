@@ -1,8 +1,3 @@
--- require needed library
-require("silk.api")
--- need to define this
--- basically it initialize an session object
-session_start()
 
 -- some global variables
 DIR_SEP = ""
@@ -11,6 +6,13 @@ HTTP_ROOT = ""
 MODEL_ROOT = ""
 CONTROLLER_ROOT = ""
 VIEW_ROOT = ""
+BASE_FRW = "apps."
+
+-- require needed library
+require("silk.api")
+-- need to define this
+-- basically it initialize an session object
+session_start()
 
 -- registry object store global variables
 local REGISTRY = {}
@@ -23,4 +25,5 @@ local router = Router{registry = REGISTRY}
 REGISTRY.router = router
 router.setPath(CONTROLLER_ROOT)
 router.delegate()
+if REGISTRY.db then REGISTRY.db:close() end
 

@@ -1,4 +1,4 @@
-Logger = Object:extends{registry = {}, levels = {}}
+Logger = Object:extends{levels = {}}
 
 function Logger:initialize()
 end
