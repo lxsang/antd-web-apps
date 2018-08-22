@@ -75,7 +75,7 @@ function Router:delegate()
     end
     -- now require the main page to put the view
 
-    local fn, e = loadscript(WWW_ROOT..DIR_SEP.."index.ls")
+    local fn, e = loadscript(VIEW_ROOT..DIR_SEP..self.registry.layout..DIR_SEP.."index.ls")
     html()
     if fn then
         local r,o = pcall(fn, views)

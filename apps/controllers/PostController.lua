@@ -18,6 +18,7 @@ function PostController:edit(...)
     else
         self.template:set("auth", false)
     end
+    self:setLayout("admin")
     --self:redirect("/category/put/1")
     return true
 end

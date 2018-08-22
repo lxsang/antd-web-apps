@@ -27,6 +27,10 @@ function BaseController:redirect(url)
     std.header_flush()
 end
 
+function BaseController:setLayout(name)
+    self.registry.layout = name
+end
+
 function BaseController:setSession(key, value)
     SESSION[key] = value
 end
