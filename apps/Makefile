@@ -1,6 +1,6 @@
 BUILDDIR = ../build/apps
 
-copyfiles =  index.ls style.css 
+copyfiles =  ./* 
 
 main:
 	- mkdir $(BUILDDIR)
