@@ -1,4 +1,7 @@
 
+-- the rewrite rule for the framework
+-- should be something like this
+-- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/apps"
