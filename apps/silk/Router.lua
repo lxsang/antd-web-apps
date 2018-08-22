@@ -83,7 +83,7 @@ function Router:delegate()
             self:error(o)
         end
     else
-        self:error(e)
+        self:error("The index page is not found for layout: "..self.registry.layout)
     end
 end
 
