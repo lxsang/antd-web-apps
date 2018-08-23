@@ -1,6 +1,6 @@
 BUILDDIR = ../build/info
 
-copyfiles =  index.ls style.css 
+copyfiles =  index.ls style.css router.lua models views controllers
 
 main:
 	- mkdir $(BUILDDIR)

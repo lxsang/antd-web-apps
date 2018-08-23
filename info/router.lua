@@ -4,13 +4,13 @@
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
 DIR_SEP = "/"
-WWW_ROOT = "/opt/www/htdocs/apps"
+WWW_ROOT = "/opt/www/htdocs/info"
 HTTP_ROOT = "https://apps.localhost:9195/"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
-CONTROLLER_ROOT = BASE_FRW.."apps.controllers"
-MODEL_ROOT = BASE_FRW.."apps.models"
+CONTROLLER_ROOT = BASE_FRW.."info.controllers"
+MODEL_ROOT = BASE_FRW.."info.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
 LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
@@ -22,7 +22,7 @@ require(BASE_FRW.."silk.api")
 local REGISTRY = {}
 -- set logging level
 REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
-REGISTRY.db = DBHelper:new{db="iosapps"}
+REGISTRY.db = DBHelper:new{db="mrsang"}
 REGISTRY.layout = 'default'
 
 REGISTRY.db:open()
