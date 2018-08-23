@@ -45,3 +45,6 @@ function IndexController:notoc(...)
     return self:index(table.unpack({...}))
 end
 
+function IndexController:actionnotfound(...)
+    return self:notoc(table.unpack({...}))
+end
