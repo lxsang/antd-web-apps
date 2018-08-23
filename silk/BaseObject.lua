@@ -22,4 +22,5 @@ function BaseObject:error(msg, trace)
     else
         error(msg)
     end
+    return false
 end

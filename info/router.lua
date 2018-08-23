@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/info"
-HTTP_ROOT = "https://apps.localhost:9195/"
+HTTP_ROOT = "https://info.localhost:9195/"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
@@ -34,19 +34,19 @@ router:setPath(CONTROLLER_ROOT)
 -- example of depedencies to the current main route
 -- each layout may have different dependencies
 local default_routes_dependencies = {
-    edit = {
-        url = "post/edit",
+    user = {
+        url = "user/index",
+        visibility = "ALL"
+    },
+    toc = {
+        url = "toc/index",
         visibility = {
             shown = true,
             routes = {
-                ["post/index"] = true
+                ["index/index"] = true
             }
         }
-    },
-    --category = {
-    --    url = "cat/index",
-    --    visibility = "ALL"
-    --}
+    }
 }
 router:route('default', default_routes_dependencies )
 router:delegate()

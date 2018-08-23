@@ -44,11 +44,11 @@ function Router:infer(url)
     local controller_path = self.path.."."..controller_name
     -- require the controller module
     -- ignore the error
-    pcall(require, controller_path)
+    local r,e = pcall(require, controller_path)
     --require(controller_path)
     if not _G[controller_name] then
         data.controller = NotfoundController:new{ registry = self.registry }
-        data.args = {controller_name}
+        data.args = {controller_name, e}
         data.action = "index"
         data.name = "notfound"
     else
@@ -113,9 +113,9 @@ function Router:dependencies(url)
 end
 
 function Router:call(data)
+    data.controller.template:setView(data.action, data.name)
     local obj = data.controller[data.action](data.controller,table.unpack(data.args))
     if obj then
-        data.controller.template:setView(data.action, data.name)
         return data.controller.template
     else
         return false

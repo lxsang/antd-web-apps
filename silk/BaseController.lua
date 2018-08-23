@@ -68,7 +68,8 @@ NotfoundController = BaseController:extends{ registry = {}, models = {} }
 
 function NotfoundController:index(...)
     local args = {...}
-    self:error("404: Controller "..args[1].." not found")
+    local error = args[2] or ""
+    self:error("404: Controller "..args[1].." not found : "..error)
     return false
 end
 
@@ -86,9 +87,9 @@ function AssetController:get(...)
     if POLICY.mimes[mime] then
         std.header(mime)
         if std.isBinary(path) then
-            std.f(path)
-        else
             std.fb(path)
+        else
+            std.f(path)
         end
     end
     return false
