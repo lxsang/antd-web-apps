@@ -6,6 +6,8 @@ main: clean copy
 
 copy:
 	cp -rf $(copyfiles) $(BUILDDIR)
+	cp -r silk $(BUILDDIR)
 
 clean:
 	-for f in $(projs); do rm -r $(BUILDDIR)/"$${f}"; done
+	-rm -r $(BUILDDIR)/silk

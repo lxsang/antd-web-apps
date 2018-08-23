@@ -65,10 +65,12 @@ end
 function Router:delegate()
     local views = {}
     local data = self:infer()
+    -- set the controller to the main controller
+    data.controller.main = true
     views.__main__ = self:call(data)
     if not views.__main__ then return end
     -- get all visible routes
-    local routes = self:visibleRoutes(data.name.."/"..data.action)
+    local routes = self:dependencies(data.name.."/"..data.action)
     for k, v in pairs(routes) do
         data = self:infer(v)
         views[k] = self:call(data)
@@ -87,10 +89,12 @@ function Router:delegate()
     end
 end
 
-function Router:visibleRoutes(url)
+function Router:dependencies(url)
+    if not self.routes[self.registry.layout] then return {} end
     local list = {}
     --self:log("comparing "..url)
-    for k,v in pairs(self.routes) do
+    for k,v in pairs(self.routes[self.registry.layout]) do
+        v.url = std.trim(v.url,"/")
         if v.visibility == "ALL" then
             list[k] = v.url
         elseif v.visibility.routes then
@@ -118,9 +122,6 @@ function Router:call(data)
     end
 end
 
-function Router:route(name, url, visibility)
-    self.routes[name] = {
-        url = std.trim(url,"/"),
-        visibility = visibility
-    }
+function Router:route(layout, dependencies)
+    self.routes[layout] = dependencies
 end

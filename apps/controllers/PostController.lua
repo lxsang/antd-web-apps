@@ -6,9 +6,8 @@ PostController = BaseController:extends{
 
 function PostController:index(...)
     local args = {...}
-    self.template:set("index", args[1])
-    self.template:set("dummy", "This is a dummy string")
     self:setSession("postsession", "Huehuehue")
+    self.template:set("post", self.post:findAll())
     return true
 end
 
@@ -18,8 +17,7 @@ function PostController:edit(...)
     else
         self.template:set("auth", false)
     end
-    self:setLayout("admin")
-    --self:redirect("/category/put/1")
+    self:switchLayout("admin")
     return true
 end
 

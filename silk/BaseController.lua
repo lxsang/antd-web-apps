@@ -1,5 +1,9 @@
 -- create class
-BaseController = BaseObject:extends{class="BaseController", registry = {}, models = {}}
+BaseController = BaseObject:extends{
+    class="BaseController",
+    registry = {},
+    models = {},
+    main = false }
 -- set the name here in each subclasses
 function BaseController:initialize()
     for k, v in pairs(self.models) do
@@ -27,8 +31,12 @@ function BaseController:redirect(url)
     std.header_flush()
 end
 
-function BaseController:setLayout(name)
-    self.registry.layout = name
+function BaseController:switchLayout(name)
+    if self.main then
+        self.registry.layout = name
+    else
+        self:log("Cannot switch layout since the controller "..self.class.." is not the main controller")
+    end
 end
 
 function BaseController:setSession(key, value)
@@ -75,7 +83,7 @@ function AssetController:get(...)
     local path = WWW_ROOT..DIR_SEP..implode({...}, DIR_SEP)
     local mime = std.mimeOf(path)
 
-    if self.registry.mimes[mime] then
+    if POLICY.mimes[mime] then
         std.header(mime)
         if std.isBinary(path) then
             std.f(path)

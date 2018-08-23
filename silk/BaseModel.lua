@@ -24,7 +24,7 @@ function BaseModel:update(m)
 end
 
 function BaseModel:delete(cond)
-    if self.db and m then
+    if self.db and cond then
         return self.db:delete(self.name,cond)
     end
     return false
@@ -32,14 +32,14 @@ end
 
 
 function BaseModel:find(cond)
-    if self.db and m then
+    if self.db and cond then
         return self.db:find(self.name, cond)
     end
     return false
 end
 
 function BaseModel:findAll()
-    if self.db and m then
+    if self.db then
         return self.db:getAll(self.name)
     end
     return false
