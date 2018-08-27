@@ -1,4 +1,4 @@
-SectionsModel = BaseModel:extends{
+BaseModel:subclass("SectionsModel",{
     name = "cv_sections",
     fields = {
         title = "TEXT",
@@ -10,4 +10,4 @@ SectionsModel = BaseModel:extends{
         publish	= "NUMERIC",
         cid = "NUMERIC",
     }
-}
+})

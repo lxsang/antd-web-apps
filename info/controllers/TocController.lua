@@ -1,6 +1,4 @@
-TocController = BaseController:extends{
-    class = "TocController"
-}
+BaseController:subclass("TocController")
 
 function TocController:index(...)
     return true

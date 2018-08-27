@@ -1,4 +1,4 @@
-CategoryModel = BaseModel:extends{
+BaseModel:subclass("CategoryModel",{
     registry = {},
     name = "cv_cat",
     fields = {
@@ -6,4 +6,4 @@ CategoryModel = BaseModel:extends{
 	    name =	"TEXT",
 	    pid	= "NUMERIC"
     }
-}
+})

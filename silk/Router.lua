@@ -1,6 +1,6 @@
 
 --define the class
-Router = BaseObject:extends{class="Router",registry = {}}
+BaseObject:subclass ("Router",{registry = {}})
 function Router:setPath(path)
     self.path = path
 end

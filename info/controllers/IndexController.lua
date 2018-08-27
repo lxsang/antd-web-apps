@@ -1,8 +1,8 @@
-IndexController = BaseController:extends{
-    class = "IndexController",
-    registry = {},
-    models = { "sections", "category" }
-}
+ BaseController:subclass("IndexController",
+    {
+        registry = {},
+        models = { "sections", "category" }
+    })
 
 local sectionsByCid = function(db, id)
     local cond = { exp = { ["="] = { cid = id } } , order = { start = "DESC" } }

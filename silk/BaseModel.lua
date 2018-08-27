@@ -1,6 +1,6 @@
 
 -- create class
-BaseModel = BaseObject:extends{class="BaseModel",registry = {}}
+BaseObject:subclass("BaseModel", {registry = {}})
 
 function BaseModel:initialize()
     self.db = self.registry.db

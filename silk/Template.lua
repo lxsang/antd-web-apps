@@ -1,5 +1,5 @@
 -- create class
-Template = BaseObject:extends{class="Template",registry = {}}
+ BaseObject:subclass("Template",{registry = {}})
 
 function Template:initialize()
     self.vars = {}

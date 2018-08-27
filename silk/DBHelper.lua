@@ -2,7 +2,7 @@ sqlite = modules.sqlite()
 
 if sqlite == nil then return 0 end
 -- create class
-DBHelper = BaseObject:extends{db=nil, class='DBHelper'}
+ BaseObject:subclass("DBHelper",{db={}})
 
 function DBHelper:createTable(tbl, m)
 	if self:available(tbl) then return true end

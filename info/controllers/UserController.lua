@@ -1,7 +1,6 @@
-UserController = BaseController:extends{
-    class = "UserController",
+BaseController:subclass("UserController",{
     models = {"user"}
-}
+})
 
 function UserController:index(...)
     local args = {...}

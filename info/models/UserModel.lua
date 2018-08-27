@@ -1,4 +1,4 @@
-UserModel = BaseModel:extends{
+BaseModel:subclass("UserModel",{
     registry = {},
     name = "user",
     fields = {
@@ -9,4 +9,4 @@ UserModel = BaseModel:extends{
 	    email = "TEXT",
 	    url = "TEXT"
     }
-}
+})

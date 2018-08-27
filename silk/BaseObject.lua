@@ -1,5 +1,8 @@
 BaseObject = Object:extends{registry = {}, class="BaseObject"}
-
+function BaseObject:subclass(name, args)
+    _G[name] = self:extends(args)
+    _G[name].class = name
+end
 
 function BaseObject:log(msg, level)
     level = level or "INFO"
@@ -10,6 +13,10 @@ end
 
 function BaseObject:debug(msg)
     self:log(msg, "DEBUG")
+end
+
+function BaseObject:print()
+    print(self.class)
 end
 
 function BaseObject:error(msg, trace)

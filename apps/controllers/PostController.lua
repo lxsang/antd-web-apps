@@ -1,8 +1,7 @@
-PostController = BaseController:extends{
-    class = "PostController",
+BaseController:subclass("PostController", {
     registry = {},
     models = { "post" }
-}
+})
 
 function PostController:index(...)
     local args = {...}
