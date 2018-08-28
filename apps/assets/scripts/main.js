@@ -117,8 +117,7 @@
   MarkOn = (function(superClass) {
     extend(MarkOn, superClass);
 
-    function MarkOn(id) {
-      this.id = id;
+    function MarkOn() {
       MarkOn.__super__.constructor.call(this, "MarkOn");
     }
 
@@ -127,7 +126,7 @@
       me = this;
       return this.ready().then(function() {
         return me.editor = new SimpleMDE({
-          element: $(me.id)[0]
+          element: $("#editor")[0]
         });
       })["catch"](function(m, s) {
         return console.error(m, s);

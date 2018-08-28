@@ -1,12 +1,12 @@
 class MarkOn extends window.classes.BaseObject
-    constructor: (@id) ->
+    constructor: () ->
         super "MarkOn"
     
     init: () ->
         me = @
         @ready()
             .then () ->
-                me.editor = new SimpleMDE { element: $(me.id)[0] }
+                me.editor = new SimpleMDE { element: $("#editor")[0] }
             .catch (m, s) ->
                 console.error(m, s)
 
