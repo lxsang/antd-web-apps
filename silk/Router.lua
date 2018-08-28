@@ -21,7 +21,7 @@ function Router:infer(url)
     -- a is controller name
     -- b is action
     -- c,d,e is parameters
-    -- if user dont provice the url, try to infer it
+    -- if user dont provide the url, try to infer it
     -- from the REQUEST
     url = url or REQUEST.query.r
     url = std.trim(url, "/")
@@ -84,6 +84,7 @@ function Router:delegate()
     data.controller.main = true
     views.__main__ = self:call(data)
     if not views.__main__ then
+        --self:error("No main template is set")
         return
     end
     -- get all visible routes
