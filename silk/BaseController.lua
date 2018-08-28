@@ -99,7 +99,7 @@ function AssetController:get(...)
                 std.f(path)
             end
         else 
-            self:error("Access fobiden: "..path)
+            self:error("Access forbidden: "..path)
         end
     else
         self:error("Assset file not found: "..path)
