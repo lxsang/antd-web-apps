@@ -32,9 +32,9 @@ function Router:infer(url)
         args = {}
     }
     if args and #args > 0 and args[1] ~= "" then
-        data.name = args[1]
+        data.name = args[1]:gsub("%.", "")
         if args[2] then
-            data.action = args[2]
+            data.action = args[2]:gsub("%.", "")
         end
         for i = 3, #args do
             table.insert(data.args, args[i])
