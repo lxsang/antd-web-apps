@@ -1,6 +1,6 @@
 BUILDDIR = ../build/blog
 
-copyfiles =  *.html assets *.lua  view
+copyfiles =  *.html assets *.lua  view  robot.txt
 
 main:
 	- mkdir $(BUILDDIR)

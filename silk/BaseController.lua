@@ -90,13 +90,19 @@ function AssetController:get(...)
     local path = WWW_ROOT..DIR_SEP..implode({...}, DIR_SEP)
     local mime = std.mimeOf(path)
 
-    if POLICY.mimes[mime] then
-        std.header(mime)
-        if std.isBinary(path) then
-            std.fb(path)
-        else
-            std.f(path)
+    if ulib.exists(path) then
+        if POLICY.mimes[mime] then
+            std.header(mime)
+            if std.isBinary(path) then
+                std.fb(path)
+            else
+                std.f(path)
+            end
+        else 
+            self:error("Access fobiden: "..path)
         end
+    else
+        self:error("Assset file not found: "..path)
     end
     return false
 end

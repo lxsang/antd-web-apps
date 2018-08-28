@@ -5,9 +5,9 @@
 
 <html>
     <head>
-        <script type="text/javascript" src="<?=HTTP_ROOT?>/asset/get/rst/gscripts/showdown.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/asset/get/style.css" />
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/asset/get/rst/font-awesome.css" />
+        <script type="text/javascript" src="rst/gscripts/showdown.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />
         <title>Porfolio</title>
     </head>
     <body>

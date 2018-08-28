@@ -1,6 +1,5 @@
-
 --define the class
-BaseObject:subclass ("Router",{registry = {}})
+BaseObject:subclass("Router", {registry = {}})
 function Router:setPath(path)
     self.path = path
 end
@@ -25,42 +24,57 @@ function Router:infer(url)
     -- if user dont provice the url, try to infer it
     -- from the REQUEST
     url = url or REQUEST.query.r
-    url = std.trim(url,"/")
-    local args = explode(url,"/")
+    url = std.trim(url, "/")
+    local args = explode(url, "/")
     local data = {
-        name = 'index',
-        action = 'index',
+        name = "index",
+        action = "index",
         args = {}
     }
     if args and #args > 0 and args[1] ~= "" then
         data.name = args[1]
-        if args[2] then data.action = args[2] end
-        for i = 3, #args do table.insert( data.args, args[i] ) end
+        if args[2] then
+            data.action = args[2]
+        end
+        for i = 3, #args do
+            table.insert(data.args, args[i])
+        end
     end
 
-    self:log('Controller: '..JSON.encode(data))
     -- find the controller class and init it
-    local controller_name = firstToUpper(data.name).."Controller"
-    local controller_path = self.path.."."..controller_name
+    local controller_name = firstToUpper(data.name) .. "Controller"
+    local controller_path = self.path .. "." .. controller_name
     -- require the controller module
     -- ignore the error
-    local r,e = pcall(require, controller_path)
+    local r, e = pcall(require, controller_path)
     --require(controller_path)
     if not _G[controller_name] then
-        data.controller = NotfoundController:new{ registry = self.registry }
-        data.args = {controller_name, e}
-        data.action = "index"
-        data.name = "notfound"
+        -- verify if it is an asset
+        url = url:gsub("/", DIR_SEP)
+        if ulib.exists(WWW_ROOT..DIR_SEP..url) then
+            data.controller = AssetController:new {registry = self.registry}
+            data.action = "get"
+            data.name = "asset"
+            data.args ={url}
+        else
+            -- let the notfound controller handle the error
+            data.controller = NotfoundController:new {registry = self.registry}
+            data.args = {controller_name, e}
+            data.action = "index"
+            data.name = "notfound"
+        end
     else
-        data.controller = _G[controller_name]:new{ registry = self.registry }
-        if  not data.controller[data.action] then
+        -- create the coresponding controller
+        data.controller = _G[controller_name]:new {registry = self.registry}
+        if not data.controller[data.action] then
             data.args = {data.action}
             data.action = "actionnotfound"
         end
     end
+
+    self:log("Controller: " .. data.controller.class .. ", action: "..data.action..", args: ".. JSON.encode(data.args))
     return data
 end
-
 
 function Router:delegate()
     local views = {}
@@ -68,33 +82,37 @@ function Router:delegate()
     -- set the controller to the main controller
     data.controller.main = true
     views.__main__ = self:call(data)
-    if not views.__main__ then return end
+    if not views.__main__ then
+        return
+    end
     -- get all visible routes
-    local routes = self:dependencies(data.name.."/"..data.action)
+    local routes = self:dependencies(data.name .. "/" .. data.action)
     for k, v in pairs(routes) do
         data = self:infer(v)
         views[k] = self:call(data)
     end
     -- now require the main page to put the view
 
-    local fn, e = loadscript(VIEW_ROOT..DIR_SEP..self.registry.layout..DIR_SEP.."layout.ls")
+    local fn, e = loadscript(VIEW_ROOT .. DIR_SEP .. self.registry.layout .. DIR_SEP .. "layout.ls")
     html()
     if fn then
-        local r,o = pcall(fn, views)
+        local r, o = pcall(fn, views)
         if not r then
             self:error(o)
         end
     else
-        self:error("The index page is not found for layout: "..self.registry.layout)
+        self:error("The index page is not found for layout: " .. self.registry.layout)
     end
 end
 
 function Router:dependencies(url)
-    if not self.routes[self.registry.layout] then return {} end
+    if not self.routes[self.registry.layout] then
+        return {}
+    end
     local list = {}
     --self:log("comparing "..url)
-    for k,v in pairs(self.routes[self.registry.layout]) do
-        v.url = std.trim(v.url,"/")
+    for k, v in pairs(self.routes[self.registry.layout]) do
+        v.url = std.trim(v.url, "/")
         if v.visibility == "ALL" then
             list[k] = v.url
         elseif v.visibility.routes then
@@ -114,7 +132,7 @@ end
 
 function Router:call(data)
     data.controller.template:setView(data.action, data.name)
-    local obj = data.controller[data.action](data.controller,table.unpack(data.args))
+    local obj = data.controller[data.action](data.controller, table.unpack(data.args))
     if obj then
         return data.controller.template
     else
