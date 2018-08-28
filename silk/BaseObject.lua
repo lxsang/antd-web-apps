@@ -21,6 +21,7 @@ end
 
 function BaseObject:error(msg, trace)
     html()
+    --local line = debug.getinfo(1).currentline
     echo(msg)
     self:log(msg,"ERROR")
     if trace then
