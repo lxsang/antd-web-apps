@@ -51,7 +51,8 @@ function Router:infer(url)
     if not _G[controller_name] then
         -- verify if it is an asset
         url = url:gsub("/", DIR_SEP)
-        if ulib.exists(WWW_ROOT..DIR_SEP..url) then
+        local filepath = WWW_ROOT..DIR_SEP..url
+        if ulib.exists(filepath) and not std.is_dir(filepath) then
             data.controller = AssetController:new {registry = self.registry}
             data.action = "get"
             data.name = "asset"
