@@ -52,7 +52,7 @@ function Router:infer(url)
         -- verify if it is an asset
         url = url:gsub("/", DIR_SEP)
         local filepath = WWW_ROOT..DIR_SEP..url
-        if ulib.exists(filepath) and not std.is_dir(filepath) then
+        if ulib.exists(filepath)  then -- and not std.is_dir(filepath)
             data.controller = AssetController:new {registry = self.registry}
             data.action = "get"
             data.name = "asset"
