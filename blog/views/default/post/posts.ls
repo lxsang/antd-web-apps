@@ -1,30 +1,12 @@
 <?lua
-    local arg = {...}
-    local datas = arg[1]
-    local order = arg[2]
-    local minid = arg[3]
-    local maxid = arg[4]
-    local action = arg[5]
+    local datas = posts
     local class = "card"
     local first_id = nil
     local last_id = nil
     if HEADER.mobile then
         class = "card mobile"
     end
-    loadscript(BLOG_ROOT.."/view/top.ls")("Welcome to my blog", false)
-    if #order == 0 then
-?>
-    <div class = "notfound">
-       <p>No entry found</p>
-       <blockquote>
-        “In many ways my life has been rather like a record of the lost and found. Perhaps all lives are like that.”
-<span>― Lucy Foley, The Book of Lost and Found</span> 
-       </blockquote >
-    </div>
-<?lua
-        return
-    end
-
+    
     for idx,v in pairs(order) do
         local data = datas[v]
         if not last_id then last_id = data.id end
@@ -41,12 +23,12 @@
                 tag = std.trim(tag, " ")
                 if tag ~= "" then
                     local b64tag = std.b64encode(tag)
-                    atags[i] = '<a href = "./r:bytag:'..b64tag:gsub("=","")..':'..MAX_ENTRY..'">'..tag.."</a>"
+                    atags[i] = '<a href = "'..HTTP_ROOT..'/post/bytag/'..b64tag:gsub("=","")..'/'..POST_LIMIT..'">'..tag.."</a>"
                     i = i+ 1
                 end
             end
             echo(table.concat(atags, ", "))
-            local url = "https://blog.lxsang.me/r:id:"..data.id
+            local url = HTTP_ROOT.."/post/id/"..data.id
         ?>
         </span>
         <div class="fb-like" data-href="<?=url?>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
@@ -72,7 +54,7 @@
                 end
                 if title then
                     echo(content:sub(0, b))
-                    echo("<a class = 'title_link' href='./r:id:"..data.id.."'>"..title.."</a>")
+                    echo("<a class = 'title_link' href='"..HTTP_ROOT.."/post/id/"..data.id.."'>"..title.."</a>")
                     echo(content:sub(c))
                 else
                     echo(content)
@@ -81,18 +63,18 @@
         </div>
         <div class = "detail">
                 <span></span>
-                <?='<a href="./r:id:'..data.id..'" ></a>'?>
+                <?='<a href="'..HTTP_ROOT..'/post/id/'..data.id..'" ></a>'?>
                 <span></span>
         </div>
     </div>
 </div>
 <?lua
     end
-    local beforelk = "./r:beforeof:"..first_id..":"..MAX_ENTRY
-    local afterlk = "./r:afterof:"..last_id..":"..MAX_ENTRY
+    local beforelk = HTTP_ROOT.."/post/beforeof/"..first_id.."/"..POST_LIMIT
+    local afterlk = HTTP_ROOT.."/post/afterof/"..last_id.."/"..POST_LIMIT
     if action == "bytag" or action == "search" then
-        beforelk = "./r:"..action..":"..LAST_QUERY..":"..MAX_ENTRY..":before:"..first_id
-        afterlk = "./r:"..action..":"..LAST_QUERY..":"..MAX_ENTRY..":after:"..last_id
+        beforelk = HTTP_ROOT.."/post/"..action.."/"..query.."/"..POST_LIMIT.."/before/"..first_id
+        afterlk = HTTP_ROOT.."/post/"..action.."/"..query.."/"..POST_LIMIT.."/after/"..last_id
     end
 ?>
 <div class = "time-travel">

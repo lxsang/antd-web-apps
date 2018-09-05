@@ -6,6 +6,7 @@ end
 
 function Router:initialize()
     self.routes = {}
+    self.remaps = {}
 end
 
 --function Router:setArgs(args)
@@ -23,7 +24,7 @@ function Router:infer(url)
     -- c,d,e is parameters
     -- if user dont provide the url, try to infer it
     -- from the REQUEST
-    url = url or REQUEST.query.r
+    url = url or REQUEST.query.r or ""
     url = std.trim(url, "/")
     local args = explode(url, "/")
     local data = {
@@ -41,6 +42,10 @@ function Router:infer(url)
         end
     end
 
+    -- remap if needed
+    if self.remaps[data.name] ~= nil then
+        data.name = self.remaps[data.name]
+    end
     -- find the controller class and init it
     local controller_name = firstToUpper(data.name) .. "Controller"
     local controller_path = self.path .. "." .. controller_name
@@ -84,7 +89,7 @@ function Router:delegate()
     data.controller.main = true
     views.__main__ = self:call(data)
     if not views.__main__ then
-        --self:error("No main template is set")
+        --self:error("No view available for this action")
         return
     end
     -- get all visible routes
@@ -94,16 +99,23 @@ function Router:delegate()
         views[k] = self:call(data)
     end
     -- now require the main page to put the view
+    local view_args = {}
+    local view_argv = {}
+    for k,v in pairs(views) do
+        table.insert( view_args, k )
+        table.insert( view_argv, v )
+    end
 
-    local fn, e = loadscript(VIEW_ROOT .. DIR_SEP .. self.registry.layout .. DIR_SEP .. "layout.ls")
+    local fn, e = loadscript(VIEW_ROOT .. DIR_SEP .. self.registry.layout .. DIR_SEP .. "layout.ls", view_args)
     html()
     if fn then
-        local r, o = pcall(fn, views)
+        local r, o = pcall(fn, table.unpack(view_argv))
         if not r then
             self:error(o)
         end
     else
-        self:error("The index page is not found for layout: " .. self.registry.layout)
+        e = e or ""
+        self:error("The index page is not found for layout: " .. self.registry.layout..": "..e)
     end
 end
 
@@ -140,6 +152,10 @@ function Router:call(data)
     else
         return false
     end
+end
+
+function Router:remap(from, to)
+    self.remaps[from] = to
 end
 
 function Router:route(layout, dependencies)

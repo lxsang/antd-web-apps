@@ -38,6 +38,12 @@ function BaseModel:find(cond)
     return false
 end
 
+function BaseModel:get(id)
+    local data, order = self:find({exp = {["="] = { id = id}} })
+    if not data or #order == 0 then return false end
+    return data[1]
+end
+
 function BaseModel:findAll()
     if self.db then
         return self.db:getAll(self.name)

@@ -1,9 +1,10 @@
+
+
 <?lua
-    local arg = {...}
-    local title = arg[1]
-    local render = arg[2]
-    local url = arg[3]
-    local tags = arg[4]
+    local title = __main__:get("title")
+    local render = __main__:get("render")
+    local url = __main__:get("url")
+    local tags = __main__:get("tags")
     local cls = ""
     if HEADER.mobile then
         cls = "navmobile"
@@ -14,16 +15,15 @@
     <head>
         <title><?=title?></title>
         <meta charset="UTF-8">
-        <!--meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://platform.twitter.com/widgets.js https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/plusone.js https://platform.twitter.com/js/button.556f0ea0e4da4e66cfdc182016dbd6db.js https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.fr.G6aVHqjZQ7w.O/m=plusone/rt=j/sv=1/d=1/ed=1/am=AQE/rs=AGLTcCM3jVZaR98LsOLZhkxFJYLRGgZQ6A/cb=gapi.loaded_0 https://apis.google.com/_/scs/apps-static/_/js/k=oz.gapi.fr.G6aVHqjZQ7w.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/am=AQE/rs=AGLTcCM3jVZaR98LsOLZhkxFJYLRGgZQ6A/cb=gapi.loaded_1"-->
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="rst/ubuntu-regular.css" />
-        <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />
-        <link rel="stylesheet" type="text/css" href="assets/style.css" />
-        <script src="rst/gscripts/riot.min.js"> </script>
-        <script src="rst/resources/antos_tags.js"></script>
-        <script src="rst/gscripts/jquery-3.2.1.min.js"> </script>
-        <script src="rst/main.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/ubuntu-regular.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/style.css" />
+        <script src="<?=HTTP_ROOT?>/rst/gscripts/riot.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/resources/antos_tags.js"></script>
+        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/main.js"></script>
         <meta property="og:image" content="" />
 <?lua if render then ?>
         <meta name="twitter:card" content="summary" />
@@ -33,17 +33,17 @@
         <meta property="og:type" content="article" />
         <meta property="og:title" content="<?=title?>" />
         <meta property="og:description" content="<?=tags?>" />
-        <link rel="stylesheet" type="text/css" href="rst/hljs/github.css" />
-        <link rel="stylesheet" type="text/css" href="rst/katex/katex.min.css" />
-        <script src="rst/hljs/highlight.pack.js"> </script>
-        <script src="rst/hljs/highlightjs-line-numbers.min.js"> </script>
-        <script src="rst/katex/katex.min.js"> </script>
-        <script src="rst/katex/auto-render.min.js"> </script>
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/hljs/github.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
+        <script src="<?=HTTP_ROOT?>/rst/hljs/highlight.pack.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/hljs/highlightjs-line-numbers.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/katex/katex.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/katex/auto-render.min.js"> </script>
 <?lua else ?>
         <meta property="og:url"           content="https://blog.lxsang.me" />
         <meta property="og:type"          content="article" />
         <meta property="og:title"         content="Xuan Sang LE's blog" />
-        <meta property="og:description"   content="My personal space" />
+        <meta property="og:description"   content="Blog Home" />
 <?lua end ?>
         <script>    
             
@@ -96,7 +96,7 @@
             <div id = "navbar" class = "<?=cls?>">
                 <div class = "logo"><a href = "https://lxsang.me"></a></div>
                 <ul>
-                        <li><i class = "fa fa-home"></i><a href="./">Home</a></li>
+                        <li><i class = "fa fa-home"></i><a href="<?=HTTP_ROOT?>">Home</a></li>
                         <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
                         <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('rst')" >Contact</a></li>
                         <?lua
@@ -118,4 +118,13 @@
         </div>
         <div id = "desktop">
             <div id = "container">
-             
+             <?lua
+                __main__:render()
+             ?>
+            </div>
+        </div>
+<div id = "bottom">
+        Powered by antd server, (c) 2017 - 2018 Xuan Sang LE
+    </div>
+</body>
+</html>

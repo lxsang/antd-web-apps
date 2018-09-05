@@ -1,24 +1,20 @@
-<?lua
-    local args = {...}
-    local views = args[1]
-?>
 
 <html>
     <head>
-        <script type="text/javascript" src="rst/gscripts/showdown.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <link rel="stylesheet" type="text/css" href="rst/font-awesome.css" />
+        <script type="text/javascript" src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/style.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
         <title>Porfolio</title>
     </head>
     <body>
     <div class="layout">
         <div class = "cv-content">
             <?lua
-            if views.user then
-                views.user:render()
+            if user then
+                user:render()
             end
-            if views.__main__ then
-                views.__main__:render()
+            if __main__ then
+                __main__:render()
             end
             ?>
             <div class = "container">
@@ -27,9 +23,9 @@
             </div>
         </div>
         <?lua
-            if views.toc then
-                views.toc:set("data", views.__main__:get("toc"))
-                views.toc:render()
+            if toc then
+                toc:set("data", __main__:get("toc"))
+                toc:render()
             end
         ?>
     </div>

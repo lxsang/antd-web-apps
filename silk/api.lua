@@ -16,6 +16,7 @@ POLICY.mimes = {
     ["application/javascript"]            = true,
     ["image/bmp"]                         = true,
     ["image/jpeg"]                        = true,
+    ["image/png"]                        = true,
     ["text/css"]                          = true,
     ["text/markdown"]                     = true,
     ["text/csv"]                          = true,
@@ -49,4 +50,8 @@ function html()
 		std.chtml(SESSION)
 		HEADER_FLAG = true
 	end
+end
+
+function import(module)
+    return require(BASE_FRW.."silk.api."..module)
 end

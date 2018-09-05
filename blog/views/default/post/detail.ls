@@ -1,56 +1,10 @@
 <?lua
-    local arg = {...}
-    local data = arg[1]
-    local order = arg[2]
-    local content = nil;
-    local url = nil
-    local topview = loadscript(BLOG_ROOT.."/view/top.ls")
+    local data = post
     local class = "card"
     if HEADER.mobile then
         class = "card mobile"
     end
-    local title = "Welcome to my blog"
-    if not #data or #order == 0 then
-        topview(title, false)
-?>
-    <div class = "notfound">
-       <p>No entry found</p>
-       <blockquote>
-        “In many ways my life has been rather like a record of the lost and found. Perhaps all lives are like that.”
-<span>― Lucy Foley, The Book of Lost and Found</span> 
-       </blockquote >
-    </div>
-<?lua
-        return
-    else
-        data = data[1]
-        content = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%","%%%%")
-        local a,b = content:find("<[Hh]1[^>]*>")
-        if a then
-            local c,d = content:find("</[Hh]1>")
-            if c then
-                title = content:sub(b+1, c-1)
-            end
-        end
-        url = "https://blog.lxsang.me/r:id:"..data.id
-        topview(title, true, url, data.tags)
-    end
-    -- fetch the similar posts from database
-    local db = require("db.model").get(BLOG_ADMIN,"st_similarity", nil)
-    local similar_posts = nil
-    if db then
-        local records = db:find({ exp = {["="] = {pid = data.id}}, order = {score = "DESC"}})
-        --echo("records size is #"..#records)
-        local pdb = require("db.model").get(BLOG_ADMIN,"blogs", nil)
-        if(pdb) then
-            similar_posts = {}
-            for k,v in pairs(records) do
-                similar_posts[k] = { st = v, post = pdb:get(v.sid) }
-            end
-            pdb:close()
-        end
-        db:close()
-    end
+    local content = data.rendered
 ?>
 <div class = "<?=class?>">
     <div class = "side">
@@ -63,7 +17,7 @@
                 tag = std.trim(tag, " ")
                 if tag ~= "" then
                     local b64tag = std.b64encode(tag)
-                    atags[i] = '<a href = "./r:bytag:'..b64tag:gsub("=","")..':'..MAX_ENTRY..'">'..tag.."</a>"
+                    atags[i] = '<a href = "'..HTTP_ROOT..'/post/bytag/'..b64tag:gsub("=","")..'/'..POST_LIMIT..'">'..tag.."</a>"
                     i = i+ 1
                 end
             end

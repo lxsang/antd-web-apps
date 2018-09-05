@@ -1,8 +1,3 @@
-<?lua
-    local args = {...}
-    local data = args[1].data
-?>
-
 <h1>
     <span class="name"><?=data.fullname?></span>
     <span class="cv">Curriculum Vitae</span>

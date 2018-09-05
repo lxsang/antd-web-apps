@@ -1,6 +1,4 @@
 <?lua
-    local args = {...}
-    local data = args[1].data
     if not data then return end
 
     for k,v in pairs(data) do

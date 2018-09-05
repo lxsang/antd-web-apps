@@ -31,14 +31,24 @@ function Template:path()
     if ulib.exists(path) then
         return path
     else
-        self:error("View not found: "..path)
+        return false, path
     end
 end
 -- render the page
 function Template:render()
-    local fn, e = loadscript(self:path())
+    local path, err = self:path()
+    if not path then
+        return self:error("View not found: "..err)
+    end
+    local args = {}
+    local argv = {}
+    for k, v in pairs(self.vars) do
+        table.insert( args, k )
+        table.insert( argv,v )
+    end
+    local fn, e = loadscript(self:path(), args)
     if fn then
-        local r,o = pcall(fn, self.vars)
+        local r,o = pcall(fn, table.unpack(argv))
         if not r then
             self:error(o)
         end

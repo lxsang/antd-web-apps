@@ -75,6 +75,11 @@ BaseController:subclass("NotfoundController",{ registry = {}, models = {} })
 function NotfoundController:index(...)
     local args = {...}
     local error = args[2] or ""
+    if self.template:path() then
+        self.template:set("error", error)
+        self.template:set("title", "404 not found")
+        return true
+    end
     self:error("404: Controller "..args[1].." not found : "..error)
     return false
 end
@@ -102,7 +107,7 @@ function AssetController:get(...)
             self:error("Access forbidden: "..path)
         end
     else
-        self:error("Assset file not found: "..path)
+        self:error("Asset file not found: "..path)
     end
     return false
 end

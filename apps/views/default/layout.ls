@@ -1,8 +1,6 @@
 <?lua
 local args = {...}
-local views = args[1]
-local main = views.__main__
-local jsclass = main:get("jsclass")
+local jsclass = __main__:get("jsclass")
 if jsclass == nil then jsclass = "" end
 ?>
 <html>
@@ -28,7 +26,7 @@ if jsclass == nil then jsclass = "" end
         <div id="desktop">
             <?lua
                 
-                main:render()
+                __main__:render()
             ?>
         </div>
     </body>

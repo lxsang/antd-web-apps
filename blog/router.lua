@@ -1,42 +1,60 @@
-BLOG_ROOT = __ROOT__.."/blog"
-MAX_ENTRY = 15
-LAST_QUERY = nil
-BLOG_ADMIN = "mrsang"
-local user = BLOG_ADMIN
-local handle = function(p)
-    local args = {}
-    local sort = {}
-    local i = 1
-    for s in p:gmatch("%:*([^%:]*)") do
-        args[i] = s
-        table.insert(sort, i)
-        i = i+1
-    end
-    table.sort(sort)
-    local api = require("blog.api")
-    local minid = api.minid(user)
-    local maxid = api.maxid(user)
-    if #args == 0 or api == nil then
-        echo("Unknow request "..p)
-    elseif not api[args[1]] then
-        echo("Unknow action.."..args[1])
-    else
-        local action = args[1]
-        args[1] = user
-        local data, sort = api[action](table.unpack(args))
-        if data == nil then
-            echo("Cannot query data")
-        else
-            require("blog.view").render(action, data, sort, minid, maxid)
-        end
-    end
+
+-- the rewrite rule for the framework
+-- should be something like this
+-- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
+-- some global variables
+DIR_SEP = "/"
+WWW_ROOT = "/opt/www/htdocs/blog"
+HTTP_ROOT = "https://blog.localhost:9195"
+-- class path: path.to.class
+BASE_FRW = ""
+-- class path: path.to.class
+CONTROLLER_ROOT = BASE_FRW.."blog.controllers"
+MODEL_ROOT = BASE_FRW.."blog.models"
+-- file path: path/to/file
+VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
+LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
+POST_LIMIT = 2
+-- require needed library
+require(BASE_FRW.."silk.api")
+
+if REQUEST.query.r then
+    REQUEST.query.r = REQUEST.query.r:gsub("%:", "/")
 end
-std.html()
-local action = REQUEST.query.action
-if not action then action = "r:top:"..MAX_ENTRY end
-local r, s = action:find("^r:")
-if r then
-    handle(action:sub(s+1))
-else
-    echo("Unknow action "..action)
-end
+
+-- registry object store global variables
+local REGISTRY = {}
+-- set logging level
+REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
+REGISTRY.db = DBHelper:new{db="mrsang"}
+REGISTRY.layout = 'default'
+
+REGISTRY.db:open()
+local router = Router:new{registry = REGISTRY}
+REGISTRY.router = router
+router:setPath(CONTROLLER_ROOT)
+--router:route('edit', 'post/edit', "ALL" )
+
+-- example of depedencies to the current main route
+-- each layout may have different dependencies
+--[[ local default_routes_dependencies = {
+    user = {
+        url = "user/index",
+        visibility = "ALL"
+    },
+    toc = {
+        url = "toc/index",
+        visibility = {
+            shown = true,
+            routes = {
+                ["index/index"] = true
+            }
+        }
+    }
+} ]]
+router:route('default', default_routes_dependencies )
+router:remap("index", "post")
+router:remap("r", "post")
+router:delegate()
+if REGISTRY.db then REGISTRY.db:close() end
+
