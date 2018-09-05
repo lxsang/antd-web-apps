@@ -23,7 +23,7 @@
         <script src="<?=HTTP_ROOT?>/rst/gscripts/riot.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/rst/resources/antos_tags.js"></script>
         <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
-        <script src="<?=HTTP_ROOT?>/rst/main.js"></script>
+        <script src="<?=HTTP_ROOT?>/assets/main.js"></script>
         <meta property="og:image" content="" />
 <?lua if render then ?>
         <meta name="twitter:card" content="summary" />
@@ -98,11 +98,11 @@
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="<?=HTTP_ROOT?>">Home</a></li>
                         <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
-                        <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('rst')" >Contact</a></li>
+                        <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('<?=HTTP_ROOT?>')" >Contact</a></li>
                         <?lua
                         if not HEADER.mobile then
                         ?>
-                        <li> <i class = "fa fa-paper-plane"></i><a href="#" onclick="subscribe('rst')">Subscribe</a></li>
+                        <li> <i class = "fa fa-paper-plane"></i><a href="#" onclick="subscribe('<?=HTTP_ROOT?>')">Subscribe</a></li>
                         <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">AntOS</a></li>
                         <?lua end ?>
                 </ul>

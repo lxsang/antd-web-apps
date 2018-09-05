@@ -1,5 +1,4 @@
 <?lua
-local args = {...}
 local jsclass = __main__:get("jsclass")
 if jsclass == nil then jsclass = "" end
 ?>

@@ -161,7 +161,7 @@ function PostController:analyse(n)
         end
         self.template:set(message, "Analyse complete")
     else
-        self.template:set(message, "Cannotto analyse")
+        self.template:set(message, "Cannot analyse")
     end
     return true
 end
