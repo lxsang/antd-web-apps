@@ -15,7 +15,7 @@
     if not preview then
     ?>
         <span class="fa fa-file-pdf-o"></span>
-        <span class="text"><a href ="<?=HTTP_ROOT?>/index/pdf">Download</a></span>
+        <span class="text"><a href ="<?=HTTP_ROOT?>/index/pdf" target="_blank">Download</a></span>
     <?lua
     end
     ?>
