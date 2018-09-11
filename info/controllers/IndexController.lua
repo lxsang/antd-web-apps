@@ -50,3 +50,17 @@ end
 function IndexController:actionnotfound(...)
     return self:notoc(table.unpack({...}))
 end
+
+function IndexController:pdf(...)
+    local tmp_file = "/tmp/lxsang_cv.pdf"
+    local cmd = "wkhtmltopdf "..HTTP_ROOT.."/index/notoc "..tmp_file
+    local r = os.execute(cmd)
+    if r then
+        local mime = std.mimeOf(tmp_file)
+        std.header(mime)
+        std.fb(tmp_file)
+        return false
+    else
+        return self:error("Sorry.Problem generate PDF file")
+    end
+end

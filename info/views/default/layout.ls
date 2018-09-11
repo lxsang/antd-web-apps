@@ -4,10 +4,24 @@
         <script type="text/javascript" src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/style.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
+        <?lua
+            if not toc then
+        ?>
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/ubuntu-regular.css" />
+        <?lua
+            end
+        ?>
         <title>Porfolio</title>
     </head>
     <body>
-    <div class="layout">
+    <?lua
+        local classname = "layout"
+        if not toc then 
+            classname = "layoutprint"
+            if user then user:set("preview", true) end
+        end
+    ?>
+    <div class="<?=classname?>">
         <div class = "cv-content">
             <?lua
             if user then

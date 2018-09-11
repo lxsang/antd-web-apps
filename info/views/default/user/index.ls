@@ -11,6 +11,14 @@
     <span class="text"><?=data.email?></span>
     <span class="fa fa-globe"></span>
     <span class="text"><a href ="<?=data.url?>"><?=data.url?></a></span>
+    <?lua
+    if not preview then
+    ?>
+        <span class="fa fa-file-pdf-o"></span>
+        <span class="text"><a href ="<?=HTTP_ROOT?>/index/pdf">Download</a></span>
+    <?lua
+    end
+    ?>
 </p>
 <p class="shortbio">
     <span class="fa fa-quote-left"></span>
