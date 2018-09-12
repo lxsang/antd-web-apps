@@ -1,5 +1,6 @@
 <?lua
     std.html()
+    require("sqlite")
     local user = "mrsang"
     local die = function(m)
         echo(m)
@@ -8,7 +9,7 @@
     end
     local mobilecls = ""
     if HEADER.mobile then mobilecls = "mobile" end
-    local db = require("db.model").get(user,"user",nil)
+    local db = require("os.libs.dbmodel").get(user,"user",nil)
     if db == nil then die("cannot get db data") end
     local data, a = db:getAll()
     db:close()

@@ -93,9 +93,9 @@ end
 
 function AssetController:get(...)
     local path = WWW_ROOT..DIR_SEP..implode({...}, DIR_SEP)
-    local mime = std.mimeOf(path)
 
-    if ulib.exists(path) then
+    if self.registry.fileaccess and ulib.exists(path) then
+        local mime = std.mimeOf(path)
         if POLICY.mimes[mime] then
             std.header(mime)
             if std.isBinary(path) then
@@ -107,7 +107,7 @@ function AssetController:get(...)
             self:error("Access forbidden: "..path)
         end
     else
-        self:error("Asset file not found: "..path)
+        self:error("Asset file not found or access forbidden: "..path)
     end
     return false
 end
