@@ -113,7 +113,7 @@ vfs.write = function(path,data)
 		local uid = ulib.uid(SESSION.user)
 		--
 		if data ~= "" then
-			local header = string.match(data, "^data%:%w+%/%w+;base64,")
+			local header = string.match(data, "^data%:[%w%.-]+%/[%w%.-]+;base64,")
 			if header ~= nil then
 				local b64data = string.gsub(data, header,"")
 				local barr = std.b64decode(b64data)
@@ -124,6 +124,8 @@ vfs.write = function(path,data)
 					f:write(bytes.__tostring(barr))
 					f:close()
 				end
+			else
+				return false, "Wrong data format"
 			end
 		else
 			bytes.write(bytes.new(0),osfile)

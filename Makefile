@@ -1,6 +1,6 @@
 BUILDDIR = ./build
 projs = grs info blog apps
-copyfiles =  index.ls
+copyfiles =  index.ls mimes.json
 main: clean copy
 	for f in $(projs); do  make -C  "$${f}" ; done
 
