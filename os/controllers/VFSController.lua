@@ -232,7 +232,6 @@ function VFSController:write(...)
 
     if rq ~= nil then
         local r, m = require("vfs").write(rq.path, rq.data)
-        sqlite.dbclose()
         if r then
             result(r)
         else
