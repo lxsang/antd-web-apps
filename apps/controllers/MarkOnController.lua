@@ -3,7 +3,7 @@ BaseController:subclass("MarkOnController", {
 })
 
 function MarkOnController:index( ... )
-    self.template:set("jsclass", "MarkOn")
+    self.template:set("args", "['MarkOn']")
     return true
 end
 

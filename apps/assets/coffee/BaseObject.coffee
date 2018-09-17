@@ -1,3 +1,14 @@
+# private function
+require = (lib) ->
+    return new Promise (r, e) ->
+        return r() if window.libraries[lib]
+        $.getScript window.myuri + lib
+            .done (d) ->
+                window.libraries[lib] = true
+                r()
+            .fail (m, s) ->
+                e(m, s)
+
 class BaseObject
     constructor: (@name) ->
 

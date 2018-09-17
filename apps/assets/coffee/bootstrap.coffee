@@ -8,6 +8,7 @@ window.mobilecheck = () ->
 
 window.makeclass = (n, o) -> window.classes[n] = o
 
+### 
 window.require = (lib) ->
     return new Promise (r, e) ->
         return r() if window.libraries[lib]
@@ -16,4 +17,4 @@ window.require = (lib) ->
                 window.libraries[lib] = true
                 r()
             .fail (m, s) ->
-                e(m, s)
+                e(m, s) ###

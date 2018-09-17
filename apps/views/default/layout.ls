@@ -1,6 +1,6 @@
 <?lua
-local jsclass = __main__:get("jsclass")
-if jsclass == nil then jsclass = "" end
+local args = __main__:get("args")
+if args == nil then args = "[]" end
 ?>
 <html>
     <head>
@@ -16,8 +16,8 @@ if jsclass == nil then jsclass = "" end
         <script>
             $(window).on('load', function(){
                 window.myuri = '<?=HTTP_ROOT?>';
-                var manager = new window.classes.APIManager();
-                manager.init('<?=jsclass?>');
+                var manager = new window.classes.APIManager(<?=args?>);
+                manager.init();
             });
         </script>
     </head>
