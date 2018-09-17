@@ -15,6 +15,7 @@ class WVNC extends window.classes.BaseObject
 
     openSession: () ->
         me = @
+        $("#stop").click (e) -> me.socket.close() if me.socket
         @socket.close() if @socket
         return unless @uri
         @socket = new WebSocket @uri
@@ -30,7 +31,7 @@ class WVNC extends window.classes.BaseObject
             console.log "socket closed"
 
     initConnection: () ->
-        vncserver = "localhost:5901"
+        vncserver = "mrsang.local"
         @socket.send(@buildCommand 0x01, vncserver)
 
     buildCommand: (hex, o) ->
@@ -50,7 +51,41 @@ class WVNC extends window.classes.BaseObject
                 
 
     consume: (e) ->
-        console.log e
+        data = new Uint8Array e.data
+        cmd = data[0]
+        switch  cmd
+            when 0xFE #error
+                data = data.subarray 1, data.length - 1
+                dec = new TextDecoder("utf-8")
+                console.log "Error",dec.decode(data)
+            when 0x82
+                console.log "Request for login"
+                user = "mrsang"
+                pass = "!x$@n9"
+                arr = new Uint8Array user.length + pass.length + 1
+                arr.set (new TextEncoder()).encode(user), 0
+                arr.set ['\0'], user.length
+                arr.set (new TextEncoder()).encode(pass), user.length + 1
+                @socket.send(@buildCommand 0x03, arr)
+            when 0x83
+                console.log "resize"
+                w = data[1] | (data[2]<<8)
+                h = data[3] | (data[4]<<8)
+                depth = data[5]
+                console.log w,h,depth
+            when 0x84
+                console.log "update"
+                x = data[1] | (data[2]<<8)
+                y = data[3] | (data[4]<<8)
+                w = data[5] | (data[6]<<8)
+                h = data[7] | (data[8]<<8)
+                pixels = data.subarray 9, data.length - 1
+                console.log x,y,w,h, pixels.length
+            else
+                console.log cmd
+        #@socket.close()
+        
+
 WVNC.dependencies = [
 ]
 
