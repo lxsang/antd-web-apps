@@ -16,6 +16,12 @@ class WVNC extends window.classes.BaseObject
                 $("#connect").click (e) ->
                     me.counter  = 0
                     me.openSession()
+                ($ me.canvas).css "cursor","none"
+                ($ me.canvas).mousemove (e) ->
+                    rect = me.canvas.getBoundingClientRect()
+                    x = Math.floor(e.clientX - rect.left)
+                    y = Math.floor(e.clientY - rect.top)
+                    me.sendPointEvent x, y, 0
             .catch (m, s) ->
                 console.error(m, s)
 
@@ -27,8 +33,8 @@ class WVNC extends window.classes.BaseObject
         ctx = @buffer.getContext('2d')
         data = ctx.createImageData w, h
         ctx.putImageData data, 0, 0
-        @callback = () ->
-            me.draw()
+        #@callback = () ->
+        #    me.draw()
         @draw()
 
     updateCanvas: (x, y, w, h, pixels) ->
@@ -38,10 +44,10 @@ class WVNC extends window.classes.BaseObject
         imgData.data.set @getCanvasImageData(pixels, w, h)
         ctx.putImageData imgData, x, y
         @counter = @counter + 1
-        #@draw()
-        if @counter > 50
-            @draw()
-            @couter = 0
+        @draw()
+        #if @counter > 50
+        #    @draw()
+        #    @couter = 0
     
     getCanvasImageData: (pixels, w, h) ->
         return pixels if @depth is 32
@@ -61,7 +67,7 @@ class WVNC extends window.classes.BaseObject
     draw: () ->
         if not @socket
             return
-        scale = 0.75
+        scale = 1.0
         w = @buffer.width * scale
         h = @buffer.height * scale
         @canvas.width = w
@@ -108,8 +114,19 @@ class WVNC extends window.classes.BaseObject
             console.log "socket closed"
 
     initConnection: () ->
-        vncserver = "localhost:5901"
+        vncserver = "192.168.1.8:5900"
         @socket.send(@buildCommand 0x01, vncserver)
+
+    sendPointEvent: (x,y,mask) ->
+        return unless @socket
+        data = new Uint8Array 5
+        data[0] = x & 0xFF
+        data[1] = x >> 8
+        data[2] = y & 0xFF
+        data[3] = y >> 8
+        data[4] = 0 
+        #console.log x,y
+        @socket.send( @buildCommand 0x05, data )
 
     buildCommand: (hex, o) ->
         data = undefined
@@ -139,7 +156,7 @@ class WVNC extends window.classes.BaseObject
                 console.log "Error", dec.decode(data)
             when 0x81
                 console.log "Request for password"
-                pass = "!x$@n9"
+                pass = "sang"
                 @socket.send (@buildCommand 0x02, pass)
             when 0x82
                 console.log "Request for login"
