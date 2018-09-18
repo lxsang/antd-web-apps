@@ -14,7 +14,7 @@ main: js
 	- cd $(BUILDDIR) && ln -s ../grs ./rst
 
 js:
-	- rm assets/scripts/main.js
+	- rm assets/scripts/main.*
 	for f in $(coffees); do (cat "$${f}"; echo) >> assets/scripts/main.coffee; done
 	coffee --compile assets/scripts/main.coffee
 	-rm assets/scripts/main.coffee

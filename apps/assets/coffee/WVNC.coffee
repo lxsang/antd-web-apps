@@ -4,18 +4,95 @@ class WVNC extends window.classes.BaseObject
         @socket = undefined
         @uri = undefined
         @uri = @args[0] if @args and @args.length > 0
-
+        @canvas = undefined
+        @canvas = ($ @args[1])[0] if @args and @args.length > 1
+        @buffer = $("<canvas>")[0]
+        @counter = 0
     init: () ->
         me = @
         @ready()
             .then () ->
-                me.openSession()
+                $("#stop").click (e) -> me.socket.close() if me.socket
+                $("#connect").click (e) ->
+                    me.counter  = 0
+                    me.openSession()
             .catch (m, s) ->
                 console.error(m, s)
 
+    initCanvas: (w, h , d) ->
+        me = @
+        @depth = d
+        @buffer.width = w
+        @buffer.height = h
+        ctx = @buffer.getContext('2d')
+        data = ctx.createImageData w, h
+        ctx.putImageData data, 0, 0
+        @callback = () ->
+            me.draw()
+        @draw()
+
+    updateCanvas: (x, y, w, h, pixels) ->
+        ctx = @buffer.getContext('2d')
+        ctx.globalAlpha = 1.0
+        imgData = ctx.createImageData w, h
+        imgData.data.set @getCanvasImageData(pixels, w, h)
+        ctx.putImageData imgData, x, y
+        @counter = @counter + 1
+        #@draw()
+        if @counter > 50
+            @draw()
+            @couter = 0
+    
+    getCanvasImageData: (pixels, w, h) ->
+        return pixels if @depth is 32
+        step = @depth / 8
+        npixels = pixels.length / step
+        data = new Uint8ClampedArray w * h * 4
+        for i in [0..npixels - 1]
+            value = 0
+            value = value | pixels[i * step + j] << (j * 8) for j in [0..step - 1]
+            pixel = @pixelValue value
+            data[i * 4] = pixel.r
+            data[i * 4 + 1] = pixel.g
+            data[i * 4 + 2] = pixel.b
+            data[i * 4 + 3] = pixel.a
+        return data
+
+    draw: () ->
+        if not @socket
+            return
+        scale = 0.75
+        w = @buffer.width * scale
+        h = @buffer.height * scale
+        @canvas.width = w
+        @canvas.height = h
+        ctx = @canvas.getContext "2d"
+        ctx.save()
+        ctx.scale scale, scale
+        ctx.clearRect 0, 0, w, h
+        ctx.drawImage @buffer, 0, 0
+        ctx.restore()
+
+    pixelValue: (value) ->
+        pixel =
+            r: 255
+            g: 255
+            b: 255
+            a: 255
+        #console.log("len is" + arr.length)
+        if @depth is 24 or @depth is 32
+            pixel.r = value & 0xFF
+            pixel.g = (value >> 8) & 0xFF
+            pixel.b = (value >> 16) & 0xFF
+        else if @depth is 16
+            pixel.r = (value & 0x1F) * (255 / 31)
+            pixel.g = ((value >> 5) & 0x3F) * (255 / 63)
+            pixel.b = ((value >> 11) & 0x1F) * (255 / 31)
+        #console.log pixel
+        return pixel
+
     openSession: () ->
         me = @
-        $("#stop").click (e) -> me.socket.close() if me.socket
         @socket.close() if @socket
         return unless @uri
         @socket = new WebSocket @uri
@@ -31,7 +108,7 @@ class WVNC extends window.classes.BaseObject
             console.log "socket closed"
 
     initConnection: () ->
-        vncserver = "mrsang.local"
+        vncserver = "localhost:5901"
         @socket.send(@buildCommand 0x01, vncserver)
 
     buildCommand: (hex, o) ->
@@ -39,6 +116,8 @@ class WVNC extends window.classes.BaseObject
         switch typeof o
             when 'string'
                 data = (new TextEncoder()).encode(o)
+            when 'number'
+                data = new Uint8Array [o]
             else
                 data = o
         cmd = new Uint8Array data.length + 3
@@ -46,7 +125,7 @@ class WVNC extends window.classes.BaseObject
         cmd[2] = data.length >> 8
         cmd[1] = data.length & 0x0F
         cmd.set data, 3
-        console.log "the command is", cmd.buffer
+        #console.log "the command is", cmd.buffer
         return cmd.buffer
                 
 
@@ -57,7 +136,11 @@ class WVNC extends window.classes.BaseObject
             when 0xFE #error
                 data = data.subarray 1, data.length - 1
                 dec = new TextDecoder("utf-8")
-                console.log "Error",dec.decode(data)
+                console.log "Error", dec.decode(data)
+            when 0x81
+                console.log "Request for password"
+                pass = "!x$@n9"
+                @socket.send (@buildCommand 0x02, pass)
             when 0x82
                 console.log "Request for login"
                 user = "mrsang"
@@ -72,21 +155,28 @@ class WVNC extends window.classes.BaseObject
                 w = data[1] | (data[2]<<8)
                 h = data[3] | (data[4]<<8)
                 depth = data[5]
-                console.log w,h,depth
+                @initCanvas w, h, depth
+                # status command for ack
+                @socket.send(@buildCommand 0x04, 1)
             when 0x84
-                console.log "update"
+                #console.log "update"
                 x = data[1] | (data[2]<<8)
                 y = data[3] | (data[4]<<8)
                 w = data[5] | (data[6]<<8)
                 h = data[7] | (data[8]<<8)
-                pixels = data.subarray 9, data.length - 1
-                console.log x,y,w,h, pixels.length
+                zlib = data[9]
+                #console.log zlib
+                pixels = data.subarray 10
+                # the zlib is slower than expected
+                pixels =  pako.inflate(pixels) if zlib is 1
+                @updateCanvas x, y, w, h, pixels
+                # ack
+                #@socket.send(@buildCommand 0x04, 1)
             else
                 console.log cmd
-        #@socket.close()
         
-
 WVNC.dependencies = [
+    "/assets/scripts/pako.min.js"
 ]
 
 makeclass "WVNC", WVNC

@@ -3,7 +3,7 @@ BaseController:subclass("WvncController", {
 })
 
 function WvncController:index( ... )
-    self.template:set("args", "['WVNC', 'wss://localhost:9192/wvnc']")
+    self.template:set("args", "['WVNC', 'wss://localhost:9195/wvnc', '#canvas']")
     return true
 end
 
