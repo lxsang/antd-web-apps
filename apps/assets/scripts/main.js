@@ -217,7 +217,48 @@
       return this.draw();
     };
 
-    WVNC.prototype.updateCanvas = function(x, y, w, h, pixels) {
+    WVNC.prototype.decodeFB = function(d) {
+      var jpeg, pixels;
+      switch (d.flag) {
+        case 0x0:
+          return this.drawRaw(d.x, d.y, d.w, d.h, d.pixels);
+        case 0x1:
+          return this.drawJPEG(d.x, d.y, d.pixels);
+        case 0x2:
+          pixels = pako.inflate(d.pixels);
+          return this.drawRaw(d.x, d.y, d.w, d.h, pixels);
+        case 0x3:
+          jpeg = pako.inflate(d.pixels);
+          return this.drawJPEG(d.x, d.y, jpeg);
+      }
+    };
+
+    WVNC.prototype.drawJPEG = function(x, y, data) {
+      var blob, me, reader;
+      me = this;
+      blob = new Blob([data], {
+        type: "image/jpeg"
+      });
+      reader = new FileReader();
+      reader.onloadend = function() {
+        var hiddenImage;
+        hiddenImage = new Image();
+        hiddenImage.style.position = "absolute";
+        hiddenImage.style.left = "-99999px";
+        document.body.appendChild(hiddenImage);
+        hiddenImage.onload = function() {
+          var ctx;
+          ctx = me.buffer.getContext('2d');
+          ctx.drawImage(hiddenImage, x, y);
+          document.body.removeChild(hiddenImage);
+          return me.draw();
+        };
+        return hiddenImage.src = reader.result;
+      };
+      return reader.readAsDataURL(blob);
+    };
+
+    WVNC.prototype.drawRaw = function(x, y, w, h, pixels) {
       var ctx, imgData;
       ctx = this.buffer.getContext('2d');
       ctx.globalAlpha = 1.0;
@@ -225,10 +266,7 @@
       imgData.data.set(this.getCanvasImageData(pixels, w, h));
       ctx.putImageData(imgData, x, y);
       this.counter = this.counter + 1;
-      if (this.counter > 50) {
-        this.draw();
-        return this.couter = 0;
-      }
+      return this.draw();
     };
 
     WVNC.prototype.getCanvasImageData = function(pixels, w, h) {
@@ -357,7 +395,7 @@
     };
 
     WVNC.prototype.consume = function(e) {
-      var arr, cmd, data, dec, depth, h, pass, pixels, user, w, x, y, zlib;
+      var arr, cmd, d, data, dec, depth, h, pass, user, w;
       data = new Uint8Array(e.data);
       cmd = data[0];
       switch (cmd) {
@@ -386,16 +424,14 @@
           this.initCanvas(w, h, depth);
           return this.socket.send(this.buildCommand(0x04, 1));
         case 0x84:
-          x = data[1] | (data[2] << 8);
-          y = data[3] | (data[4] << 8);
-          w = data[5] | (data[6] << 8);
-          h = data[7] | (data[8] << 8);
-          zlib = data[9];
-          pixels = data.subarray(10);
-          if (zlib === 1) {
-            pixels = pako.inflate(pixels);
-          }
-          return this.updateCanvas(x, y, w, h, pixels);
+          d = {};
+          d.x = data[1] | (data[2] << 8);
+          d.y = data[3] | (data[4] << 8);
+          d.w = data[5] | (data[6] << 8);
+          d.h = data[7] | (data[8] << 8);
+          d.flag = data[9];
+          d.pixels = data.subarray(10);
+          return this.decodeFB(d);
         default:
           return console.log(cmd);
       }

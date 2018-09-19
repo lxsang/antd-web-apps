@@ -37,7 +37,38 @@ class WVNC extends window.classes.BaseObject
         #    me.draw()
         @draw()
 
-    updateCanvas: (x, y, w, h, pixels) ->
+    decodeFB: (d) ->
+        # the zlib is slower than expected
+        switch d.flag
+            when 0x0 # raw data
+                @drawRaw d.x, d.y, d.w, d.h, d.pixels
+            when 0x1 # jpeg data
+                @drawJPEG d.x, d.y, d.pixels
+            when 0x2 # raw compress in zlib format  
+                pixels =  pako.inflate(d.pixels)
+                @drawRaw d.x, d.y, d.w, d.h, pixels
+            when 0x3 # jpeg compress in zlib format
+                jpeg = pako.inflate(d.pixels)
+                @drawJPEG d.x, d.y, jpeg
+    
+    drawJPEG: (x, y, data) ->
+        me = @
+        blob = new Blob [data], { type: "image/jpeg" }
+        reader = new FileReader()
+        reader.onloadend = () ->
+            hiddenImage = new Image()
+            hiddenImage.style.position = "absolute"
+            hiddenImage.style.left = "-99999px"
+            document.body.appendChild hiddenImage
+            hiddenImage.onload =  () ->
+                ctx = me.buffer.getContext '2d'
+                ctx.drawImage hiddenImage, x, y
+                document.body.removeChild hiddenImage
+                me.draw()
+            hiddenImage.src = reader.result
+        reader.readAsDataURL blob
+
+    drawRaw: (x, y, w, h, pixels) ->
         ctx = @buffer.getContext('2d')
         ctx.globalAlpha = 1.0
         imgData = ctx.createImageData w, h
@@ -177,16 +208,15 @@ class WVNC extends window.classes.BaseObject
                 @socket.send(@buildCommand 0x04, 1)
             when 0x84
                 #console.log "update"
-                x = data[1] | (data[2]<<8)
-                y = data[3] | (data[4]<<8)
-                w = data[5] | (data[6]<<8)
-                h = data[7] | (data[8]<<8)
-                zlib = data[9]
+                d = {}
+                d.x = data[1] | (data[2]<<8)
+                d.y = data[3] | (data[4]<<8)
+                d.w = data[5] | (data[6]<<8)
+                d.h = data[7] | (data[8]<<8)
+                d.flag = data[9]
                 #console.log zlib
-                pixels = data.subarray 10
-                # the zlib is slower than expected
-                pixels =  pako.inflate(pixels) if zlib is 1
-                @updateCanvas x, y, w, h, pixels
+                d.pixels = data.subarray 10
+                @decodeFB d
                 # ack
                 #@socket.send(@buildCommand 0x04, 1)
             else
