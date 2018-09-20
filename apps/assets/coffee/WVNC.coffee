@@ -40,7 +40,7 @@ class WVNC extends window.classes.BaseObject
             me.sendPointEvent p.x, p.y, me.mouseMask
 
         return unless me.canvas
-        ($ me.canvas).css "cursor", "none"
+        #($ me.canvas).css "cursor", "none"
         ($ me.canvas).contextmenu (e) ->
             e.preventDefault()
             return false
@@ -61,16 +61,11 @@ class WVNC extends window.classes.BaseObject
         
         me.canvas.onkeydown = me.canvas.onkeyup = me.canvas.onkeypress = (e) ->
             # get the key code
-            if e.key is "Shift"
-                code = 16
-            else if e.ctrlKey
-                code = 17
-            else if e.altKey
-                code = 18
-            else if e.metaKey
-                code = 91
-            else
-                code = String.charCodeAt(e.key)
+            keycode = e.keyCode
+            if ((keycode > 47 and keycode < 58) or (keycode > 64 and keycode < 91)  or (keycode > 95 and keycode < 112)  or (keycode > 185 and keycode < 193) or (keycode > 218 && keycode < 223))
+                code = e.key.charCodeAt(0)
+            else 
+                code = keycode
             if e.type is "keydown"
                 me.sendKeyEvent code, 1
             else if e.type is "keyup"
@@ -150,9 +145,9 @@ class WVNC extends window.classes.BaseObject
             console.log "socket closed"
 
     initConnection: () ->
-        vncserver = "localhost:5901"
+        vncserver = "192.168.1.20:5901"
         data = new Uint8Array vncserver.length + 5
-        data[0] = 16 # bbp
+        data[0] = 32 # bbp
         ###
         flag:
             0: raw data no compress
@@ -160,7 +155,7 @@ class WVNC extends window.classes.BaseObject
             2: raw data compressed by zlib
             3: jpeg data compressed by zlib
         ###
-        data[1] = 2
+        data[1] = 3
         data[2] = 50 # jpeg quality
         ## rate in milisecond
         rate = 30
@@ -186,7 +181,7 @@ class WVNC extends window.classes.BaseObject
         data = new Uint8Array 2
         data[0] = code
         data[1] = v
-        console.log String.fromCharCode(code), v
+        console.log code, v
         @socket.send( @buildCommand 0x06, data )
 
     buildCommand: (hex, o) ->
@@ -217,7 +212,7 @@ class WVNC extends window.classes.BaseObject
                 console.log "Error", dec.decode(data)
             when 0x81
                 console.log "Request for password"
-                pass = "!x$@n9"
+                pass = "lxsan9"#"!x$@n9"
                 @socket.send (@buildCommand 0x02, pass)
             when 0x82
                 console.log "Request for login"
