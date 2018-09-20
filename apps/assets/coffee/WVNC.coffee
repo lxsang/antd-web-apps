@@ -7,126 +7,131 @@ class WVNC extends window.classes.BaseObject
         @canvas = undefined
         @canvas = ($ @args[1])[0] if @args and @args.length > 1
         @buffer = $("<canvas>")[0]
-        @counter = 0
+        @lastPose = { x: 0, y: 0 }
+        @scale = 0.8
+        @decoder = new Worker('/assets/scripts/decoder.js')
+        me = @
+        @mouseMask = 0
+        @decoder.onmessage = (e) ->
+            me.process e.data
     init: () ->
         me = @
         @ready()
             .then () ->
                 $("#stop").click (e) -> me.socket.close() if me.socket
                 $("#connect").click (e) ->
-                    me.counter  = 0
                     me.openSession()
-                ($ me.canvas).css "cursor","none"
-                ($ me.canvas).mousemove (e) ->
-                    rect = me.canvas.getBoundingClientRect()
-                    x = Math.floor(e.clientX - rect.left)
-                    y = Math.floor(e.clientY - rect.top)
-                    me.sendPointEvent x, y, 0
+                me.initInputEvent()
             .catch (m, s) ->
                 console.error(m, s)
+
+    initInputEvent: () ->
+        me = @
+
+        getMousePos = (e) ->
+            rect = me.canvas.getBoundingClientRect()
+            pos=
+                x:  Math.floor((e.clientX - rect.left) / me.scale)
+                y: Math.floor((e.clientY - rect.top) / me.scale)
+            return pos
+
+        sendMouseLocation = (e) ->
+            p = getMousePos e
+            me.sendPointEvent p.x, p.y, me.mouseMask
+
+        return unless me.canvas
+        ($ me.canvas).css "cursor", "none"
+        ($ me.canvas).contextmenu (e) ->
+            e.preventDefault()
+            return false
+
+        ($ me.canvas).mousemove (e) -> sendMouseLocation e
+
+        ($ me.canvas).mousedown (e) ->
+            state = 1 << e.button
+            me.mouseMask = me.mouseMask | state
+            sendMouseLocation e
+            #e.preventDefault()
+
+        ($ me.canvas).mouseup (e) ->
+            state = 1 << e.button
+            me.mouseMask = me.mouseMask & (~state)
+            sendMouseLocation e
+            #e.preventDefault()
+        
+        me.canvas.onkeydown = me.canvas.onkeyup = me.canvas.onkeypress = (e) ->
+            # get the key code
+            if e.key is "Shift"
+                code = 16
+            else if e.ctrlKey
+                code = 17
+            else if e.altKey
+                code = 18
+            else if e.metaKey
+                code = 91
+            else
+                code = String.charCodeAt(e.key)
+            if e.type is "keydown"
+                me.sendKeyEvent code, 1
+            else if e.type is "keyup"
+                me.sendKeyEvent code, 0
+            e.preventDefault()
+
+        # mouse wheel event
+        hamster = Hamster @canvas
+        hamster.wheel (event, delta, deltaX, deltaY) ->
+            p = getMousePos event.originalEvent
+            if delta > 0
+                me.sendPointEvent p.x, p.y, 8
+                me.sendPointEvent p.x, p.y, 0
+                return
+            me.sendPointEvent p.x, p.y, 16
+            me.sendPointEvent p.x, p.y, 0
 
     initCanvas: (w, h , d) ->
         me = @
         @depth = d
         @buffer.width = w
         @buffer.height = h
+        @resolution =
+            w: w,
+            h: h,
+            depth: @depth
+        @decoder.postMessage @resolution
         ctx = @buffer.getContext('2d')
         data = ctx.createImageData w, h
         ctx.putImageData data, 0, 0
-        #@callback = () ->
-        #    me.draw()
-        @draw()
 
-    decodeFB: (d) ->
-        # the zlib is slower than expected
-        switch d.flag
-            when 0x0 # raw data
-                @drawRaw d.x, d.y, d.w, d.h, d.pixels
-            when 0x1 # jpeg data
-                @drawJPEG d.x, d.y, d.pixels
-            when 0x2 # raw compress in zlib format  
-                pixels =  pako.inflate(d.pixels)
-                @drawRaw d.x, d.y, d.w, d.h, pixels
-            when 0x3 # jpeg compress in zlib format
-                jpeg = pako.inflate(d.pixels)
-                @drawJPEG d.x, d.y, jpeg
-    
-    drawJPEG: (x, y, data) ->
-        me = @
-        blob = new Blob [data], { type: "image/jpeg" }
-        reader = new FileReader()
-        reader.onloadend = () ->
-            hiddenImage = new Image()
-            hiddenImage.style.position = "absolute"
-            hiddenImage.style.left = "-99999px"
-            document.body.appendChild hiddenImage
-            hiddenImage.onload =  () ->
-                ctx = me.buffer.getContext '2d'
-                ctx.drawImage hiddenImage, x, y
-                document.body.removeChild hiddenImage
-                me.draw()
-            hiddenImage.src = reader.result
-        reader.readAsDataURL blob
-
-    drawRaw: (x, y, w, h, pixels) ->
+    process: (data) ->
+        data.pixels = new Uint8ClampedArray data.pixels
+        data.pixels = data.pixels.subarray 10 if data.flag is 0 and @resolution.depth is 32
         ctx = @buffer.getContext('2d')
-        ctx.globalAlpha = 1.0
-        imgData = ctx.createImageData w, h
-        imgData.data.set @getCanvasImageData(pixels, w, h)
-        ctx.putImageData imgData, x, y
-        @counter = @counter + 1
+        imgData = ctx.createImageData data.w, data.h
+        imgData.data.set data.pixels
+        ctx.putImageData imgData, data.x, data.y
+        
+        @draw()  if data.x isnt @lastPose.x or data.y > @resolution.h - 10
+        @lastPose = { x: data.x, y: data.y }
+        
+
+    setScale: (n) ->
+        @scale = n
         @draw()
-        #if @counter > 50
-        #    @draw()
-        #    @couter = 0
-    
-    getCanvasImageData: (pixels, w, h) ->
-        return pixels if @depth is 32
-        step = @depth / 8
-        npixels = pixels.length / step
-        data = new Uint8ClampedArray w * h * 4
-        for i in [0..npixels - 1]
-            value = 0
-            value = value | pixels[i * step + j] << (j * 8) for j in [0..step - 1]
-            pixel = @pixelValue value
-            data[i * 4] = pixel.r
-            data[i * 4 + 1] = pixel.g
-            data[i * 4 + 2] = pixel.b
-            data[i * 4 + 3] = pixel.a
-        return data
 
     draw: () ->
         if not @socket
             return
-        scale = 1.0
-        w = @buffer.width * scale
-        h = @buffer.height * scale
+
+        w = @buffer.width * @scale
+        h = @buffer.height * @scale
         @canvas.width = w
         @canvas.height = h
         ctx = @canvas.getContext "2d"
         ctx.save()
-        ctx.scale scale, scale
+        ctx.scale @scale, @scale
         ctx.clearRect 0, 0, w, h
         ctx.drawImage @buffer, 0, 0
         ctx.restore()
-
-    pixelValue: (value) ->
-        pixel =
-            r: 255
-            g: 255
-            b: 255
-            a: 255
-        #console.log("len is" + arr.length)
-        if @depth is 24 or @depth is 32
-            pixel.r = value & 0xFF
-            pixel.g = (value >> 8) & 0xFF
-            pixel.b = (value >> 16) & 0xFF
-        else if @depth is 16
-            pixel.r = (value & 0x1F) * (255 / 31)
-            pixel.g = ((value >> 5) & 0x3F) * (255 / 63)
-            pixel.b = ((value >> 11) & 0x1F) * (255 / 31)
-        #console.log pixel
-        return pixel
 
     openSession: () ->
         me = @
@@ -145,19 +150,44 @@ class WVNC extends window.classes.BaseObject
             console.log "socket closed"
 
     initConnection: () ->
-        vncserver = "192.168.1.8:5900"
-        @socket.send(@buildCommand 0x01, vncserver)
+        vncserver = "localhost:5901"
+        data = new Uint8Array vncserver.length + 5
+        data[0] = 16 # bbp
+        ###
+        flag:
+            0: raw data no compress
+            1: jpeg no compress
+            2: raw data compressed by zlib
+            3: jpeg data compressed by zlib
+        ###
+        data[1] = 2
+        data[2] = 50 # jpeg quality
+        ## rate in milisecond
+        rate = 30
+        data[3] = rate & 0xFF
+        data[4] = (rate >> 8) & 0xFF
 
-    sendPointEvent: (x,y,mask) ->
+        data.set (new TextEncoder()).encode(vncserver), 5
+        @socket.send(@buildCommand 0x01, data)
+
+    sendPointEvent: (x, y, mask) ->
         return unless @socket
         data = new Uint8Array 5
         data[0] = x & 0xFF
         data[1] = x >> 8
         data[2] = y & 0xFF
         data[3] = y >> 8
-        data[4] = 0 
+        data[4] = mask
         #console.log x,y
         @socket.send( @buildCommand 0x05, data )
+
+    sendKeyEvent: (code, v) ->
+        return unless @socket
+        data = new Uint8Array 2
+        data[0] = code
+        data[1] = v
+        console.log String.fromCharCode(code), v
+        @socket.send( @buildCommand 0x06, data )
 
     buildCommand: (hex, o) ->
         data = undefined
@@ -187,7 +217,7 @@ class WVNC extends window.classes.BaseObject
                 console.log "Error", dec.decode(data)
             when 0x81
                 console.log "Request for password"
-                pass = "sang"
+                pass = "!x$@n9"
                 @socket.send (@buildCommand 0x02, pass)
             when 0x82
                 console.log "Request for login"
@@ -208,22 +238,15 @@ class WVNC extends window.classes.BaseObject
                 @socket.send(@buildCommand 0x04, 1)
             when 0x84
                 #console.log "update"
-                d = {}
-                d.x = data[1] | (data[2]<<8)
-                d.y = data[3] | (data[4]<<8)
-                d.w = data[5] | (data[6]<<8)
-                d.h = data[7] | (data[8]<<8)
-                d.flag = data[9]
-                #console.log zlib
-                d.pixels = data.subarray 10
-                @decodeFB d
+                @decoder.postMessage data.buffer, [data.buffer]
+                #@decodeFB d
                 # ack
                 #@socket.send(@buildCommand 0x04, 1)
             else
                 console.log cmd
         
 WVNC.dependencies = [
-    "/assets/scripts/pako.min.js"
+    "/assets/scripts/hamster.js"
 ]
 
 makeclass "WVNC", WVNC
