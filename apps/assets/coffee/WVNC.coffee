@@ -6,9 +6,8 @@ class WVNC extends window.classes.BaseObject
         @uri = @args[0] if @args and @args.length > 0
         @canvas = undefined
         @canvas = ($ @args[1])[0] if @args and @args.length > 1
-        @buffer = $("<canvas>")[0]
         @lastPose = { x: 0, y: 0 }
-        @scale = 0.8
+        @scale = 1.0
         @decoder = new Worker('/assets/scripts/decoder.js')
         me = @
         @mouseMask = 0
@@ -40,7 +39,7 @@ class WVNC extends window.classes.BaseObject
             me.sendPointEvent p.x, p.y, me.mouseMask
 
         return unless me.canvas
-        ($ me.canvas).css "cursor", "none"
+        #($ me.canvas).css "cursor", "none"
         ($ me.canvas).contextmenu (e) ->
             e.preventDefault()
             return false
@@ -91,47 +90,30 @@ class WVNC extends window.classes.BaseObject
     initCanvas: (w, h , d) ->
         me = @
         @depth = d
-        @buffer.width = w
-        @buffer.height = h
+        @canvas.width = w
+        @canvas.height = h
         @resolution =
             w: w,
             h: h,
             depth: @depth
         @decoder.postMessage @resolution
-        ctx = @buffer.getContext('2d')
-        data = ctx.createImageData w, h
-        ctx.putImageData data, 0, 0
 
-    process: (data) ->
-        data.pixels = new Uint8ClampedArray data.pixels
-        data.pixels = data.pixels.subarray 10 if data.flag is 0 and @resolution.depth is 32
-        ctx = @buffer.getContext('2d')
-        imgData = ctx.createImageData data.w, data.h
-        imgData.data.set data.pixels
-        ctx.putImageData imgData, data.x, data.y
-        
-        @draw()  if data.x isnt @lastPose.x or data.y > @resolution.h - 10
-        @lastPose = { x: data.x, y: data.y }
+    process: (msg) ->
+        if not @socket
+            return
+        data = new Uint8Array msg.buffer
+        #w = @buffer.width * @scale
+        #h = @buffer.height * @scale
+        ctx = @canvas.getContext "2d"
+        imgData = ctx.createImageData  msg.w, msg.h
+        imgData.data.set data
+        ctx.putImageData imgData, msg.x, msg.y
         
 
     setScale: (n) ->
         @scale = n
         @draw()
 
-    draw: () ->
-        if not @socket
-            return
-
-        w = @buffer.width * @scale
-        h = @buffer.height * @scale
-        @canvas.width = w
-        @canvas.height = h
-        ctx = @canvas.getContext "2d"
-        ctx.save()
-        ctx.scale @scale, @scale
-        ctx.clearRect 0, 0, w, h
-        ctx.drawImage @buffer, 0, 0
-        ctx.restore()
 
     openSession: () ->
         me = @
@@ -152,7 +134,7 @@ class WVNC extends window.classes.BaseObject
     initConnection: () ->
         vncserver = "localhost:5901"
         data = new Uint8Array vncserver.length + 5
-        data[0] = 16 # bbp
+        data[0] = 32 # bbp
         ###
         flag:
             0: raw data no compress
@@ -160,7 +142,7 @@ class WVNC extends window.classes.BaseObject
             2: raw data compressed by zlib
             3: jpeg data compressed by zlib
         ###
-        data[1] = 2
+        data[1] = 3
         data[2] = 50 # jpeg quality
         ## rate in milisecond
         rate = 30
@@ -237,11 +219,8 @@ class WVNC extends window.classes.BaseObject
                 # status command for ack
                 @socket.send(@buildCommand 0x04, 1)
             when 0x84
-                #console.log "update"
+                # send data to web assembly for decoding
                 @decoder.postMessage data.buffer, [data.buffer]
-                #@decodeFB d
-                # ack
-                #@socket.send(@buildCommand 0x04, 1)
             else
                 console.log cmd
         

@@ -17,7 +17,7 @@ LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
 
 -- require needed library
 require(BASE_FRW.."silk.api")
-
+POLICY.mimes["application/wasm"] = true
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level

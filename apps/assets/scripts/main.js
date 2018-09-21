@@ -176,12 +176,11 @@
       if (this.args && this.args.length > 1) {
         this.canvas = ($(this.args[1]))[0];
       }
-      this.buffer = $("<canvas>")[0];
       this.lastPose = {
         x: 0,
         y: 0
       };
-      this.scale = 0.8;
+      this.scale = 1.0;
       this.decoder = new Worker('/assets/scripts/decoder.js');
       me = this;
       this.mouseMask = 0;
@@ -228,7 +227,6 @@
       if (!me.canvas) {
         return;
       }
-      ($(me.canvas)).css("cursor", "none");
       ($(me.canvas)).contextmenu(function(e) {
         e.preventDefault();
         return false;
@@ -283,61 +281,34 @@
     };
 
     WVNC.prototype.initCanvas = function(w, h, d) {
-      var ctx, data, me;
+      var me;
       me = this;
       this.depth = d;
-      this.buffer.width = w;
-      this.buffer.height = h;
+      this.canvas.width = w;
+      this.canvas.height = h;
       this.resolution = {
         w: w,
         h: h,
         depth: this.depth
       };
-      this.decoder.postMessage(this.resolution);
-      ctx = this.buffer.getContext('2d');
-      data = ctx.createImageData(w, h);
-      return ctx.putImageData(data, 0, 0);
+      return this.decoder.postMessage(this.resolution);
     };
 
-    WVNC.prototype.process = function(data) {
-      var ctx, imgData;
-      data.pixels = new Uint8ClampedArray(data.pixels);
-      if (data.flag === 0 && this.resolution.depth === 32) {
-        data.pixels = data.pixels.subarray(10);
+    WVNC.prototype.process = function(msg) {
+      var ctx, data, imgData;
+      if (!this.socket) {
+        return;
       }
-      ctx = this.buffer.getContext('2d');
-      imgData = ctx.createImageData(data.w, data.h);
-      imgData.data.set(data.pixels);
-      ctx.putImageData(imgData, data.x, data.y);
-      if (data.x !== this.lastPose.x || data.y > this.resolution.h - 10) {
-        this.draw();
-      }
-      return this.lastPose = {
-        x: data.x,
-        y: data.y
-      };
+      data = new Uint8Array(msg.buffer);
+      ctx = this.canvas.getContext("2d");
+      imgData = ctx.createImageData(msg.w, msg.h);
+      imgData.data.set(data);
+      return ctx.putImageData(imgData, msg.x, msg.y);
     };
 
     WVNC.prototype.setScale = function(n) {
       this.scale = n;
       return this.draw();
-    };
-
-    WVNC.prototype.draw = function() {
-      var ctx, h, w;
-      if (!this.socket) {
-        return;
-      }
-      w = this.buffer.width * this.scale;
-      h = this.buffer.height * this.scale;
-      this.canvas.width = w;
-      this.canvas.height = h;
-      ctx = this.canvas.getContext("2d");
-      ctx.save();
-      ctx.scale(this.scale, this.scale);
-      ctx.clearRect(0, 0, w, h);
-      ctx.drawImage(this.buffer, 0, 0);
-      return ctx.restore();
     };
 
     WVNC.prototype.openSession = function() {
@@ -368,7 +339,7 @@
       var data, rate, vncserver;
       vncserver = "localhost:5901";
       data = new Uint8Array(vncserver.length + 5);
-      data[0] = 16;
+      data[0] = 32;
 
       /*
       flag:
@@ -377,7 +348,7 @@
           2: raw data compressed by zlib
           3: jpeg data compressed by zlib
        */
-      data[1] = 2;
+      data[1] = 3;
       data[2] = 50;
       rate = 30;
       data[3] = rate & 0xFF;
