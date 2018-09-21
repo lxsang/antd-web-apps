@@ -176,11 +176,7 @@
       if (this.args && this.args.length > 1) {
         this.canvas = ($(this.args[1]))[0];
       }
-      this.lastPose = {
-        x: 0,
-        y: 0
-      };
-      this.scale = 1.0;
+      this.scale = 0.8;
       this.decoder = new Worker('/assets/scripts/decoder.js');
       me = this;
       this.mouseMask = 0;
@@ -227,6 +223,7 @@
       if (!me.canvas) {
         return;
       }
+      ($(me.canvas)).css("cursor", "none");
       ($(me.canvas)).contextmenu(function(e) {
         e.preventDefault();
         return false;
@@ -246,20 +243,103 @@
         me.mouseMask = me.mouseMask & (~state);
         return sendMouseLocation(e);
       });
-      me.canvas.onkeydown = me.canvas.onkeyup = me.canvas.onkeypress = function(e) {
+      me.canvas.onkeydown = me.canvas.onkeyup = function(e) {
         var code, keycode;
         keycode = e.keyCode;
-        if ((keycode > 47 && keycode < 58) || (keycode > 64 && keycode < 91) || (keycode > 95 && keycode < 112) || (keycode > 185 && keycode < 193) || (keycode > 218 && keycode < 223)) {
-          code = e.key.charCodeAt(0);
-        } else {
-          code = keycode;
+        switch (keycode) {
+          case 8:
+            code = 0xFF08;
+            break;
+          case 9:
+            code = 0xff89;
+            break;
+          case 13:
+            code = 0xFF0D;
+            break;
+          case 27:
+            code = 0xFF1B;
+            break;
+          case 46:
+            code = 0xFFFF;
+            break;
+          case 38:
+            code = 0xFF52;
+            break;
+          case 40:
+            code = 0xFF54;
+            break;
+          case 37:
+            code = 0xFF51;
+            break;
+          case 39:
+            code = 0xFF53;
+            break;
+          case 91:
+            code = 0xFFE7;
+            break;
+          case 93:
+            code = 0xFFE8;
+            break;
+          case 16:
+            code = 0xFFE1;
+            break;
+          case 17:
+            code = 0xFFE3;
+            break;
+          case 18:
+            code = 0xFFE9;
+            break;
+          case 20:
+            code = 0xFFE5;
+            break;
+          case 113:
+            code = 0xFFBF;
+            break;
+          case 112:
+            code = 0xFFBE;
+            break;
+          case 114:
+            code = 0xFFC0;
+            break;
+          case 115:
+            code = 0xFFC1;
+            break;
+          case 116:
+            code = 0xFFC2;
+            break;
+          case 117:
+            code = 0xFFC3;
+            break;
+          case 118:
+            code = 0xFFC4;
+            break;
+          case 119:
+            code = 0xFFC5;
+            break;
+          case 120:
+            code = 0xFFC6;
+            break;
+          case 121:
+            code = 0xFFC7;
+            break;
+          case 122:
+            code = 0xFFC8;
+            break;
+          case 123:
+            code = 0xFFC9;
+            break;
+          default:
+            code = e.key.charCodeAt(0);
+        }
+        e.preventDefault();
+        if (!code) {
+          return;
         }
         if (e.type === "keydown") {
-          me.sendKeyEvent(code, 1);
+          return me.sendKeyEvent(code, 1);
         } else if (e.type === "keyup") {
-          me.sendKeyEvent(code, 0);
+          return me.sendKeyEvent(code, 0);
         }
-        return e.preventDefault();
       };
       hamster = Hamster(this.canvas);
       return hamster.wheel(function(event, delta, deltaX, deltaY) {
@@ -281,12 +361,14 @@
       this.depth = d;
       this.canvas.width = w;
       this.canvas.height = h;
-      this.resolution = {
+      this.engine = {
         w: w,
         h: h,
-        depth: this.depth
+        depth: this.depth,
+        wasm: true
       };
-      return this.decoder.postMessage(this.resolution);
+      this.decoder.postMessage(this.engine);
+      return this.setScale(this.scale);
     };
 
     WVNC.prototype.process = function(msg) {
@@ -294,8 +376,10 @@
       if (!this.socket) {
         return;
       }
-      data = new Uint8Array(msg.buffer);
-      ctx = this.canvas.getContext("2d");
+      data = new Uint8Array(msg.pixels);
+      ctx = this.canvas.getContext("2d", {
+        alpha: false
+      });
       imgData = ctx.createImageData(msg.w, msg.h);
       imgData.data.set(data);
       return ctx.putImageData(imgData, msg.x, msg.y);
@@ -303,7 +387,8 @@
 
     WVNC.prototype.setScale = function(n) {
       this.scale = n;
-      return this.draw();
+      this.canvas.style.transformOrigin = '0 0';
+      return this.canvas.style.transform = 'scale(' + n + ')';
     };
 
     WVNC.prototype.openSession = function() {
@@ -331,9 +416,9 @@
     };
 
     WVNC.prototype.initConnection = function() {
-      var data, rate, vncserver;
+      var data, vncserver;
       vncserver = "192.168.1.20:5901";
-      data = new Uint8Array(vncserver.length + 5);
+      data = new Uint8Array(vncserver.length + 3);
       data[0] = 32;
 
       /*
@@ -343,12 +428,9 @@
           2: raw data compressed by zlib
           3: jpeg data compressed by zlib
        */
-      data[1] = 3;
-      data[2] = 50;
-      rate = 30;
-      data[3] = rate & 0xFF;
-      data[4] = (rate >> 8) & 0xFF;
-      data.set((new TextEncoder()).encode(vncserver), 5);
+      data[1] = 1;
+      data[2] = 40;
+      data.set((new TextEncoder()).encode(vncserver), 3);
       return this.socket.send(this.buildCommand(0x01, data));
     };
 
@@ -371,9 +453,10 @@
       if (!this.socket) {
         return;
       }
-      data = new Uint8Array(2);
-      data[0] = code;
-      data[1] = v;
+      data = new Uint8Array(3);
+      data[0] = code & 0xFF;
+      data[1] = code >> 8;
+      data[2] = v;
       console.log(code, v);
       return this.socket.send(this.buildCommand(0x06, data));
     };

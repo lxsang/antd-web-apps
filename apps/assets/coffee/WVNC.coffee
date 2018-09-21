@@ -6,8 +6,7 @@ class WVNC extends window.classes.BaseObject
         @uri = @args[0] if @args and @args.length > 0
         @canvas = undefined
         @canvas = ($ @args[1])[0] if @args and @args.length > 1
-        @lastPose = { x: 0, y: 0 }
-        @scale = 1.0
+        @scale = 0.8
         @decoder = new Worker('/assets/scripts/decoder.js')
         me = @
         @mouseMask = 0
@@ -39,7 +38,7 @@ class WVNC extends window.classes.BaseObject
             me.sendPointEvent p.x, p.y, me.mouseMask
 
         return unless me.canvas
-        #($ me.canvas).css "cursor", "none"
+        ($ me.canvas).css "cursor", "none"
         ($ me.canvas).contextmenu (e) ->
             e.preventDefault()
             return false
@@ -58,18 +57,50 @@ class WVNC extends window.classes.BaseObject
             sendMouseLocation e
             #e.preventDefault()
         
-        me.canvas.onkeydown = me.canvas.onkeyup = me.canvas.onkeypress = (e) ->
+        me.canvas.onkeydown = me.canvas.onkeyup = (e) ->
             # get the key code
             keycode = e.keyCode
-            if ((keycode > 47 and keycode < 58) or (keycode > 64 and keycode < 91)  or (keycode > 95 and keycode < 112)  or (keycode > 185 and keycode < 193) or (keycode > 218 && keycode < 223))
-                code = e.key.charCodeAt(0)
-            else 
-                code = keycode
+            #console.log e
+            switch keycode
+                when 8  then code = 0xFF08 #back space
+                when 9  then code = 0xff89 #0xFF09 # tab ?
+                when 13 then code = 0xFF0D # return
+                when 27 then code = 0xFF1B # esc
+                when 46 then code = 0xFFFF # delete to verify
+                when 38 then code = 0xFF52 # up
+                when 40 then code = 0xFF54 # down
+                when 37 then code = 0xFF51 # left
+                when 39 then code = 0xFF53 # right
+                when 91 then code = 0xFFE7 # meta left
+                when 93 then code = 0xFFE8 # meta right
+                when 16 then code = 0xFFE1 # shift left
+                when 17 then code = 0xFFE3 # ctrl left
+                when 18 then code = 0xFFE9 # alt left
+                when 20 then code = 0xFFE5 # capslock
+                when 113 then code = 0xFFBF # f2
+                when 112 then code = 0xFFBE # f1
+                when 114 then code = 0xFFC0 # f3
+                when 115 then code = 0xFFC1 # f4
+                when 116 then code = 0xFFC2 # f5
+                when 117 then code = 0xFFC3 # f6
+                when 118 then code = 0xFFC4 # f7
+                when 119 then code = 0xFFC5 # f8
+                when 120 then code = 0xFFC6 # f9
+                when 121 then code =  0xFFC7 # f10
+                when 122 then code = 0xFFC8 # f11
+                when 123 then code = 0xFFC9 # f12
+                else
+                    code = e.key.charCodeAt(0) #if not e.ctrlKey and not e.altKey
+            #if ((keycode > 47 and keycode < 58) or (keycode > 64 and keycode < 91)  or (keycode > 95 and keycode < 112)  or (keycode > 185 and keycode < 193) or (keycode > 218 && keycode < 223))
+            #    code = e.key.charCodeAt(0)
+            #else 
+            #    code = keycode
+            e.preventDefault()
+            return unless code
             if e.type is "keydown"
                 me.sendKeyEvent code, 1
             else if e.type is "keyup"
                 me.sendKeyEvent code, 0
-            e.preventDefault()
 
         # mouse wheel event
         hamster = Hamster @canvas
@@ -87,19 +118,21 @@ class WVNC extends window.classes.BaseObject
         @depth = d
         @canvas.width = w
         @canvas.height = h
-        @resolution =
+        @engine =
             w: w,
             h: h,
-            depth: @depth
-        @decoder.postMessage @resolution
+            depth: @depth,
+            wasm: true
+        @decoder.postMessage @engine
+        @setScale @scale
 
     process: (msg) ->
         if not @socket
             return
-        data = new Uint8Array msg.buffer
+        data = new Uint8Array msg.pixels
         #w = @buffer.width * @scale
         #h = @buffer.height * @scale
-        ctx = @canvas.getContext "2d"
+        ctx = @canvas.getContext "2d", { alpha: false }
         imgData = ctx.createImageData  msg.w, msg.h
         imgData.data.set data
         ctx.putImageData imgData, msg.x, msg.y
@@ -107,7 +140,8 @@ class WVNC extends window.classes.BaseObject
 
     setScale: (n) ->
         @scale = n
-        @draw()
+        @canvas.style.transformOrigin = '0 0'
+        @canvas.style.transform = 'scale(' + n + ')'
 
 
     openSession: () ->
@@ -128,7 +162,7 @@ class WVNC extends window.classes.BaseObject
 
     initConnection: () ->
         vncserver = "192.168.1.20:5901"
-        data = new Uint8Array vncserver.length + 5
+        data = new Uint8Array vncserver.length + 3
         data[0] = 32 # bbp
         ###
         flag:
@@ -137,14 +171,11 @@ class WVNC extends window.classes.BaseObject
             2: raw data compressed by zlib
             3: jpeg data compressed by zlib
         ###
-        data[1] = 3
-        data[2] = 50 # jpeg quality
+        data[1] = 1
+        data[2] = 40 # jpeg quality
         ## rate in milisecond
-        rate = 30
-        data[3] = rate & 0xFF
-        data[4] = (rate >> 8) & 0xFF
 
-        data.set (new TextEncoder()).encode(vncserver), 5
+        data.set (new TextEncoder()).encode(vncserver), 3
         @socket.send(@buildCommand 0x01, data)
 
     sendPointEvent: (x, y, mask) ->
@@ -155,14 +186,14 @@ class WVNC extends window.classes.BaseObject
         data[2] = y & 0xFF
         data[3] = y >> 8
         data[4] = mask
-        #console.log x,y
         @socket.send( @buildCommand 0x05, data )
 
     sendKeyEvent: (code, v) ->
         return unless @socket
-        data = new Uint8Array 2
-        data[0] = code
-        data[1] = v
+        data = new Uint8Array 3
+        data[0] = code & 0xFF
+        data[1] = code >> 8
+        data[2] = v
         console.log code, v
         @socket.send( @buildCommand 0x06, data )
 
