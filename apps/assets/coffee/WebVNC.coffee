@@ -27,14 +27,14 @@ class WebVNC extends window.classes.BaseObject
             return new Promise (r,e) ->
                 r('demo', 'demo')
         @client.oncopy = (text) ->
-            ($ "#clipboard")[0].value = text
+            cosole.log text
         @client.init()
             .then () ->
                 $("#connect").click (e) ->
                     me.client.connect "/opt/www/vnc.conf", {
                         bbp: 32,
                         flag: 3,
-                        quality: 10
+                        quality: 40
                     }
                 $("#tbstatus").html "32bbp, compress JPEG & ZLib, JPEG quality 10%"
                 $("#stop").click (e) ->
