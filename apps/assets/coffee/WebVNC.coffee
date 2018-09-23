@@ -22,25 +22,28 @@ class WebVNC extends window.classes.BaseObject
         me = @
         @client.onpassword = () ->
             return new Promise (r,e) ->
-                r('lxsan9')
+                r('demopass')
         @client.oncredential = () ->
             return new Promise (r,e) ->
-                r('mrsang', '!x$@n9')
+                r('demo', 'demo')
         @client.oncopy = (text) ->
             ($ "#clipboard")[0].value = text
         @client.init()
             .then () ->
                 $("#connect").click (e) ->
-                    me.client.connect "192.168.1.20:5901", {
+                    me.client.connect "/opt/www/vnc.conf", {
                         bbp: 32,
                         flag: 3,
-                        quality: 30
+                        quality: 10
                     }
+                $("#tbstatus").html "32bbp, compress JPEG & ZLib, JPEG quality 10%"
                 $("#stop").click (e) ->
                     me.client.disconnect()
-                
-                $("#btclipboard").click (e) ->
-                    me.client.sendTextAsClipboard ($ "#clipboard")[0].value
+                $("#selscale").on 'change', (e) ->
+                    value = Number(@value)/100
+                    me.client.setScale value
+                #$("#btclipboard").click (e) ->
+                #    me.client.sendTextAsClipboard ($ "#clipboard")[0].value
             .catch (m,s) ->
                 console.error m, s
 WebVNC.dependencies = [

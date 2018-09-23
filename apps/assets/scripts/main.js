@@ -188,12 +188,12 @@
       me = this;
       this.client.onpassword = function() {
         return new Promise(function(r, e) {
-          return r('lxsan9');
+          return r('demopass');
         });
       };
       this.client.oncredential = function() {
         return new Promise(function(r, e) {
-          return r('mrsang', '!x$@n9');
+          return r('demo', 'demo');
         });
       };
       this.client.oncopy = function(text) {
@@ -201,17 +201,20 @@
       };
       return this.client.init().then(function() {
         $("#connect").click(function(e) {
-          return me.client.connect("192.168.1.20:5901", {
+          return me.client.connect("/Users/mrsang/Documents/build/www/vnc.conf", {
             bbp: 32,
             flag: 3,
-            quality: 30
+            quality: 10
           });
         });
+        $("#tbstatus").html("32bbp, compress JPEG & ZLib, JPEG quality 10%");
         $("#stop").click(function(e) {
           return me.client.disconnect();
         });
-        return $("#btclipboard").click(function(e) {
-          return me.client.sendTextAsClipboard(($("#clipboard"))[0].value);
+        return $("#selscale").on('change', function(e) {
+          var value;
+          value = Number(this.value) / 100;
+          return me.client.setScale(value);
         });
       })["catch"](function(m, s) {
         return console.error(m, s);
