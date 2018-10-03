@@ -5,7 +5,6 @@ coffees = 	assets/coffee/bootstrap.coffee \
 			assets/coffee/BaseObject.coffee \
 			assets/coffee/APIManager.coffee \
 			assets/coffee/MarkOn.coffee \
-			assets/coffee/WVNC.coffee \
 			assets/coffee/WebVNC.coffee
 
 SED=sed
@@ -17,7 +16,7 @@ endif
 main: js
 	- mkdir -p $(BUILDDIR)/assets
 	cp -rf $(copyfiles) $(BUILDDIR)
-	cp -r assets/css assets/scripts assets/shs $(BUILDDIR)/assets
+	cp -r assets/css assets/scripts  $(BUILDDIR)/assets
 	- cd $(BUILDDIR) && ln -s ../grs ./rst
 
 js:

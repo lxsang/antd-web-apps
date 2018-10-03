@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/os"
-HTTP_ROOT = "https://wos.localhost:9195"
+HTTP_ROOT = "https://wos.localhost:9192"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class

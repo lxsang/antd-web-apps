@@ -14,6 +14,7 @@ class WebVNC extends window.classes.BaseObject
         args = 
         {
             element: 'canvas',
+            #ws: 'wss://localhost:9192/wvnc',
             ws: 'wss://lxsang.me/wvnc',
             worker: '/assets/scripts/decoder.js'
         }
@@ -34,9 +35,9 @@ class WebVNC extends window.classes.BaseObject
                     me.client.connect "/opt/www/vnc.conf", {
                         bbp: 32,
                         flag: 3,
-                        quality: 40
+                        quality: 30
                     }
-                $("#tbstatus").html "32bbp, compress JPEG & ZLib, JPEG quality 10%"
+                $("#tbstatus").html "32bbp, compression JPEG & ZLib, JPEG quality 30%"
                 $("#stop").click (e) ->
                     me.client.disconnect()
                 $("#selscale").on 'change', (e) ->
