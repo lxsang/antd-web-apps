@@ -24,7 +24,7 @@ function Router:infer(url)
     -- c,d,e is parameters
     -- if user dont provide the url, try to infer it
     -- from the REQUEST
-    url = url or REQUEST.query.r or ""
+    url = url or REQUEST.r or ""
     url = std.trim(url, "/")
     local args = explode(url, "/")
     local data = {

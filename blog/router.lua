@@ -18,8 +18,8 @@ POST_LIMIT = 2
 -- require needed library
 require(BASE_FRW.."silk.api")
 
-if REQUEST.query.r then
-    REQUEST.query.r = REQUEST.query.r:gsub("%:", "/")
+if REQUEST.r then
+    REQUEST.r = REQUEST.r:gsub("%:", "/")
 end
 
 -- registry object store global variables

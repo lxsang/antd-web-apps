@@ -26,7 +26,7 @@ end
 
 function SystemController:packages(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     local packages = require("packages")
     packages.init(rq.args.paths)
     if rq ~= nil then
@@ -52,10 +52,10 @@ function SystemController:settings(...)
     local user = SESSION.user
     if user then
         local ospath = require("vfs").ospath("home:///", user)
-        if REQUEST.query and REQUEST.query.json then
+        if REQUEST and REQUEST.json then
             local f = io.open(ospath .. "/" .. ".settings.json", "w")
             if f then
-                f:write(REQUEST.query.json)
+                f:write(REQUEST.json)
                 f:close()
                 result(true)
             else
@@ -72,10 +72,10 @@ end
 function SystemController:application(...)
     auth_or_die("User unauthorized. Please login")
     local rq = nil
-    if REQUEST.query.json ~= nil then
-        rq = (JSON.decodeString(REQUEST.query.json))
+    if REQUEST.json ~= nil then
+        rq = (JSON.decodeString(REQUEST.json))
     else
-        rq = REQUEST.query
+        rq = REQUEST
     end
 
     if rq.path ~= nil then
@@ -97,7 +97,7 @@ end
 
 function SystemController:apigateway(...)
     local use_ws = false
-    if REQUEST.query and REQUEST.query.ws == "1" then
+    if REQUEST and REQUEST.ws == "1" then
         -- override the global echo command
         echo = std.ws.swrite
         use_ws = true
@@ -180,8 +180,8 @@ function SystemController:apigateway(...)
                     print("Web socket is not available.")
                 end
             else
-                if REQUEST.query.json then
-                    data = JSON.decodeString(REQUEST.query.json)
+                if REQUEST.json then
+                    data = JSON.decodeString(REQUEST.json)
                     --std.json()
                     exec_with_user_priv(data)
                 else

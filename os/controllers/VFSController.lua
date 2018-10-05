@@ -32,7 +32,7 @@ end
 
 function VFSController:fileinfo(...)
     auth_or_die("User unauthorized. Please login")
-    local vfspath = (JSON.decodeString(REQUEST.query.json)).path
+    local vfspath = (JSON.decodeString(REQUEST.json)).path
     local r, m = require("vfs").fileinfo(vfspath)
     if r then
         result(m)
@@ -46,7 +46,7 @@ function VFSController:exists(...)
     auth_or_die("User unauthorized. Please login")
 
     local vfs = require("vfs")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
 
     if rq ~= nil then
         result(vfs.exists(rq.path))
@@ -60,7 +60,7 @@ function VFSController:delete(...)
     auth_or_die("User unauthorized. Please login")
 
     local vfs = require("vfs")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
 
     if rq ~= nil then
         local r, e = vfs.delete(rq.path)
@@ -120,7 +120,7 @@ end
 function VFSController:mkdir(...)
     auth_or_die("User unauthorized. Please login")
 
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
 
     if rq ~= nil then
         local r, m = require("vfs").mkdir(rq.path)
@@ -138,7 +138,7 @@ end
 function VFSController:move(...)
     auth_or_die("User unauthorized. Please login")
 
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
 
     if rq ~= nil then
         local r, m = require("vfs").move(rq.src, rq.dest)
@@ -156,7 +156,7 @@ end
 function VFSController:publish(...)
     auth_or_die("User unauthorized. Please login")
 
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
 
     if rq ~= nil then
         local p = nil
@@ -198,7 +198,7 @@ end
 
 function VFSController:scandir(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = JSON.decodeString(REQUEST.query.json)
+    local rq = JSON.decodeString(REQUEST.json)
     local vfspath = rq.path
     local r = require("vfs").readDir(vfspath)
     if r == nil then
@@ -213,8 +213,8 @@ end
 function VFSController:upload(...)
     auth_or_die("User unauthorized. Please login")
     local vfs = require("vfs")
-    if REQUEST.query then
-        local r, m = require("vfs").upload(REQUEST.query.path)
+    if REQUEST then
+        local r, m = require("vfs").upload(REQUEST.path)
         if r then
             result(r)
         else
@@ -228,7 +228,7 @@ end
 
 function VFSController:write(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
 
     if rq ~= nil then
         local r, m = require("vfs").write(rq.path, rq.data)

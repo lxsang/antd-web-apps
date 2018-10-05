@@ -48,7 +48,7 @@
         <?lua
             echo("<ul>")
             for k,v in pairs(similar_posts) do
-                echo("<li><a href='./r:id:"..v.st.sid.."'>"..v.post.title.."</a> (<b>Score</b>: "..string.format("%2.2f",v.st.score)..")</li>")
+                echo("<li><a href='./"..v.st.sid.."'>"..v.post.title.."</a> (<b>Score</b>: "..string.format("%2.2f",v.st.score)..")</li>")
             end
             echo("</ul>")
         end?>

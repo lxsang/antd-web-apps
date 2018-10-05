@@ -39,8 +39,8 @@ end
     return:
         {} ]]
 function UserController:login(...)
-    if REQUEST.query.json ~= nil then
-        local request = JSON.decodeString(REQUEST.query.json)
+    if REQUEST.json ~= nil then
+        local request = JSON.decodeString(REQUEST.json)
         local r = ulib.auth(request.username,request.password)
         if r == true then
             local cookie = {sessionid=std.sha1(request.username..request.password)} -- iotos_user = request.username

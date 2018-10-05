@@ -26,7 +26,7 @@ end
 
 function VDBController:save(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     if (rq ~= nil and rq.table ~= nil) then
         local model = require("dbmodel").get(SESSION.user, rq.table, rq.data)
         local ret
@@ -54,7 +54,7 @@ end
 
 function VDBController:get(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     if (rq ~= nil and rq.table ~= nil) then
         local model = require("dbmodel").get(SESSION.user, rq.table, nil)
         local ret
@@ -76,7 +76,7 @@ end
 
 function VDBController:select(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     if (rq ~= nil and rq.table ~= nil) then
         local model = require("dbmodel").get(SESSION.user, rq.table, nil)
         local ret
@@ -99,7 +99,7 @@ end
 
 function VDBController:delete(...)
     auth_or_die("User unauthorized. Please login")
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     if (rq ~= nil and rq.table ~= nil) then
         local model = require("dbmodel").get(SESSION.user, rq.table, nil)
         local ret

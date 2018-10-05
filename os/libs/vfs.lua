@@ -143,8 +143,8 @@ vfs.upload = function(path)
 	local r,m = vfs.checkperm(path,"write")
 	if(r) then
 		local uid = ulib.uid(SESSION.user)
-		local file = m.."/"..REQUEST.query["upload.file"]
-		ulib.move(REQUEST.query["upload.tmp"], file)
+		local file = m.."/"..REQUEST["upload.file"]
+		ulib.move(REQUEST["upload.tmp"], file)
 		ulib.chown(file, uid.id, uid.gid)
 		return true, nil
 	else
