@@ -189,6 +189,7 @@ function SystemController:apigateway(...)
                 end
             end
             print("Child exit")
+            ulib.kill(-1)
         end
     else
         echo('{"error":"User unauthorized. Please login"}')
