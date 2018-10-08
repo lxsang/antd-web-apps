@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/os"
-HTTP_ROOT = "https://wos.localhost:9192"
+HTTP_ROOT = "http://os.localhost:9192"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
@@ -27,15 +27,15 @@ require("common")
 local REGISTRY = {}
 -- set logging level
 REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
-REGISTRY.db = DBHelper:new{db="sysdb"}
+--REGISTRY.db = DBHelper:new{db="sysdb"}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true
 
-REGISTRY.db:open()
+--REGISTRY.db:open()
 local router = Router:new{registry = REGISTRY}
 REGISTRY.router = router
 router:setPath(CONTROLLER_ROOT)
 
 router:delegate()
-if REGISTRY.db then REGISTRY.db:close() end
+--if REGISTRY.db then REGISTRY.db:close() end
 
