@@ -29,6 +29,8 @@ class WebVNC extends window.classes.BaseObject
                 r('demo', 'demo')
         @client.oncopy = (text) ->
             cosole.log text
+        @client.onerror = (m) ->
+            alert(m)
         @client.init()
             .then () ->
                 $("#connect").click (e) ->

@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/info"
-HTTP_ROOT = "https://info.localhost:9195/"
+HTTP_ROOT = "https://info.lxsang.me"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
@@ -21,7 +21,7 @@ require(BASE_FRW.."silk.api")
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
+REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
 REGISTRY.db = DBHelper:new{db="mrsang"}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true

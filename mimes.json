@@ -15,5 +15,9 @@
     "apj": {
         "mime": "text/antos-project",
         "binary": false
+    },
+    "wasm": {
+        "mime": "application/wasm",
+        "binary": true
     }
 }

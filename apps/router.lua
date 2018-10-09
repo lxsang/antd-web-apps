@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/apps"
-HTTP_ROOT = "https://10.1.10.84:9195/apps"
+HTTP_ROOT = "https://apps.lxsang.me"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
@@ -21,7 +21,7 @@ POLICY.mimes["application/wasm"] = true
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
+REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
 REGISTRY.db = DBHelper:new{db="iosapps"}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true
@@ -33,7 +33,7 @@ router:setPath(CONTROLLER_ROOT)
 --router:route('edit', 'post/edit', "ALL" )
 
 -- example of depedencies to the current main route
--- each layout may have different dependencies
+--[[ -- each layout may have different dependencies
 local default_routes_dependencies = {
     edit = {
         url = "post/edit",
@@ -48,8 +48,8 @@ local default_routes_dependencies = {
     --    url = "cat/index",
     --    visibility = "ALL"
     --}
-}
-router:route('default', default_routes_dependencies )
+} 
+router:route('default', default_routes_dependencies )]]
 router:delegate()
 if REGISTRY.db then REGISTRY.db:close() end
 

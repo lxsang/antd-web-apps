@@ -199,6 +199,9 @@
       this.client.oncopy = function(text) {
         return cosole.log(text);
       };
+      this.client.onerror = function(m) {
+        return alert(m);
+      };
       return this.client.init().then(function() {
         $("#connect").click(function(e) {
           return me.client.connect("/opt/www/vnc.conf", {

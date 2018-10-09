@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/os"
-HTTP_ROOT = "http://os.localhost:9192"
+HTTP_ROOT = "https://os.lxsang.me"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
@@ -26,7 +26,7 @@ require("common")
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
+REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
 --REGISTRY.db = DBHelper:new{db="sysdb"}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true

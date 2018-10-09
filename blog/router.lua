@@ -5,7 +5,7 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = "/opt/www/htdocs/blog"
-HTTP_ROOT = "https://blog.localhost:9195"
+HTTP_ROOT = "https://blog.lxsang.me"
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
@@ -25,7 +25,7 @@ end
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = true, ERROR = true, DEBUG = true}}
+REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
 REGISTRY.db = DBHelper:new{db="mrsang"}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true
@@ -52,8 +52,8 @@ router:setPath(CONTROLLER_ROOT)
             }
         }
     }
-} ]]
-router:route('default', default_routes_dependencies )
+} 
+router:route('default', default_routes_dependencies )]]
 router:remap("index", "post")
 router:remap("r", "post")
 router:delegate()
