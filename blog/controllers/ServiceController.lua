@@ -17,10 +17,10 @@ function result(obj)
 end
 
 function ServiceController:sendmail()
-    if not REQUEST.query.json then
+    if not REQUEST.json then
         fail("unknown request")
     end
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     local to = "xsang.le@gmail.com"
     local from = "From: " .. rq.email .. "\n"
     local suject = "Subject: " .. rq.subject .. "\n"
@@ -40,10 +40,10 @@ function ServiceController:sendmail()
 end
 
 function ServiceController:subscribe()
-    if not REQUEST.query.json then
+    if not REQUEST.json then
         fail("unknown request")
     end
-    local rq = (JSON.decodeString(REQUEST.query.json))
+    local rq = (JSON.decodeString(REQUEST.json))
     -- check if email is exist
     local data = self.subscribers:find({exp = {["="] = {email = rq.email}}})
     if data and #data > 0 then

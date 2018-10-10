@@ -1,8 +1,8 @@
 
-if not REQUEST.query.json then
+if not REQUEST.json then
     fail("unknown request")
 end
-local rq = (JSON.decodeString(REQUEST.query.json))
+local rq = (JSON.decodeString(REQUEST.json))
 local  to = "xsang.le@gmail.com"
 local from = "From: "..rq.email.."\n"
 local suject = "Subject: "..rq.subject.."\n"

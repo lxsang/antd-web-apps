@@ -1,8 +1,8 @@
 
-if not REQUEST.query.json then
+if not REQUEST.json then
     fail("unknown request")
 end
-local rq = (JSON.decodeString(REQUEST.query.json))
+local rq = (JSON.decodeString(REQUEST.json))
 local sample = {name = "toto", email = "toto@mail.fr"}
 local db = require("db.model").get("mrsang","subscribers",sample)
 
