@@ -4,8 +4,12 @@
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
 DIR_SEP = "/"
-WWW_ROOT = "/opt/www/htdocs/os"
-HTTP_ROOT = "https://os.lxsang.me"
+WWW_ROOT = __ROOT__.."/os"
+if HEADER.host then
+    HTTP_ROOT= "https://"..HEADER.host
+else
+    HTTP_ROOT = "https://os.lxsang.me"
+end
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class

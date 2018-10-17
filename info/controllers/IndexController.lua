@@ -52,7 +52,7 @@ function IndexController:actionnotfound(...)
 end
 
 function IndexController:pdf(...)
-    local tmp_file = "/tmp/lxsang_cv.pdf"
+    local tmp_file = WWW_ROOT.."/lxsang_cv.pdf"
     local cmd = "wkhtmltopdf "..HTTP_ROOT.."/index/notoc "..tmp_file
     local r = os.execute(cmd)
     if r then

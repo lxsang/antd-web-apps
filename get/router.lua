@@ -4,8 +4,12 @@
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
 DIR_SEP = "/"
-WWW_ROOT = "/opt/www/htdocs/get"
-HTTP_ROOT = "https://get.makeand.run"
+WWW_ROOT = __ROOT__.."/get"
+if HEADER.host then
+    HTTP_ROOT= "https://"..HEADER.host
+else
+    HTTP_ROOT = "https://get.makeand.run"
+end
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
