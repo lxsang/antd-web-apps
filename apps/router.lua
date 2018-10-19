@@ -5,8 +5,8 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = __ROOT__.."/apps"
-if HEADER.host then
-    HTTP_ROOT= "https://"..HEADER.host
+if HEADER.Host then
+    HTTP_ROOT= "https://"..HEADER.Host
 else
     HTTP_ROOT = "https://apps.lxsang.me"
 end

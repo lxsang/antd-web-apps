@@ -30,6 +30,12 @@
     /*color: #414339;*/
 }
 
+.layout div.container{
+    display: none;
+}
+.layout div.container_active{
+    display: block;
+}
 .layoutprint{
     max-width:960px;
     font-family: "Ubuntu";
@@ -39,7 +45,9 @@
     flex-direction: row-reverse;
     color: #414339;
 }
-
+.layoutprint div.container{
+    display: block;
+}
 h1 {
     font-size: 25px;
     text-align: center;
@@ -93,12 +101,21 @@ h1 .cv{
     color:#878887;
 }
 
-.container h1{
+.container h1, .container_active h1, .container_footer h1{
     font-size:20px;
     text-align: left;
     color:#3170B2;
     border-bottom: 1px solid #3170B2;
 }
+.toc_active {
+    font-weight: bold;
+}
+
+.cv-toc ul li.toc_active a{
+    /*border-bottom: 1px dashed #878887;*/
+    color:#3170B2;
+}
+
 a{
     text-decoration: none;
     color:#3170B2;

@@ -5,8 +5,8 @@
 -- some global variables
 DIR_SEP = "/"
 WWW_ROOT = __ROOT__.."/blog"
-if HEADER.host then
-    HTTP_ROOT= "https://"..HEADER.host
+if HEADER.Host then
+    HTTP_ROOT= "https://"..HEADER.Host
 else
     HTTP_ROOT = "https://blog.lxsang.me"
 end
@@ -18,7 +18,7 @@ MODEL_ROOT = BASE_FRW.."blog.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
 LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
-POST_LIMIT = 2
+POST_LIMIT = 10
 -- require needed library
 require(BASE_FRW.."silk.api")
 

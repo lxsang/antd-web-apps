@@ -1,12 +1,13 @@
 <?lua
     if not data then return end
-
+    local active = "_active"
     for k,v in pairs(data) do
         if v.children then
 ?>
-        <div class="container" id =<?='"toc'..v.id..'"'?>>
+        <div class="container<?=active?>" id =<?='"toc'..v.id..'"'?>>
             <h1><?=v.name:gsub("^%d+%.","")?></h1>
         <?lua
+            active = ''
             for l,child in pairs(v.children) do
         ?>
             <div class="sub-container">
@@ -50,9 +51,10 @@
 <?lua 
         else
 ?>
-            <div class="container" id =<?='"toc'..v.id..'"'?>>
+            <div class="container<?=active?>" id =<?='"toc'..v.id..'"'?>>
                 <h1><?=v.name?></h1>
             <?lua
+            active = ''
             if v.sections then
                 for m, entry in pairs(v.sections) do
             ?>

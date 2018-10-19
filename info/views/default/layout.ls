@@ -11,6 +11,22 @@
         <?lua
             end
         ?>
+        <script>
+            var switchTab = function(id, e)
+            {
+                var els = document.getElementsByClassName("container_active");
+                var tab = document.getElementById(id)
+                var tactiv = document.getElementsByClassName("toc_active");
+                if(els.length == 0) return;
+                if(!tab) return;
+                if(tactiv.length == 0) return;
+                els[0].className = "container";
+                tab.className = "container_active";
+                tactiv[0].className = "";
+                e.parentElement.className = "toc_active";
+                console.log('switch to ', id, e);
+            }
+        </script>
         <title>Porfolio</title>
     </head>
     <body>
@@ -31,7 +47,7 @@
                 __main__:render()
             end
             ?>
-            <div class = "container">
+            <div class = "container_footer">
                 <h1 style="margin:0;"></h1>
                 <p style="text-align:right; padding:0; margin:0;color:#878887;">Powered by antd server, (C) 2017-2018 Xuan Sang LE</p>
             </div>
