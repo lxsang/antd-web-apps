@@ -146,8 +146,8 @@ function SystemController:apigateway(...)
         if (pid == -1) then
             echo("{'error':'Cannot create process'}")
         elseif pid > 0 then -- parent
-            -- wait for the child exit
-            ulib.waitpid(pid)
+            -- wait for the child exit or websocket exit
+            ulib.waitpid(pid, 0)
             print("Parent exit")
         else -- child
             if use_ws then
