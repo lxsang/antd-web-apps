@@ -7,7 +7,7 @@ BaseController:subclass(
 )
 
 local sectionsByCid = function(db, id)
-    local cond = {exp = {["="] = {cid = id}}, order = {start = "DESC"}}
+    local cond = {exp = { ["and"] = {{["="] = {cid = id}}, {["= "] = {publish = 1}} }}, order = {start = "DESC"}}
     local data, a = db:find(cond)
     return data, a
 end
