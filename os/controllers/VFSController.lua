@@ -83,10 +83,10 @@ function VFSController:get(...)
     local r, m = require("vfs").checkperm(vfsfile, "read")
     if r then
         local mime = std.mimeOf(m)
+        local finfo = ulib.file_stat(m)
+        local len = tostring(math.floor(finfo.size))
+        local len1 = tostring(math.floor(finfo.size - 1))
         if mime == "audio/mpeg" then
-            local finfo = ulib.file_stat(m)
-            local len = tostring(math.floor(finfo.size))
-            local len1 = tostring(math.floor(finfo.size - 1))
             std.status(200, "OK")
             std.custom_header("Pragma", "public")
             std.custom_header("Expires", "0")
@@ -100,11 +100,12 @@ function VFSController:get(...)
             std.custom_header("Cache-Control", "no-cache, no-store")
             std.custom_header("Connection", "Keep-Alive")
             std.custom_header("Etag", "a404b-c3f-47c3a14937c80")
-            std.header_flush()
         else
-            std.header(mime)
+            std.status(200, "OK")
+            std.custom_header("Content-Type", mime)
+            std.custom_header("Content-Length", len)
         end
-
+        std.header_flush()
         if std.is_bin(m) then
             std.fb(m)
         else
