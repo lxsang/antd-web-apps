@@ -31,12 +31,7 @@ shared.get =  function(sharedid)
     else
         
         local p = shared.ospath(sharedid)
-        std.header(std.mimeOf(p))
-        if std.is_bin(p) then
-            std.fb(p)
-        else
-            std.f(p)
-        end
+        std.sendFile(p)
     end
 end
 

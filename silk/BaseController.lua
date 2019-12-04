@@ -97,12 +97,7 @@ function AssetController:get(...)
     if self.registry.fileaccess and ulib.exists(path) then
         local mime = std.mimeOf(path)
         if POLICY.mimes[mime] then
-            std.header(mime)
-            if std.isBinary(path) then
-                std.fb(path)
-            else
-                std.f(path)
-            end
+            std.sendFile(path)
         else 
             self:error("Access forbidden: "..path)
         end
