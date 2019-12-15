@@ -117,13 +117,14 @@ vfs.write = function(path,data)
 			if header ~= nil then
 				local b64data = string.gsub(data, header,"")
 				local barr = std.b64decode(b64data)
-				if std.isBinary(osfile) then
-					bytes.write(barr,osfile)
+				bytes.write(barr,osfile)
+				--[[ if std.isBinary(osfile) then
+					
 				else
 					local f = io.open(osfile, "w")
 					f:write(bytes.__tostring(barr))
 					f:close()
-				end
+				end ]]
 			else
 				return false, "Wrong data format"
 			end
