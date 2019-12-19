@@ -1,5 +1,3 @@
-BUILDDIR = ../build/apps
-
 copyfiles =  router.lua controllers logs views models 
 coffees = 	assets/coffee/bootstrap.coffee \
 			assets/coffee/BaseObject.coffee \
@@ -23,7 +21,4 @@ js:
 	- rm assets/scripts/main.*
 	for f in $(coffees); do (cat "$${f}"; echo) >> assets/scripts/main.coffee; done
 	coffee --compile assets/scripts/main.coffee
-	-rm assets/scripts/main.coffee
-
-clean:
-	rm -rf $(BUILDDIR)/*  
+	-rm assets/scripts/main.coffee 
