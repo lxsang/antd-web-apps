@@ -1,6 +1,6 @@
-copyfiles =   views models controllers logs libs router.lua
+copyfiles =    controllers  libs router.lua
 
 main:
 	- mkdir $(BUILDDIR)
-	- cp -rfv $(copyfiles) $(BUILDDIR)
+	cp -rfv $(copyfiles) $(BUILDDIR)
 	- cd $(BUILDDIR) && ln -s ../grs ./rst

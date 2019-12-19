@@ -1,5 +1,5 @@
 copyfiles =  router.lua shs  
 main:
 	- mkdir -p $(BUILDDIR)
-	cp -rf $(copyfiles) $(BUILDDIR)
+	cp -rvf $(copyfiles) $(BUILDDIR)
 	- cd $(BUILDDIR) && ln -s ../grs ./rst 
