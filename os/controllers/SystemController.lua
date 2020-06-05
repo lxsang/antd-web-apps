@@ -101,8 +101,8 @@ function SystemController:apigateway(...)
         -- override the global echo command
         echo = std.ws.swrite
         use_ws = true
-    else
-        std.json()
+    --else
+    --    std.json()
     end
     local exec_with_user_priv = function(data)
         local uid = ulib.uid(SESSION.user)

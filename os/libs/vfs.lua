@@ -61,7 +61,7 @@ end
 
 vfs.mkdir = function(path)
 	local file = std.basename(path)
-	local folder = string.gsub(path, utils.escape_pattern(file),"")
+	local folder = string.gsub(path, utils.escape_pattern(file).."$","")
 	local r,m = vfs.checkperm(folder,"write")
 	
 	if r then
