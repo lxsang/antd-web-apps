@@ -98,7 +98,7 @@
                 <div class = "logo"><a href = "https://lxsang.me"></a></div>
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="<?=HTTP_ROOT?>">Home</a></li>
-                        <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
+                        <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Portfolio</a></li>
                         <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('<?=HTTP_ROOT?>')" >Contact</a></li>
                         <?lua
                         if not HEADER.mobile then
