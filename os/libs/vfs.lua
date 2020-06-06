@@ -115,7 +115,7 @@ vfs.write = function(path,data)
 		if data ~= "" then
 			local header = string.match(data, "^data%:[%w%.-]+%/[%w%.-]+;base64,")
 			if header ~= nil then
-				local b64data = string.gsub(data, header,"")
+				local b64data = string.gsub(data, utils.escape_pattern(header),"")
 				local barr = std.b64decode(b64data)
 				bytes.write(barr,osfile)
 				--[[ if std.isBinary(osfile) then
