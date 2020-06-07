@@ -26,7 +26,8 @@ require(BASE_FRW.."silk.api")
 local REGISTRY = {}
 -- set logging level
 REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
-REGISTRY.db = DBHelper:new{db="mrsang"}
+REGISTRY.user = "mrsang"
+REGISTRY.db = DBHelper:new{db=REGISTRY.user}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true
 
@@ -60,9 +61,10 @@ BaseController:subclass("NotfoundController",{ registry = {}, models = {} })
 function NotfoundController:index(...)
     local args = {...}
     local user = args[1]:gsub("Controller", ""):lower();
-    REQUEST.r = "index"
+    REQUEST.r = "index/"..std.trim(REQUEST.r:gsub(user, ""), "/")
     if REGISTRY.db then REGISTRY.db:close() end
-    REGISTRY.db = DBHelper:new{db = user}
+    REGISTRY.user = user
+    REGISTRY.db = DBHelper:new{db=REGISTRY.user}
     REGISTRY.db:open()
     router:delegate()
 end

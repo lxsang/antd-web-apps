@@ -52,8 +52,8 @@ function IndexController:actionnotfound(...)
 end
 
 function IndexController:pdf(...)
-    local tmp_file = WWW_ROOT.."/lxsang_cv.pdf"
-    local cmd = "wkhtmltopdf "..HTTP_ROOT.."/index/notoc "..tmp_file
+    local tmp_file = WWW_ROOT.."/cv_exported.pdf"
+    local cmd = "wkhtmltopdf "..HTTP_ROOT.."/"..self.registry.user.."/notoc "..tmp_file
     local r = os.execute(cmd)
     if r then
         local mime = std.mimeOf(tmp_file)
