@@ -71,7 +71,6 @@ function DBHelper:find(tbl, cond)
 		sel = table.concat(cond.fields, ",")
 		--print(sel)
 	end
-	--print(cnd)
 	local data = sqlite.select(self.db, tbl, sel, cnd)
 	if data == nil then return nil end
 	local a = {}

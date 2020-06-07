@@ -54,6 +54,18 @@ local default_routes_dependencies = {
     }
 }
 router:route('default', default_routes_dependencies )
+
+BaseController:subclass("NotfoundController",{ registry = {}, models = {} })
+
+function NotfoundController:index(...)
+    local args = {...}
+    local user = args[1]:gsub("Controller", ""):lower();
+    REQUEST.r = "index"
+    if REGISTRY.db then REGISTRY.db:close() end
+    REGISTRY.db = DBHelper:new{db = user}
+    REGISTRY.db:open()
+    router:delegate()
+end
 router:delegate()
 if REGISTRY.db then REGISTRY.db:close() end
 

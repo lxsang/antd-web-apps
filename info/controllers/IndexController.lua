@@ -58,7 +58,7 @@ function IndexController:pdf(...)
     if r then
         local mime = std.mimeOf(tmp_file)
         std.header(mime)
-        std.fb(tmp_file)
+        std.f(tmp_file)
         return false
     else
         return self:error("Sorry.Problem generate PDF file")
