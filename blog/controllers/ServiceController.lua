@@ -21,7 +21,7 @@ function ServiceController:sendmail()
         fail("unknown request")
     end
     local rq = (JSON.decodeString(REQUEST.json))
-    local to = "xsang.le@gmail.com"
+    local to = "mrsang@lxsang.me"
     local from = "From: " .. rq.email .. "\n"
     local suject = "Subject: " .. rq.subject .. "\n"
     local content = "Contact request from:" .. rq.name .. "\n Email: " .. rq.email .. "\n" .. rq.content .. "\n"
