@@ -26,6 +26,7 @@ require(BASE_FRW.."silk.api")
 local REGISTRY = {}
 -- set logging level
 REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
+REGISTRY.users_allowed = { phuong = true, mrsang = true }
 REGISTRY.user = "mrsang"
 REGISTRY.db = DBHelper:new{db=REGISTRY.user}
 REGISTRY.layout = 'default'
@@ -61,6 +62,11 @@ BaseController:subclass("NotfoundController",{ registry = {}, models = {} })
 function NotfoundController:index(...)
     local args = {...}
     local user = args[1]:gsub("Controller", ""):lower();
+
+    if not REGISTRY.users_allowed[user] then
+        self:error("404: Controller "..args[1].." not found : "..args[2])
+        return
+    end
     REQUEST.r = "index/"..std.trim(REQUEST.r:gsub(user, ""), "/")
     if REGISTRY.db then REGISTRY.db:close() end
     REGISTRY.user = user
