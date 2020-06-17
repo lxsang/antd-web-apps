@@ -39,7 +39,7 @@
     <div class = "blogentry">
         <div class = "shortcontent">
             <?lua
-                local content = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%","%%%%")
+                local content = data.rendered:gsub("%%","%%%%")
                 local r, s = content:find("(<hr/?>)")
                 local title = nil
                 if r then 

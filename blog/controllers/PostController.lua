@@ -94,7 +94,7 @@ function PostController:id(pid)
         return self:notfound("No post found")
     end
     data = data[1]
-    data.rendered = bytes.__tostring(std.b64decode(data.rendered)):gsub("%%", "%%%%")
+    data.rendered = data.rendered:gsub("%%", "%%%%")
     local a, b = data.rendered:find("<[Hh]1[^>]*>")
     if a then
         local c, d = data.rendered:find("</[Hh]1>")
