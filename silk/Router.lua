@@ -73,7 +73,8 @@ function Router:infer(url)
         -- create the coresponding controller
         data.controller = _G[controller_name]:new {registry = self.registry}
         if not data.controller[data.action] then
-            data.args = {data.action}
+            --data.args = {data.action}
+            table.insert(data.args, 1, data.action)
             data.action = "actionnotfound"
         end
     end

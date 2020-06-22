@@ -1,0 +1,4 @@
+
+<?lua
+    echo(data)
+?>

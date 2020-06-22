@@ -49,7 +49,7 @@
             ?>
             <div class = "container_footer">
                 <h1 style="margin:0;"></h1>
-                <p style="text-align:right; padding:0; margin:0;color:#878887;">Powered by antd server, (C) 2017-2018 Xuan Sang LE</p>
+                <p style="text-align:right; padding:0; margin:0;color:#878887;">Powered by antd server, (C) 2017-<?=os.date("*t").year?> Xuan Sang LE</p>
             </div>
         </div>
         <?lua

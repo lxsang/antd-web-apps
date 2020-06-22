@@ -125,7 +125,7 @@
             </div>
         </div>
 <div id = "bottom">
-        Powered by antd server, (c) 2017 - 2018 Xuan Sang LE
+        Powered by antd server, (c) 2017 - <?=os.date("*t").year?> Xuan Sang LE
     </div>
 </body>
 </html>
