@@ -86,6 +86,8 @@ function DocController:index(...)
     local toc = self:loadTOC()
     toc.controller = self.name
     self.template:set("toc", toc)
+    self.template:set("elinks", self.elinks)
+
     -- read data from the parameter
     local path = nil
     if args[1] then
@@ -153,6 +155,7 @@ function DocController:search(...)
             self.template:set("data", result)
             self.template:set("controller", self.name)
             self.template:set("map", self.path_map)
+            self.template:set("elinks", self.elinks)
         else
             return self:actionnotfound(table.unpack(args))
         end

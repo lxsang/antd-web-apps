@@ -1,5 +1,6 @@
 <?lua
 local tocdata = __main__:get("toc")
+local elinks = __main__:get("elinks")
 ?>
 <!DOCTYPE html>
 <html>
@@ -60,6 +61,17 @@ local tocdata = __main__:get("toc")
                         </a>
                     <?lua end ?>
                 </div>
+                <?lua
+                    if elinks then
+                        for k,v in ipairs(elinks) do
+                ?>
+                            <a class = "x-link" href ="<?=v.url?>">
+                                <?=v.name?>
+                            </a>
+                <?lua
+                        end
+                    end 
+                ?>
                 <form id = "search_form" action="<?=HTTP_ROOT..'/'..tocdata.controller..'/search/'?>" method="get" class="search-form">
                     <input id = "search_box" name="q" type = "text" class = "search-box"></input>
                 </form>
