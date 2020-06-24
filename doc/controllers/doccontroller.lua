@@ -16,7 +16,8 @@ function DocController:loadTOC()
             result.data = {
                 name = bmeta.name,
                 path = self.path_map.vfs_path.."/INTRO.md",
-                entries = {}
+                entries = {},
+                parent = nil
             }
             -- read all the entries
             for kc,vc in pairs(bmeta.entries) do
@@ -27,7 +28,10 @@ function DocController:loadTOC()
                         local chapter = {
                             name = cmeta.name,
                             path = vc.path.."/INTRO.md",
-                            entries = {}
+                            tpath = vc.path,
+                            entries = {},
+                            parent = result.data,
+                            id = kc
                         }
                         -- read all sections
                         for ks,vs in pairs(cmeta.entries) do
@@ -37,7 +41,10 @@ function DocController:loadTOC()
                                 local section = {
                                     name = smeta.name,
                                     path = vs.path.."/INTRO.md",
-                                    entries = {}
+                                    tpath = vs.path,
+                                    entries = {},
+                                    parent = chapter,
+                                    id = ks
                                 }
                                 -- read all files
                                 for kf,vf in pairs(smeta.entries) do
@@ -50,7 +57,10 @@ function DocController:loadTOC()
                                         if line then
                                             local file = {
                                                 name = std.trim(std.trim(line, "#"), " "),
-                                                path = vf.path
+                                                path = vf.path,
+                                                tpath = vf.path,
+                                                parent = section,
+                                                id = kf
                                             }
                                             table.insert( section.entries, file)
                                         end
@@ -83,10 +93,12 @@ function DocController:index(...)
         if b64text then
             local p = bytes.__tostring(std.b64decode(b64text .. "=="))
             if p then
+                toc.cpath = p
                 path = getpath(p, self)
             end
         end
     else
+        toc.cpath = self.path_map.vfs_path
         path = self.path_map.local_path.."/INTRO.md"
     end
     if path and ulib.exists(path) then
@@ -97,6 +109,55 @@ function DocController:index(...)
         self.template:set("data", content)
     else
         self.template:setView("notfound", "index")
+    end
+    return true
+end
+
+function DocController:search(...)
+    local args = {...}
+    local query = REQUEST.q
+    if query then
+        local cmd = "grep -ri --include=\\*.md "
+        local arr = explode(query, " ")
+        local patterns = {}
+        for k,v in ipairs(arr) do
+            local world = std.trim(v, " ")
+            if v and v ~= "" then
+                cmd = cmd.." -e '"..v.."' "
+                table.insert( patterns,v:lower())
+            end
+        end
+        if #patterns > 0 then
+            local toc = self:loadTOC()
+            toc.controller = self.name
+            self.template:set("toc", toc)
+            self.template:setView("search", "index")
+            cmd = cmd..self.path_map.local_path
+            local handle = io.popen(cmd)
+            local result = {}
+            for line in handle:lines() do
+                file = line:match("^[^:]*")
+                if file then
+                    if not result[file] then
+                        result[file] = {}
+                    end
+                    local content = line:gsub("^[^:]*:",""):lower()
+                    for k,p in ipairs(patterns) do
+                        content = content:gsub(p, "<span class='pattern'>"..p.."</span>")
+                    end
+                    table.insert(result[file],content)
+                end
+            end
+            handle:close()
+            -- process the result
+            self.template:set("data", result)
+            self.template:set("controller", self.name)
+            self.template:set("map", self.path_map)
+        else
+            return self:actionnotfound(table.unpack(args))
+        end
+    else
+        return self:actionnotfound(table.unpack(args))
     end
     return true
 end

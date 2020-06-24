@@ -4,9 +4,29 @@ local tocdata = __main__:get("toc")
 <!DOCTYPE html>
 <html>
     <head>
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="<?=HTTP_ROOT?>/rst/hljs/github.css" />
+        <link
+            rel="stylesheet"
+            type="text/css"
+            href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
         <script
             type="text/javascript"
             src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"
+        ></script>
+        <script
+            src="<?=HTTP_ROOT?>/rst/hljs/highlight.pack.js"
+        ></script>
+        <script
+            src="<?=HTTP_ROOT?>/rst/hljs/highlightjs-line-numbers.min.js"
+        ></script>
+        <script
+            src="<?=HTTP_ROOT?>/rst/katex/katex.min.js"
+        ></script>
+        <script
+            src="<?=HTTP_ROOT?>/rst/katex/auto-render.min.js"
         ></script>
         <link
             rel="stylesheet"
@@ -40,7 +60,9 @@ local tocdata = __main__:get("toc")
                         </a>
                     <?lua end ?>
                 </div>
-                <input type = "text" class = "search-box"></input>
+                <form id = "search_form" action="<?=HTTP_ROOT..'/'..tocdata.controller..'/search/'?>" method="get" class="search-form">
+                    <input id = "search_box" name="q" type = "text" class = "search-box"></input>
+                </form>
                 <div class= "search-icon"></div>
             </div>
         </div>
@@ -69,14 +91,7 @@ local tocdata = __main__:get("toc")
             Powered by antd server, (c) 2019 - <?=os.date("*t").year?> Xuan Sang LE
         </div>
         <script>
-            window.onload = function () {
-                var els = document.getElementsByClassName("doc-content");
-                var converter = new showdown.Converter();
-                for (var i in els) {
-                    var text = els[i].innerHTML;
-                    var html = converter.makeHtml(text);
-                    els[i].innerHTML = html;
-                }
+            window.addEventListener('load', (event) => {
                 // tree view events
                 var toggler = document.getElementsByClassName("caret");
                 var i;
@@ -86,8 +101,16 @@ local tocdata = __main__:get("toc")
                         this.classList.toggle("caret-down");
                     });
                 }
-                // TODO math display
-            };
+                var input = document.getElementById("search_box");
+                var form = document.getElementById("search_form");
+                form.onsubmit = function()
+                {
+                    var val = input.value.trim();
+                    console.log(val);
+                    if( val === "" || val == "\n") return false;
+                    return true;
+                }
+            });
         </script>
     </body>
 </html>

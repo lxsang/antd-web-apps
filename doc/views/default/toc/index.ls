@@ -1,5 +1,6 @@
 <?lua
-gentree = function(data, controller)
+local gentree
+gentree = function(data, controller, cpath)
     if not data then
         return ""
     end
@@ -7,11 +8,23 @@ gentree = function(data, controller)
     if data.entries then
         caret = '<span class = "caret"></span>'
     end
-    local markup = '<li>'..caret..'<a href="'..HTTP_ROOT..'/'..controller..'/'..std.b64encode(data.path):gsub("=","")..'/'..data.name:gsub(" ", "_")..'.md">'..data.name.."</a>"
+    local active = ""
+    local selected = ""
+    local highlight = ""
+    if data.tpath and cpath then
+        if cpath:match("^"..data.tpath) then
+            active = "active"
+            highlight = "class = 'highlight'"
+        end
+        if data.path == cpath then
+            selected = "class = 'selected'"
+        end
+    end
+    local markup = '<li '..selected..'>'..caret..'<a '..highlight..' href="'..HTTP_ROOT..'/'..controller..'/'..std.b64encode(data.path):gsub("=","")..'/'..data.name:gsub(" ", "_")..'.md">'..data.name.."</a>"
     if data.entries then
-        markup = markup.."<ul class='nested'>"
+        markup = markup.."<ul class='nested "..active.."'>"
         for k,v in pairs(data.entries) do
-            markup = markup..gentree(v, controller)
+            markup = markup..gentree(v, controller, cpath)
         end
         markup = markup.."</ul>"
     end
@@ -22,10 +35,10 @@ end
 <ul id = "toc">
 <?lua
     if data.error then
-        return echo("Unable to read toc")
+        return echo("<li>Unable to read TOC</li>")
     end
     for k,v in pairs(data.data.entries) do
-        echo(gentree(v, data.controller))
+        echo(gentree(v, data.controller, data.cpath))
     end
 ?>
 </ul>
