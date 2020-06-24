@@ -165,6 +165,30 @@ function DocController:search(...)
     return true
 end
 
+function DocController:api(...)
+    local args = {...}
+    if not self.path_map.api_path then
+        return self:actionnotfound(table.unpack(args))    
+    end
+    local rpath = "index.html"
+    if #args ~= 0 then
+        rpath = implode(args,"/")
+    end
+    local path = self.path_map.api_path.."/"..rpath
+
+    if ulib.exists(path) then
+        local mime = std.mimeOf(path)
+        if POLICY.mimes[mime] then
+            std.sendFile(path)
+        else 
+            self:error("Access forbidden: "..path)
+        end
+    else
+        self:error("File not found or access forbidden: "..path)
+    end
+    return false
+end
+
 function DocController:actionnotfound(...)
     local args = {...}
     return self:index(table.unpack(args))
