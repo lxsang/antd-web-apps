@@ -1,5 +1,5 @@
 BUILDDIR?=./build
-PROJS?=grs info blog apps os doc
+PROJS?=grs info blog apps os doc ci
 copyfiles =  index.ls mimes.json
 main:  copy
 	for f in $(PROJS); do  BUILDDIR=$(BUILDDIR)/"$${f}" make -C  "$${f}" ; done

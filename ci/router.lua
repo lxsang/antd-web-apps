@@ -4,11 +4,11 @@
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
 DIR_SEP = "/"
-WWW_ROOT = __ROOT__.."/get"
+WWW_ROOT = __ROOT__.."/ci"
 if HEADER.Host then
     HTTP_ROOT= "https://"..HEADER.Host
 else
-    HTTP_ROOT = "https://get.iohub.dev"
+    HTTP_ROOT = "https://ci.iohub.dev"
 end
 -- class path: path.to.class
 BASE_FRW = ""
@@ -24,19 +24,6 @@ require(BASE_FRW.."silk.api")
 
 function NotfoundController:index(...)
     local args = {...}
-    local name = args[1] or nil
-    if not name then
-        return self:error("Unknown script")
-    end
-    name = name:gsub("Controller",""):lower()
-    local path = WWW_ROOT..DIR_SEP.."shs"..DIR_SEP..name..".sh"
-
-    if ulib.exists(path) then
-        std.header("text/plain")
-        std.f(path)
-    else
-        self:error("No script found: "..path)
-    end
     return false
 end
 
