@@ -1,5 +1,6 @@
-copyfiles = router.lua scripts log
+copyfiles = router.lua scripts
 
 main:
 	- mkdir $(BUILDDIR)
 	cp -rvf $(copyfiles) $(BUILDDIR)
+	- mkdir -p $(BUILDDIR)/log
