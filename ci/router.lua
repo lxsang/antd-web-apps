@@ -47,8 +47,8 @@ function NotfoundController:index(...)
                 local path = WWW_ROOT..DIR_SEP.."scripts"..DIR_SEP..repository..".sh"
 
                 if ulib.exists(path) then
+                    result("Build done, log file: https://ci.iohub.dev/log/"..repository.."_"..branch..".txt")
                     local cmd = "/bin/bash "..path.." "..branch
-                    print(cmd)
                     local handle = io.popen(cmd)
                     local f = io.open(WWW_ROOT..DIR_SEP.."log"..DIR_SEP..repository.."_"..branch..".txt", "w")
                     for line in handle:lines() do
@@ -57,8 +57,6 @@ function NotfoundController:index(...)
                     end
                     handle:close()
                     f:close()
-                    result("Build done, log file: https://ci.iohub.dev/log/"..repository.."_"..branch..".txt")
-                    
                 else
                     fail("No build script found")
                 end
