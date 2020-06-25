@@ -13,8 +13,8 @@ end
 -- class path: path.to.class
 BASE_FRW = ""
 -- class path: path.to.class
-CONTROLLER_ROOT = BASE_FRW.."apps.controllers"
-MODEL_ROOT = BASE_FRW.."apps.models"
+CONTROLLER_ROOT = BASE_FRW.."get.controllers"
+MODEL_ROOT = BASE_FRW.."get.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
 LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
