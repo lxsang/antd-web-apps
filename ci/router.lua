@@ -53,6 +53,7 @@ function NotfoundController:index(...)
                     local f = io.open(WWW_ROOT..DIR_SEP.."log"..DIR_SEP..repository.."_"..branch..".txt", "w")
                     for line in handle:lines() do
                         f:write(line)
+                        f:write("\n")
                     end
                     handle:close()
                     f:close()
