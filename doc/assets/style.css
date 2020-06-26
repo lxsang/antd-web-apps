@@ -294,6 +294,6 @@ td.hljs-ln-numbers {
 }
 
 /* for block of code */
-#container .blogentry .hljs-ln td.hljs-ln-code {
+.hljs-ln td.hljs-ln-code {
 	padding-left: 10px;
 }
