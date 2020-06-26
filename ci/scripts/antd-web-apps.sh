@@ -1,8 +1,8 @@
 #! /bin/bash
 BRANCH="ci"
-PRJ="antos"
-DEST="/opt/www/htdocs/os"
-# /opt/www/htdocs 
+PRJ="antd-web-apps"
+DEST="/opt/www/htdocs"
+
 REPO="https://github.com/lxsang/$PRJ.git"
 
 
@@ -23,9 +23,8 @@ fi
     echo "Cloning $PRJ (branch $BRANCH) to /tmp/ci..."
     git clone -b "$BRANCH" --single-branch --depth=1 "$REPO"
     cd "$PRJ" || (echo "Unable to change directory to source code folder" && exit 1)
-    npm i @types/jquery
     mkdir -p "$DEST"
-    BUILDDIR="$DEST" make release
+    BUILDDIR="$DEST" make
     echo "Done!"
 } 2>&1 | tee "/opt/www/htdocs/ci/log/${PRJ}_${BRANCH}.txt"
 
