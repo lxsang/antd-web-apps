@@ -65,7 +65,7 @@ local elinks = __main__:get("elinks")
                     if elinks then
                         for k,v in ipairs(elinks) do
                 ?>
-                            <a class = "x-link" href ="<?=v.url?>">
+                            <a class = "x-link" target="_blank" href ="<?=v.url?>">
                                 <?=v.name?>
                             </a>
                 <?lua
