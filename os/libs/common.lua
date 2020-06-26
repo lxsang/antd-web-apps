@@ -13,6 +13,7 @@ function die (msg)
   fail(msg)
   debug.traceback=nil
   error("Permission denied")
+  return false
 end
 
 -- check if the sysdb is create, otherwise create the table
@@ -33,7 +34,7 @@ function is_auth()
 	local data = db:find(cond)
 	--print(JSON.encode(data))
 	db:close()
-	if data == nil or data[1] == nil then die(msg) end
+	if data == nil or data[1] == nil then return die("No user data found") end
 	-- next time check the stamp
 	SESSION.user = data[1].username
 	return true
