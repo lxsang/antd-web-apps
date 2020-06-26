@@ -1,8 +1,8 @@
 #! /bin/bash
 BRANCH="ci"
 PRJ="antd-web-apps"
-DEST="/tmp/wapp"
-# /opt/www/htdocs 
+DEST="/opt/www/htdocs"
+
 REPO="https://github.com/lxsang/$PRJ.git"
 
 

@@ -1,28 +1,32 @@
 #! /bin/bash
 BRANCH="ci"
-REPO="https://github.com/lxsang/antos.git"
+PRJ="antos"
 DEST="/opt/www/htdocs/os"
+# /opt/www/htdocs 
+REPO="https://github.com/lxsang/$PRJ.git"
+
 
 if [ ! -z $1 ]; then
     BRANCH="$1"
 fi
 {
     echo "Build date:  $(date)"
-    echo "Building AntOS using branch $BRANCH..."
-    if [ -d "/tmp/ci" ]; then
-        echo "Clean up /tmp/ci"
-        rm  -rf /tmp/ci/*
+    echo "Building $PRJ using branch $BRANCH..."
+    if [ -d "/tmp/ci/$PRJ" ]; then
+        echo "Clean up /tmp/ci/$PRJ"
+        rm  -rf /tmp/ci/$PRJ
     else
-        echo "Creating /tmp/ci"
+        echo "Creating /tmp/ci/"
         mkdir -p "/tmp/ci"
     fi
     cd /tmp/ci || (echo "Unable to change directory to /tmp/ci" && exit 1)
-    echo "Cloning Antos (branch $BRANCH) to /tmp/ci..."
+    echo "Cloning $PRJ (branch $BRANCH) to /tmp/ci..."
     git clone -b "$BRANCH" --single-branch --depth=1 "$REPO"
+    cd "$PRJ" || (echo "Unable to change directory to source code folder" && exit 1)
     npm i @types/jquery
-    cd antos || (echo "Unable to change directory to source code folder" && exit 1)
+    mkdir -p "$DEST"
     BUILDDIR="$DEST" make release
     echo "Done!"
-} > "/opt/www/htdocs/ci/log/antos_$BRANCH.txt"
+} 2>&1 | tee "/opt/www/htdocs/ci/log/${PRJ}_${BRANCH}.txt"
 
 
