@@ -23,6 +23,7 @@ local elinks = __main__:get("elinks")
         <script
             src="<?=HTTP_ROOT?>/rst/hljs/highlightjs-line-numbers.min.js"
         ></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         <script
             src="<?=HTTP_ROOT?>/rst/katex/katex.min.js"
         ></script>
