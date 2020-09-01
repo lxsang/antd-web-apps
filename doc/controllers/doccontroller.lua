@@ -105,7 +105,7 @@ function DocController:index(...)
     end
     if path and ulib.exists(path) then
         local file = io.open(path, "r")
-        local content = = ""
+        local content = ""
         local md = require("md")
         local callback = function(s)
             content = content..s
