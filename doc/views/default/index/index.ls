@@ -88,7 +88,9 @@
     ?>
 </div>
 <div class = "md-content" id = "renderer">
-    
+    <?lua
+        echo(data)
+    ?>
 </div>
 <div class = "pagenav">
     <?lua
@@ -104,17 +106,3 @@
         end
     ?>
 </div>
-<script>
-    window.addEventListener('load', (event) => {
-        var markdown = `<?=std.b64encode(data)?>`;
-        var converter = new showdown.Converter();
-        var html = converter.makeHtml(atob(markdown));
-        document.getElementById("renderer").innerHTML = html;
-        // highlight and math display
-        renderMathInElement(document.getElementById("renderer"));
-        document.querySelectorAll("pre code").forEach(element => {
-            hljs.highlightBlock(element);
-            hljs.lineNumbersBlock(element);
-        });
-    });
-</script>
