@@ -123,7 +123,12 @@ function DocController:index(...)
     end
     if path and ulib.exists(path) then
         local file = io.open(path, "r")
-        local content = file:read("*a")
+        local content = ""
+        local md = require("md")
+        local callback = function(s)
+            content = content..s
+        end
+        md.to_html(file:read("*a"), callback)
         file.close()
         -- replace some display plugins
         content = pre_process_md(content, self)

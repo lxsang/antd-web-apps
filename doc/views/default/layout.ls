@@ -13,16 +13,17 @@ local elinks = __main__:get("elinks")
             rel="stylesheet"
             type="text/css"
             href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
-        <script
+        <!--script
             type="text/javascript"
             src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"
-        ></script>
+        ></script-->
         <script
             src="<?=HTTP_ROOT?>/rst/hljs/highlight.pack.js"
         ></script>
         <script
             src="<?=HTTP_ROOT?>/rst/hljs/highlightjs-line-numbers.min.js"
         ></script>
+        <script>hljs.initHighlightingOnLoad();</script>
         <script
             src="<?=HTTP_ROOT?>/rst/katex/katex.min.js"
         ></script>
