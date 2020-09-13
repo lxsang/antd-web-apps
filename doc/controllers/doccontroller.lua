@@ -221,7 +221,6 @@ function DocController:asset(...)
 
     if self.registry.fileaccess and ulib.exists(path) then
         local mime = std.mimeOf(path)
-        print(mime)
         if POLICY.mimes[mime] then
             std.sendFile(path)
         else
