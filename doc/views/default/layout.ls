@@ -1,6 +1,7 @@
 <?lua
 local tocdata = __main__:get("toc")
 local elinks = __main__:get("elinks")
+local has_3d = __main__:get("has_3d")
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,10 +14,14 @@ local elinks = __main__:get("elinks")
             rel="stylesheet"
             type="text/css"
             href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
-        <!--script
-            type="text/javascript"
-            src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"
-        ></script-->
+        <?lua
+            if has_3d then
+        ?>
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+        <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+        <?lua
+            end
+        ?>
         <script
             src="<?=HTTP_ROOT?>/rst/hljs/highlight.pack.js"
         ></script>

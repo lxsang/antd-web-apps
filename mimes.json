@@ -19,5 +19,9 @@
     "wasm": {
         "mime": "application/wasm",
         "binary": true
+    },
+    "glb": {
+        "mime": "model/gltf-binary",
+        "binary": true
     }
 }

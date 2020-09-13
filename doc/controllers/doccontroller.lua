@@ -7,10 +7,12 @@ end
 
 local pre_process_md = function(str, obj)
     local content = str
-    for capture in str:gmatch("(%[%[@book:image:.*%]%])") do
-        local apath = capture:match("%[%[@book:image:(.*)%]%]")
+    for capture in str:gmatch("(%[%[@book:image:[^\n%]]*%]%])") do
+        local apath = capture:match("%[%[@book:image:([^\n%]]*)%]%]")
         local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
         if apath then
+            apath = apath:gsub(" ", "%%%%20")
+            print(apath)
             content = str:gsub(pattern,
                                "![](" .. HTTP_ROOT .. "/" .. obj.name ..
                                    "/asset/" .. apath .. ")")
@@ -19,6 +21,24 @@ local pre_process_md = function(str, obj)
     return content
 end
 
+local post_process_md = function(str, obj)
+    local content = str
+    local has_model = false
+    for capture in str:gmatch("(%[%[@book:3dmodel:[^\n%]]*%]%])") do
+        local apath = capture:match("%[%[@book:3dmodel:([^\n%]]*)%]%]")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
+        if apath then
+            --apath = utils.urlencode(apath):gsub("%%", "%%%%")
+            apath = apath:gsub(" ", "%%20")
+            content = str:gsub(pattern,
+                               "<model-viewer src=\"" .. HTTP_ROOT .. "/" ..
+                                   obj.name .. "/asset/" .. apath ..
+                                   "\" auto-rotate camera-controls></model-viewer>")
+            has_model = true
+        end
+    end
+    return content, has_model
+end
 function DocController:loadTOC()
     local path = self.path_map.local_path .. "/meta.json"
     local result = {error = false}
@@ -122,19 +142,19 @@ function DocController:index(...)
         path = self.path_map.local_path .. "/INTRO.md"
     end
     if path and ulib.exists(path) then
+        local has_3d = false
         local file = io.open(path, "r")
         local content = ""
         local md = require("md")
-        local callback = function(s)
-            content = content..s
-        end
-        md.to_html(file:read("*a"), callback)
+        local callback = function(s) content = content .. s end
+        md.to_html(pre_process_md(file:read("*a"), self), callback)
         file.close()
+        content, has_3d = post_process_md(content, self)
         -- replace some display plugins
-        content = pre_process_md(content, self)
 
         self.template:setView("index", "index")
         self.template:set("data", content)
+        self.template:set("has_3d", has_3d)
     else
         self.template:setView("notfound", "index")
     end

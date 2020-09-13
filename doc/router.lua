@@ -22,6 +22,8 @@ POST_LIMIT = 10
 -- require needed library
 require(BASE_FRW.."silk.api")
 
+POLICY.mimes["model/gltf-binary"] = true
+
 if REQUEST.r then
     REQUEST.r = REQUEST.r:gsub("%:", "/")
 end
