@@ -1,12 +1,47 @@
 BaseController:subclass("DocController")
 
 local getpath = function(vfspath, controller)
-    return vfspath:gsub(controller.path_map.vfs_path, controller.path_map.local_path)
+    return vfspath:gsub(controller.path_map.vfs_path,
+                        controller.path_map.local_path)
 end
 
+local pre_process_md = function(str, obj)
+    local content = str
+    for capture in str:gmatch("(%[%[@book:image:[^\n%]]*%]%])") do
+        local apath = capture:match("%[%[@book:image:([^\n%]]*)%]%]")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
+        if apath then
+            apath = apath:gsub(" ", "%%%%20")
+            print(apath)
+            content = str:gsub(pattern,
+                               "![](" .. HTTP_ROOT .. "/" .. obj.name ..
+                                   "/asset/" .. apath .. ")")
+        end
+    end
+    return content
+end
+
+local post_process_md = function(str, obj)
+    local content = str
+    local has_model = false
+    for capture in str:gmatch("(%[%[@book:3dmodel:[^\n%]]*%]%])") do
+        local apath = capture:match("%[%[@book:3dmodel:([^\n%]]*)%]%]")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
+        if apath then
+            --apath = utils.urlencode(apath):gsub("%%", "%%%%")
+            apath = apath:gsub(" ", "%%20")
+            content = str:gsub(pattern,
+                               "<model-viewer src=\"" .. HTTP_ROOT .. "/" ..
+                                   obj.name .. "/asset/" .. apath ..
+                                   "\" auto-rotate camera-controls></model-viewer>")
+            has_model = true
+        end
+    end
+    return content, has_model
+end
 function DocController:loadTOC()
-    local path = self.path_map.local_path.."/meta.json"
-    local result = { error = false}
+    local path = self.path_map.local_path .. "/meta.json"
+    local result = {error = false}
     if ulib.exists(path) then
         local bmeta = JSON.decodeFile(path)
         if bmeta == nil then
@@ -15,39 +50,40 @@ function DocController:loadTOC()
         else
             result.data = {
                 name = bmeta.name,
-                path = self.path_map.vfs_path.."/INTRO.md",
+                path = self.path_map.vfs_path .. "/INTRO.md",
                 entries = {},
                 parent = nil
             }
             -- read all the entries
-            for kc,vc in pairs(bmeta.entries) do
-                local cpath = getpath(vc.path, self).."/meta.json"
+            for kc, vc in pairs(bmeta.entries) do
+                local cpath = getpath(vc.path, self) .. "/meta.json"
                 if ulib.exists(cpath) then
                     local cmeta = JSON.decodeFile(cpath)
                     if cmeta then
                         local chapter = {
                             name = cmeta.name,
-                            path = vc.path.."/INTRO.md",
+                            path = vc.path .. "/INTRO.md",
                             tpath = vc.path,
                             entries = {},
                             parent = result.data,
                             id = kc
                         }
                         -- read all sections
-                        for ks,vs in pairs(cmeta.entries) do
-                            local spath = getpath(vs.path, self).."/meta.json"
+                        for ks, vs in pairs(cmeta.entries) do
+                            local spath = getpath(vs.path, self) .. "/meta.json"
                             local smeta = JSON.decodeFile(spath)
                             if smeta then
-                                local section = {
-                                    name = smeta.name,
-                                    path = vs.path.."/INTRO.md",
-                                    tpath = vs.path,
-                                    entries = {},
-                                    parent = chapter,
-                                    id = ks
-                                }
+                                local section =
+                                    {
+                                        name = smeta.name,
+                                        path = vs.path .. "/INTRO.md",
+                                        tpath = vs.path,
+                                        entries = {},
+                                        parent = chapter,
+                                        id = ks
+                                    }
                                 -- read all files
-                                for kf,vf in pairs(smeta.entries) do
+                                for kf, vf in pairs(smeta.entries) do
                                     local fpath = getpath(vf.path, self)
                                     if ulib.exists(fpath) then
                                         local file = io.open(fpath, "r")
@@ -55,21 +91,23 @@ function DocController:loadTOC()
                                         local line = io.read()
                                         io.close()
                                         if line then
-                                            local file = {
-                                                name = std.trim(std.trim(line, "#"), " "),
-                                                path = vf.path,
-                                                tpath = vf.path,
-                                                parent = section,
-                                                id = kf
-                                            }
-                                            table.insert( section.entries, file)
+                                            local file =
+                                                {
+                                                    name = std.trim(
+                                                        std.trim(line, "#"), " "),
+                                                    path = vf.path,
+                                                    tpath = vf.path,
+                                                    parent = section,
+                                                    id = kf
+                                                }
+                                            table.insert(section.entries, file)
                                         end
                                     end
                                 end
-                                table.insert( chapter.entries, section)
+                                table.insert(chapter.entries, section)
                             end
                         end
-                        table.insert( result.data.entries, chapter)
+                        table.insert(result.data.entries, chapter)
                     end
                 end
             end
@@ -101,19 +139,22 @@ function DocController:index(...)
         end
     else
         toc.cpath = self.path_map.vfs_path
-        path = self.path_map.local_path.."/INTRO.md"
+        path = self.path_map.local_path .. "/INTRO.md"
     end
     if path and ulib.exists(path) then
+        local has_3d = false
         local file = io.open(path, "r")
         local content = ""
         local md = require("md")
-        local callback = function(s)
-            content = content..s
-        end
-        md.to_html(file:read("*a"), callback)
+        local callback = function(s) content = content .. s end
+        md.to_html(pre_process_md(file:read("*a"), self), callback)
         file.close()
+        content, has_3d = post_process_md(content, self)
+        -- replace some display plugins
+
         self.template:setView("index", "index")
         self.template:set("data", content)
+        self.template:set("has_3d", has_3d)
     else
         self.template:setView("notfound", "index")
     end
@@ -127,11 +168,11 @@ function DocController:search(...)
         local cmd = "grep -ri --include=\\*.md "
         local arr = explode(query, " ")
         local patterns = {}
-        for k,v in ipairs(arr) do
+        for k, v in ipairs(arr) do
             local world = std.trim(v, " ")
             if v and v ~= "" then
-                cmd = cmd.." -e '"..v.."' "
-                table.insert( patterns,v:lower())
+                cmd = cmd .. " -e '" .. v .. "' "
+                table.insert(patterns, v:lower())
             end
         end
         if #patterns > 0 then
@@ -139,7 +180,7 @@ function DocController:search(...)
             toc.controller = self.name
             self.template:set("toc", toc)
             self.template:setView("search", "index")
-            cmd = cmd..self.path_map.local_path
+            cmd = cmd .. self.path_map.local_path
             local handle = io.popen(cmd)
             local result = {}
             for line in handle:lines() do
@@ -148,11 +189,13 @@ function DocController:search(...)
                     if not result[file] then
                         result[file] = {}
                     end
-                    local content = line:gsub("^[^:]*:",""):lower()
-                    for k,p in ipairs(patterns) do
-                        content = content:gsub(p, "<span class='pattern'>"..p.."</span>")
+                    local content = line:gsub("^[^:]*:", ""):lower()
+                    for k, p in ipairs(patterns) do
+                        content = content:gsub(p,
+                                               "<span class='pattern'>" .. p ..
+                                                   "</span>")
                     end
-                    table.insert(result[file],content)
+                    table.insert(result[file], content)
                 end
             end
             handle:close()
@@ -170,26 +213,43 @@ function DocController:search(...)
     return true
 end
 
+function DocController:asset(...)
+    local args = {...}
+    if #args == 0 then return self:actionnotfound(table.unpack(args)) end
+
+    local path = self.path_map.local_path .. "/" .. implode(args, DIR_SEP)
+
+    if self.registry.fileaccess and ulib.exists(path) then
+        local mime = std.mimeOf(path)
+        print(mime)
+        if POLICY.mimes[mime] then
+            std.sendFile(path)
+        else
+            self:error("Access forbidden: " .. path)
+        end
+    else
+        self:error("Asset file not found or access forbidden: " .. path)
+    end
+    return false
+end
 function DocController:api(...)
     local args = {...}
     if not self.path_map.api_path then
-        return self:actionnotfound(table.unpack(args))    
+        return self:actionnotfound(table.unpack(args))
     end
     local rpath = "index.html"
-    if #args ~= 0 then
-        rpath = implode(args,"/")
-    end
-    local path = self.path_map.api_path.."/"..rpath
+    if #args ~= 0 then rpath = implode(args, "/") end
+    local path = self.path_map.api_path .. "/" .. rpath
 
     if ulib.exists(path) then
         local mime = std.mimeOf(path)
         if POLICY.mimes[mime] then
             std.sendFile(path)
-        else 
-            self:error("Access forbidden: "..path)
+        else
+            self:error("Access forbidden: " .. path)
         end
     else
-        self:error("File not found or access forbidden: "..path)
+        self:error("File not found or access forbidden: " .. path)
     end
     return false
 end
