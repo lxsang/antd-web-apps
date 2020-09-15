@@ -7,6 +7,7 @@ DocController:subclass("AntosController", {
     },
     name = "antos",
     elinks = {
-        { name = "API", url = "https://doc.iohub.dev/antos/api/index.html" }
+        { name = "API", url = "https://doc.iohub.dev/antos/api/index.html" },
+        { name = "Code", url = "https://github.com/lxsang/antos" }
     }
 })
