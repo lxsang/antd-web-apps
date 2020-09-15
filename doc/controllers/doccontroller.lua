@@ -24,6 +24,7 @@ end
 local post_process_md = function(str, obj)
     local content = str
     local has_model = false
+    -- 3D model
     for capture in str:gmatch("(%[%[@book:3dmodel:[^\n%]]*%]%])") do
         local apath = capture:match("%[%[@book:3dmodel:([^\n%]]*)%]%]")
         local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
@@ -37,6 +38,17 @@ local post_process_md = function(str, obj)
             has_model = true
         end
     end
+    -- Youtube video
+    for capture in str:gmatch("(%[%[youtube:[^\n%]]*%]%])") do
+        local apath = capture:match("%[%[youtube:([^\n%]]*)%]%]")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
+        if apath then
+            --apath = utils.urlencode(apath):gsub("%%", "%%%%")
+            content = str:gsub(pattern,
+                "<iframe width=\"100%\" src=\"https://www.youtube.com/embed/"..apath.."\"> </iframe>")
+        end
+    end
+
     return content, has_model
 end
 function DocController:loadTOC()
