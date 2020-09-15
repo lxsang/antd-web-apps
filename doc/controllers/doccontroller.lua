@@ -44,7 +44,7 @@ local post_process_md = function(str, obj)
         local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]")
         if apath then
             --apath = utils.urlencode(apath):gsub("%%", "%%%%")
-            content = str:gsub(pattern,
+            content = content:gsub(pattern,
                 "<iframe width=\"100%\" src=\"https://www.youtube.com/embed/"..apath.."\"> </iframe>")
         end
     end
