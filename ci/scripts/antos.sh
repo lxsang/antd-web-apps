@@ -24,8 +24,8 @@ fi
     cd "$PRJ" || (echo "Unable to change directory to source code folder" && exit 1)
     npm i @types/jquery
     mkdir -p "$DEST/os"
-    BUILDDIR="$DEST" make release
+    BUILDDIR="$DEST/os" make release
     mkdir -p "$DEST/grs"
-    BUILDDIR="$DEST" make standalone_tags
+    BUILDDIR="$DEST/grs" make standalone_tags
     echo "Done!"
 } 2>&1 | tee "/opt/www/htdocs/ci/log/${PRJ}_${BRANCH}.txt"
