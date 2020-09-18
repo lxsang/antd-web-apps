@@ -19,9 +19,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/ubuntu-regular.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/afx.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/style.css" />
-        <script src="<?=HTTP_ROOT?>/rst/gscripts/riot.min.js"> </script>
-        <script src="<?=HTTP_ROOT?>/rst/resources/antos_tags.js"></script>
+        <script src="<?=HTTP_ROOT?>/rst/afx.js"> </script>
         <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/assets/main.js"></script>
         <meta property="og:image" content="" />
