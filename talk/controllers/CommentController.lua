@@ -25,6 +25,10 @@ function CommentController:index(...)
         result("")
         return false
     end
+    if not REQUEST.json then
+        fail("Invalid request")
+        return false
+    end
     local rq = (JSON.decodeString(REQUEST.json))
     if (rq) then
         local pages, order = self.pages:find({exp = {["="] = {uri = rq.page}}})
@@ -82,6 +86,10 @@ function CommentController:post(...)
         result("")
         return false
     end
+    if not REQUEST.json then
+        fail("Invalid request")
+        return false
+    end
     local rq = (JSON.decodeString(REQUEST.json))
     if rq then
         local pages, order = self.pages:find({exp = {["="] = rq.page}})
@@ -134,6 +142,10 @@ end
 function CommentController:preview(...)
     if (REQUEST.method == "OPTIONS") then
         result("")
+        return false
+    end
+    if not REQUEST.json then
+        fail("Invalid request")
         return false
     end
     local rq = (JSON.decodeString(REQUEST.json))
