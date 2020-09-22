@@ -10,7 +10,7 @@ local function process_md(input)
 end
 
 local function sendmail(to, subject, content)
-    local from = "From: contact@iohub.dev\n"
+    local from = "From: contact@iohub.dev\nTo: " .. to .. "\n"
     local suject = "Subject: " .. subject .. "\n"
 
     local cmd = 'echo "' .. utils.escape(from .. suject .. content) ..
