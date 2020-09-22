@@ -204,12 +204,12 @@ class QuickTalk {
                 ret.result.forEach((comment) => {
                     this.show_comment(container, comment, true);
                 });
-                if (this.options.onload) {
-                    this.options.onload();
-                }
             }
             else {
                 this.error(ret.error);
+            }
+            if (this.options.onload) {
+                this.options.onload();
             }
         });
         return container;
