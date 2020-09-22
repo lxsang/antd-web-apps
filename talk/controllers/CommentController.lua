@@ -111,7 +111,14 @@ function CommentController:post(...)
             rq.comment.id = self.comment.db:lastInsertID()
 
             rq.comment.content = process_md(rq.comment.content)
-
+            -- notify the author
+            if rq.author then
+                sendmail(rq.author, rq.comment.name ..
+                             " has commented on one of your pages",
+                         rq.comment.name .. " has commented on your page: " ..
+                             rq.page.uri ..
+                             ".\nBest regards,\nEmail automatically sent by QuickTalk API")
+            end
             -- send mail to all users of current page
             local cmts, cmti = self.comment:select("MIN(id) as id,email",
                                                    "pid=" .. rq.comment.pid ..
@@ -125,7 +132,7 @@ function CommentController:post(...)
                              rq.comment.name ..
                                  " has written something on a page that you've commented. \nPlease visit this page: " ..
                                  rq.page.uri ..
-                                 " for updates on the discussion.\nBest regard,\nEmail automatically sent by QuickTalk API")
+                                 " for updates on the discussion.\nBest regards,\nEmail automatically sent by QuickTalk API")
                 end
             end
             rq.comment.email = ""
