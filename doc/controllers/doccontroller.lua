@@ -9,7 +9,8 @@ local pre_process_md = function(str, obj)
     local content = str
     for capture in str:gmatch("(%[%[@book:image:[^\n%]]*%]%])") do
         local apath = capture:match("%[%[@book:image:([^\n%]]*)%]%]")
-        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]"):gsub("%-", "%%-")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]"):gsub("%-",
+                                                                         "%%-")
         if apath then
             apath = apath:gsub(" ", "%%%%20")
             print(apath)
@@ -27,9 +28,10 @@ local post_process_md = function(str, obj)
     -- 3D model
     for capture in str:gmatch("(%[%[@book:3dmodel:[^\n%]]*%]%])") do
         local apath = capture:match("%[%[@book:3dmodel:([^\n%]]*)%]%]")
-        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]"):gsub("%-", "%%-")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]"):gsub("%-",
+                                                                         "%%-")
         if apath then
-            --apath = utils.urlencode(apath):gsub("%%", "%%%%")
+            -- apath = utils.urlencode(apath):gsub("%%", "%%%%")
             apath = apath:gsub(" ", "%%20")
             content = str:gsub(pattern,
                                "<model-viewer src=\"" .. HTTP_ROOT .. "/" ..
@@ -41,12 +43,14 @@ local post_process_md = function(str, obj)
     -- Youtube video
     for capture in str:gmatch("(%[%[youtube:[^\n%]]*%]%])") do
         local apath = capture:match("%[%[youtube:([^\n%]]*)%]%]")
-        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]"):gsub("%-", "%%-")
+        local pattern = capture:gsub("%[", "%%["):gsub("%]", "%%]"):gsub("%-",
+                                                                         "%%-")
         if apath then
             content = content:gsub(pattern,
-                "<iframe style='width:100%%;height: auto;min-height: 400px;' src=\"https://www.youtube.com/embed/"..apath.."\"> </iframe>")
+                                   "<iframe style='width:100%%;height: auto;min-height: 400px;' src=\"https://www.youtube.com/embed/" ..
+                                       apath .. "\"> </iframe>")
         end
-end
+    end
 
     return content, has_model
 end
@@ -146,6 +150,11 @@ function DocController:index(...)
             if p then
                 toc.cpath = p
                 path = getpath(p, self)
+                if path and ulib.exists(path) then
+                    self.template:set("url", HTTP_ROOT .. '/' .. self.name ..
+                                          '/' ..
+                                          std.b64encode(toc.cpath):gsub("=", ""))
+                end
             end
         end
     else
