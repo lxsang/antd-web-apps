@@ -21,6 +21,10 @@
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/afx.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/style.css" />
+
+        <link rel="stylesheet" type="text/css" href="https://chat.iohub.dev/assets/quicktalk.css" />
+        <script src="https://chat.iohub.dev/assets/quicktalk.js"> </script>
+
         <script src="<?=HTTP_ROOT?>/rst/afx.js"> </script>
         <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/assets/main.js"></script>
@@ -54,6 +58,15 @@
                   hljs.highlightBlock(block);
                   hljs.lineNumbersBlock(block);
                 });
+                // comment
+                
+                var options = {
+                    target: "quick_talk_comment_thread",
+                    api_uri: "https://chat.iohub.dev/comment",
+                    uri: "<?=url?>",
+                    page: $("#desktop")[0]
+                };
+                new QuickTalk(options);
               });
 <?lua end ?>
             window.twttr = (function(d, s, id) {
