@@ -53,18 +53,17 @@
             
 <?lua if render then ?>
             $(document).ready(function() {
-                renderMathInElement($("#container")[0]);
-                $('pre code').each(function(i, block) {
-                  hljs.highlightBlock(block);
-                  hljs.lineNumbersBlock(block);
-                });
-                // comment
-                
                 var options = {
                     target: "quick_talk_comment_thread",
                     api_uri: "https://chat.iohub.dev/comment",
                     uri: "<?=url?>",
-                    page: $("#desktop")[0]
+                    onload: function(){
+                        renderMathInElement($("#desktop")[0]);
+                        $('pre code').each(function(i, block) {
+                            hljs.highlightBlock(block);
+                            hljs.lineNumbersBlock(block);
+                        });
+                    }
                 };
                 new QuickTalk(options);
               });
