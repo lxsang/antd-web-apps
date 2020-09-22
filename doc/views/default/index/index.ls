@@ -92,6 +92,19 @@
         echo(data)
     ?>
 </div>
+<?lua
+    if url then
+?>
+<div class = "commentsec">
+<h3 class = "comment-header">Comments</h1>
+<div>
+The comment editor supports <b>Markdown</b> document format. Your email is necessary to notify you of further updates on the discussion. It will be hidden from the public.
+</div>
+<div id="quick_talk_comment_thread"></div>
+</div>
+<?lua
+    end
+?>
 <div class = "pagenav">
     <?lua
         if prev_entry then

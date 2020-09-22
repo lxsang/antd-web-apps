@@ -2,6 +2,7 @@
 local tocdata = __main__:get("toc")
 local elinks = __main__:get("elinks")
 local has_3d = __main__:get("has_3d")
+local url = __main__:get("url")
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,7 @@ local has_3d = __main__:get("has_3d")
             rel="stylesheet"
             type="text/css"
             href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
+        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
         <?lua
             if has_3d then
         ?>
@@ -28,7 +30,19 @@ local has_3d = __main__:get("has_3d")
         <script
             src="<?=HTTP_ROOT?>/rst/hljs/highlightjs-line-numbers.min.js"
         ></script>
+
+        <?lua
+            if url then
+        ?>
+        <link rel="stylesheet" type="text/css" href="https://chat.iohub.dev/assets/quicktalk.css" />
+        <script src="https://chat.iohub.dev/assets/quicktalk.js"> </script>
+        <?lua
+            else
+        ?>
         <script>hljs.initHighlightingOnLoad();</script>
+        <?lua
+            end
+        ?>
         <script
             src="<?=HTTP_ROOT?>/rst/katex/katex.min.js"
         ></script>
@@ -128,7 +142,27 @@ local has_3d = __main__:get("has_3d")
                     if( val === "" || val == "\n") return false;
                     return true;
                 }
+        <?lua
+            if url then
+        ?>
+                var options = {
+                    target: "quick_talk_comment_thread",
+                    api_uri: "https://chat.iohub.dev/comment",
+                    uri: "<?=url?>",
+                    onload: function(){
+                        renderMathInElement($("#book")[0]);
+                        $('pre code').each(function(i, block) {
+                            hljs.highlightBlock(block);
+                            hljs.lineNumbersBlock(block);
+                        });
+                    }
+                };
+                new QuickTalk(options);
+        <?lua
+            end
+        ?>
             });
+        
         </script>
     </body>
 </html>
