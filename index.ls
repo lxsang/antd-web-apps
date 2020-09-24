@@ -25,10 +25,6 @@
         <link rel="stylesheet" type="text/css" href="grs/ubuntu-regular.css" />
         <link rel="stylesheet" type="text/css" href="grs/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="grs/mainsite.css" />
-        <script src="grs/gscripts/jquery-3.2.1.min.js"> </script>
-        <script src="grs/gscripts/riot.min.js"> </script>
-        <script src="grs/resources/antos_tags.js"></script>
-        <script src="grs/main.js"></script>
     </head>
     <body>
         <div id = "desktop">
@@ -36,7 +32,6 @@
                 <ul>
                     <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
                     <li><i class = "fa fa-newspaper-o"></i><a href="https://blog.lxsang.me" >Blog</a></li>
-                    <li><i class = "fa fa-paper-plane"></i><a href="#" onclick="mailtoMe('grs')" >Contact</a></li>
                     <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">Web OS</a></li>
                 </ul>
             </div>
