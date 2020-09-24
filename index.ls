@@ -32,7 +32,7 @@
                 <ul>
                     <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Porfolio</a></li>
                     <li><i class = "fa fa-newspaper-o"></i><a href="https://blog.lxsang.me" >Blog</a></li>
-                    <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">Web OS</a></li>
+                    <li > <i class = "fa fa-globe"></i><a href = "https://os.iohub.dev" target="_blank">Web OS</a></li>
                 </ul>
             </div>
             <div id = "center">
