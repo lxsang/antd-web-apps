@@ -14,9 +14,8 @@ local pre_process_md = function(str, obj)
         if apath then
             apath = apath:gsub(" ", "%%%%20")
             print(apath)
-            content = str:gsub(pattern,
-                               "![](" .. HTTP_ROOT .. "/" .. obj.name ..
-                                   "/asset/" .. apath .. ")")
+            content = content:gsub(pattern, "![](" .. HTTP_ROOT .. "/" ..
+                                       obj.name .. "/asset/" .. apath .. ")")
         end
     end
     return content
@@ -33,10 +32,10 @@ local post_process_md = function(str, obj)
         if apath then
             -- apath = utils.urlencode(apath):gsub("%%", "%%%%")
             apath = apath:gsub(" ", "%%20")
-            content = str:gsub(pattern,
-                               "<model-viewer src=\"" .. HTTP_ROOT .. "/" ..
-                                   obj.name .. "/asset/" .. apath ..
-                                   "\" auto-rotate camera-controls></model-viewer>")
+            content = content:gsub(pattern,
+                                   "<model-viewer src=\"" .. HTTP_ROOT .. "/" ..
+                                       obj.name .. "/asset/" .. apath ..
+                                       "\" auto-rotate camera-controls></model-viewer>")
             has_model = true
         end
     end
