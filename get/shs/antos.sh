@@ -99,3 +99,4 @@ wget --no-check-certificate "https://github.com/lxsang/antos/raw/master/release/
 tar xvzf antos-1.0.0.tar.gz
 rm antos-1.0.0.tar.gz
 
+echo "Install done..."
