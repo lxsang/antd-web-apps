@@ -56,6 +56,10 @@ local url = __main__:get("url")
         <link
             rel="stylesheet"
             type="text/css"
+            href="<?=HTTP_ROOT?>/assets/github-markdown.css" />
+        <link
+            rel="stylesheet"
+            type="text/css"
             href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
         <link
             rel="stylesheet"
@@ -109,7 +113,7 @@ local url = __main__:get("url")
                     ?>
                 </div>
         
-                <div class="doc-content">
+                <div class="doc-content markdown-body">
                     <?lua
                         if __main__ then
                             __main__:render()

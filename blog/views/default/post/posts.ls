@@ -36,7 +36,7 @@
         <!--div class="g-plusone" data-action="share" data-size="medium" data-href="<?=url?>"></div-->
         <a class="twitter-share-button" href='https://twitter.com/intent/tweet?url=<?=url?>&text=<?=data.title?>'></a>
     </div>
-    <div class = "blogentry">
+    <div class = "blogentry markdown-body">
         <div class = "shortcontent">
             <?lua
                 local content = data.rendered:gsub("%%","%%%%")

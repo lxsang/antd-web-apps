@@ -322,3 +322,19 @@ model-viewer {
     padding-top: 10px;
     padding-bottom: 0px;
 }
+
+h1, h2, h3, h4, h5 { 
+    text-align: left;
+}
+
+div.doc-toc ul li { 
+    text-align: left;
+}
+table.hljs-ln tr, table.hljs-ln td {
+    background-color: transparent !important;
+    border:0 !important;
+}
+
+table.hljs-ln td { 
+    padding: 3px 3px !important;
+}
