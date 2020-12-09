@@ -200,7 +200,7 @@ class QuickTalk {
         container.appendChild(footer);
         at.appendChild(container);
         if (this.options.page) {
-            this.options.page.scrollTop = container.offsetTop;
+            this.options.page.scrollTop = container.offsetTop - this.options.page.offsetTop;
         }
         
         //container.scrollIntoView();
