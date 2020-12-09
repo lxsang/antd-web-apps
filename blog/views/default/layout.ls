@@ -56,6 +56,7 @@
             $(document).ready(function() {
                 var options = {
                     target: "quick_talk_comment_thread",
+                    page: "desktop",
                     api_uri: "https://chat.iohub.dev/comment",
                     uri: "<?=url?>",
                     author: {
