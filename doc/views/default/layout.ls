@@ -153,6 +153,7 @@ local url = __main__:get("url")
                     target: "quick_talk_comment_thread",
                     api_uri: "https://chat.iohub.dev/comment",
                     uri: "<?=url?>",
+                    page: 'cover',
                     author: {
                         first: "mrsang",
                         last: "iohub.dev"
