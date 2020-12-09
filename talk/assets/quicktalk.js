@@ -18,7 +18,7 @@ class QuickTalk {
                 this.instant_compose.parentNode.removeChild(this.instant_compose);
             }
             this.instant_compose = this.compose(editor, 0, true, (data) => {
-                this.show_comment(container, data, true).scrollIntoView();
+                this.show_comment(container, data, true);//.scrollIntoView();
             });
         });
     }
@@ -196,7 +196,7 @@ class QuickTalk {
         container.appendChild(preview);
         container.appendChild(footer);
         at.appendChild(container);
-        container.scrollIntoView();
+        //container.scrollIntoView();
         return container;
     }
     load_thread(at) {

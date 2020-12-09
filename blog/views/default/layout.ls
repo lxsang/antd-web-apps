@@ -21,6 +21,7 @@
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/afx.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/style.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/github-markdown.css" />
 
         <link rel="stylesheet" type="text/css" href="https://chat.iohub.dev/assets/quicktalk.css" />
         <script src="https://chat.iohub.dev/assets/quicktalk.js"> </script>

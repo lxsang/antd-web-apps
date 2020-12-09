@@ -98,7 +98,7 @@
 <div class = "commentsec">
 <h3 class = "comment-header">Comments</h1>
 <div>
-The comment editor supports <b>Markdown</b> document format. Your email is necessary to notify you of further updates on the discussion. It will be hidden from the public.
+The comment editor supports <b>Markdown</b> syntax. Your email is necessary to notify you of further updates on the discussion. It will be hidden from the public.
 </div>
 <div id="quick_talk_comment_thread"></div>
 </div>
