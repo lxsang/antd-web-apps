@@ -338,3 +338,6 @@ table.hljs-ln tr, table.hljs-ln td {
 table.hljs-ln td { 
     padding: 3px 3px !important;
 }
+table.hljs-ln {
+    margin: 0 !important;
+}
