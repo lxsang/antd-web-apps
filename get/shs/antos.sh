@@ -95,8 +95,8 @@ rm antd_web_apps.tar.gz
 rm -r ci blog doc index.ls info talk get
 
 cd /opt/www/htdocs/os
-wget --no-check-certificate "https://github.com/lxsang/antos/raw/master/release/antos-1.0.0.tar.gz"
-tar xvzf antos-1.0.0.tar.gz
-rm antos-1.0.0.tar.gz
+wget --no-check-certificate "https://github.com/lxsang/antos/raw/master/release/antos-1.1.2.tar.gz"
+tar xvzf antos-1.1.2.tar.gz
+rm antos-1.1.2.tar.gz
 
 echo "Install done..."
