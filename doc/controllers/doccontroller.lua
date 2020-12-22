@@ -171,7 +171,7 @@ function DocController:index(...)
         content, has_3d = post_process_md(content, self)
         -- replace some display plugins
 
-        self.template:setView("index", "index")
+        self.template:setView("book", "index")
         self.template:set("data", content)
         self.template:set("has_3d", has_3d)
     else
