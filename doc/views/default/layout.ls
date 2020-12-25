@@ -70,7 +70,7 @@ local url = __main__:get("url")
                 if tocdata then
                     echo(tocdata.data.name)
                 else
-                    echo("Untitled")
+                    echo("Documentation Hub")
                 end
             ?>
         </title>
@@ -94,32 +94,49 @@ local url = __main__:get("url")
                             </a>
                 <?lua
                         end
-                    end 
+                    end
+                    if tocdata then
                 ?>
                 <form id = "search_form" action="<?=HTTP_ROOT..'/'..tocdata.controller..'/search/'?>" method="get" class="search-form">
                     <input id = "search_box" name="q" type = "text" class = "search-box"></input>
                 </form>
                 <div class= "search-icon"></div>
+                <?lua
+                    end
+                ?>
             </div>
         </div>
         <div id = "cover">
             <div id = "book">
-                <div  class = "doc-toc">
-                    <?lua
-                        if toc then
-                            toc:set("data", tocdata)
-                            toc:render()
-                        end
-                    ?>
+                <?lua
+                if tocdata then
+                ?>
+                    <div  class = "doc-toc">
+                        <?lua
+                            if toc then
+                                toc:set("data", tocdata)
+                                toc:render()
+                            end
+                        ?>
+                    </div>
+                    <div class="doc-content markdown-body">
+                        <?lua
+                            if __main__ then
+                                __main__:render()
+                            end
+                        ?>
+                    </div>
+                <?lua
+                else
+                ?>
+                <div class="markdown-body">
+                <?lua
+                    if __main__ then
+                        __main__:render()
+                    end
+                 ?>
                 </div>
-        
-                <div class="doc-content markdown-body">
-                    <?lua
-                        if __main__ then
-                            __main__:render()
-                        end
-                    ?>
-                </div>
+                <?lua end ?>
             </div>
         </div>
         
@@ -139,12 +156,15 @@ local url = __main__:get("url")
                 }
                 var input = document.getElementById("search_box");
                 var form = document.getElementById("search_form");
-                form.onsubmit = function()
+                if(form)
                 {
-                    var val = input.value.trim();
-                    console.log(val);
-                    if( val === "" || val == "\n") return false;
-                    return true;
+                    form.onsubmit = function()
+                    {
+                        var val = input.value.trim();
+                        console.log(val);
+                        if( val === "" || val == "\n") return false;
+                        return true;
+                    }
                 }
         <?lua
             if url then

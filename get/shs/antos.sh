@@ -1,28 +1,30 @@
 #! /bin/bash
 
 set -e
-# base server
-wget -O- https://get.bitdojo.dev/antd | bash -s "1.0.6b"
-# base plugin
-wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "lua-0.5.2b"
-wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "wterm-1.0.0b"
-wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "tunnel-0.1.0b"
-# install antos
-
-[ -d /tmp/apub ] && rm -r /tmp/apub
-mkdir -p /tmp/apub
-cd /tmp/apub
-wget --no-check-certificate "https://github.com/lxsang/antd-tunnel-publishers/raw/master/dist/antd-publishers-0.1.0a.tar.gz"
-tar xvzf antd-publishers-0.1.0a.tar.gz
-cd antd-publishers-0.1.0a
-./configure --prefix=/opt/www && make && make install
 
 mkdir -p /opt/www/htdocs
 
-cd /opt/www
+if [ "$1" = "full" ]; then
+    # base server
+    wget -O- https://get.bitdojo.dev/antd | bash -s "1.0.6b"
+    # base plugin
+    wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "lua-0.5.2b"
+    wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "wterm-1.0.0b"
+    wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "tunnel-0.1.0b"
+    # install antos
 
-# create the configuration file
-cat << EOF > config.ini
+    [ -d /tmp/apub ] && rm -r /tmp/apub
+    mkdir -p /tmp/apub
+    cd /tmp/apub
+    wget --no-check-certificate "https://github.com/lxsang/antd-tunnel-publishers/raw/master/dist/antd-publishers-0.1.0a.tar.gz"
+    tar xvzf antd-publishers-0.1.0a.tar.gz
+    cd antd-publishers-0.1.0a
+    ./configure --prefix=/opt/www && make && make install
+
+    cd /opt/www
+
+    # create the configuration file
+    cat << EOF > config.ini
 [SERVER]
 plugins=/opt/www/lib/
 plugins_ext=.so
@@ -81,11 +83,12 @@ audio/mpeg=mp3,mpeg
 ls = lua
 lua = lua
 EOF
-# generate cert
-openssl  genrsa  -des3 -passout pass:1234 -out keypair.key 2048
-openssl rsa -passin pass:1234 -in keypair.key -out server.key
-openssl req -new -subj '/C=FR' -key server.key -out server.csr
-openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+    # generate cert
+    openssl  genrsa  -des3 -passout pass:1234 -out keypair.key 2048
+    openssl rsa -passin pass:1234 -in keypair.key -out server.key
+    openssl req -new -subj '/C=FR' -key server.key -out server.csr
+    openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+fi
 
 cd /opt/www/htdocs
 
