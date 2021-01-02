@@ -53,10 +53,12 @@ function SystemController:settings(...)
     if user then
         local ospath = require("vfs").ospath("home:///", user)
         if REQUEST and REQUEST.json then
-            local f = io.open(ospath .. "/" .. ".settings.json", "w")
+            local file_path = ospath .. "/" .. ".settings.json"
+            local f = io.open(file_path, "w")
             if f then
                 f:write(REQUEST.json)
                 f:close()
+                os.execute("chmod o-r "..file_path)
                 result(true)
             else
                 fail("Cannot save setting")
