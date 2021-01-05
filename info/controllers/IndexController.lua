@@ -53,7 +53,8 @@ end
 
 function IndexController:pdf(...)
     local tmp_file = WWW_ROOT.."/cv_exported.pdf"
-    local cmd = "wkhtmltopdf "..HTTP_ROOT.."/"..self.registry.user.."/notoc "..tmp_file
+    local cmd = "wkhtmltopdf "..HTTP_ROOT.."/"..self.registry.user.."/index/notoc "..tmp_file
+    print(cmd)
     local r = os.execute(cmd)
     if r then
         local mime = std.mimeOf(tmp_file)

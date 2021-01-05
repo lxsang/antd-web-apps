@@ -8,7 +8,8 @@
     local active = "toc_active"
     for k, v in pairs(data) do
 ?>
-    <li class="<?=active?>"><a href=<?='"#toc'..v[2]..'"'?> onclick='switchTab("toc<?=v[2]?>", this)' ><?=v[1]?></a></li>
+    <!--onclick='switchTab("toc<?=v[2]?>", this)'-->
+    <li class="<?=active?>"><a href=<?='"#toc'..v[2]..'"'?>  ><?=v[1]?></a></li>
 <?lua
     active = ''
     end

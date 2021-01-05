@@ -31,7 +31,7 @@
 }
 
 .layout div.container{
-    display: none;
+    display: block;
 }
 .layout div.container_active{
     display: block;
@@ -170,3 +170,15 @@ hr{
     padding: 0; 
 }
 img {max-width:100%}
+
+.header_container {
+    display: block;
+    width: 100%;
+}
+.header_container img {
+    float: left;
+    max-width: 150px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    display: block;
+}

@@ -67,7 +67,7 @@ function NotfoundController:index(...)
         self:error("404: Controller "..args[1].." not found : "..args[2])
         return
     end
-    REQUEST.r = "index/"..std.trim(REQUEST.r:gsub(user, ""), "/")
+    REQUEST.r = std.trim(REQUEST.r:gsub(user, ""), "/")
     if REGISTRY.db then REGISTRY.db:close() end
     REGISTRY.user = user
     REGISTRY.db = DBHelper:new{db=REGISTRY.user}
