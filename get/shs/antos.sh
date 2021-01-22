@@ -6,11 +6,12 @@ mkdir -p /opt/www/htdocs
 
 if [ "$1" = "full" ]; then
     # base server
-    wget -O- https://get.bitdojo.dev/antd | bash -s "1.0.6b"
+    wget -O- https://get.iohub.dev/antd | bash -s "1.0.6b"
     # base plugin
-    wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "lua-0.5.2b"
-    wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "wterm-1.0.0b"
-    wget -O- https://get.bitdojo.dev/antd_plugin | bash -s "tunnel-0.1.0b"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "lua-0.5.2b"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "wterm-1.0.0b"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "tunnel-0.1.0b"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "cgi-1.0.0b"
     # install antos
 
     [ -d /tmp/apub ] && rm -r /tmp/apub
