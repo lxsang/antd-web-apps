@@ -16,7 +16,7 @@ steps:
 - name: build
   commands:
   - cd ./antd-web-apps
-  - BUILDDIR=/opt/cloud/cuser/wapps make
+  - BUILDDIR=/opt/www/htdocs make
 trigger:
   branch:
   - master
