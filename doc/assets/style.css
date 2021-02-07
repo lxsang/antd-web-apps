@@ -33,7 +33,7 @@ body {
 
 #cover {
     /* height: calc(100% - 50px); */
-    height: 100%;
+    height: calc(100% - 30px);
     overflow-x: hidden;
     overflow-y: auto;
 }
