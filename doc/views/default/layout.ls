@@ -3,6 +3,10 @@ local tocdata = __main__:get("toc")
 local elinks = __main__:get("elinks")
 local has_3d = __main__:get("has_3d")
 local url = __main__:get("url")
+local book_width_css='style="max-width:80%;"'
+if HEADER.mobile then
+    book_width_css='style="max-width:95%;"'
+end
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,7 +81,7 @@ local url = __main__:get("url")
     </head>
     <body>
         <div id = "top">
-            <div id = "navbar">
+            <div id = "navbar" <?=book_width_css?>>
                 <div class = "doc-name">
                     <?lua if tocdata then ?>
                         <a href ="<?=HTTP_ROOT..'/'..tocdata.controller..'/'?>">
@@ -107,7 +111,7 @@ local url = __main__:get("url")
             </div>
         </div>
         <div id = "cover">
-            <div id = "book">
+            <div id = "book" <?=book_width_css?>>
                 <?lua
                 if tocdata then
                 ?>
@@ -141,9 +145,9 @@ local url = __main__:get("url")
             </div>
         </div>
         
-        <div id = "bottom">
+        <!--div id = "bottom">
             Powered by antd server, (c) 2019 - <?=os.date("*t").year?> Xuan Sang LE
-        </div>
+        </div-->
         <script>
             window.addEventListener('load', (event) => {
                 $("#btn_toc").click(function(){

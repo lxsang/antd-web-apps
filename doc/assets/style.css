@@ -38,14 +38,14 @@ body {
 }
 #navbar {
     margin: 0 auto;
-    max-width: 80%;
+    /* max-width: 80%; */
     display: flex;
     justify-content: flex-end;
     flex-direction: row;
 }
 #book {
     margin: 0 auto;
-    max-width: 80%;
+    /* max-width: 80%; */
     max-height: 100%;
     display: block;
     justify-content: flex-end;
@@ -124,7 +124,7 @@ div.doc-toc {
     overflow: auto;
     position: fixed;
     top: 30px;
-    bottom: 30px;
+    bottom: 0px;
     border-right: 1px solid #c9c9c9;
     padding-top: 10px;
     box-shadow: 2px 0px 7px #878887;
