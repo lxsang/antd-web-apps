@@ -13,7 +13,7 @@ local pre_process_md = function(str, obj)
                                                                          "%%-")
         if apath then
             apath = apath:gsub(" ", "%%%%20")
-            print(apath)
+            --print(apath)
             content = content:gsub(pattern, "![](" .. HTTP_ROOT .. "/" ..
                                        obj.name .. "/asset/" .. apath .. ")")
         end

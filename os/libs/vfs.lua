@@ -156,14 +156,14 @@ end
 vfs.checkperm = function(path, right)
 	local osfile = vfs.ospath(path)
 	local perm = vfs.perm(osfile)
-	print(osfile)
+	--print(osfile)
 	if not ulib.exists(osfile) then
 		return false,"Resource does not exist"
 	end
 	-- check if user own the file
 	if perm ~= nil then
 		if perm[right] == true then
-			print("Permission granted")
+			--print("Permission granted")
 			return true,osfile
 		else
 			print("Permission denie")
@@ -182,13 +182,13 @@ vfs.perm = function(file)
 	if uid ~= nil and st ~= nil and st.perm ~= nil then
 		--print(JSON.encode({uid, st}))
 		if(uid.id == st.uid) then -- the user owned the file
-			print("file belong to user")
+			--print("file belong to user")
 			return st.perm.owner
 		elseif uid.groups and uid.groups[st.gid] then
-			print("User belong to this group")	
+			--print("User belong to this group")	
 			return st.perm.group
 		else
-			print("User belong to other")
+			--print("User belong to other")
 			return st.perm.other
 		end	
 	else

@@ -111,7 +111,8 @@ local url = __main__:get("url")
                 <?lua
                 if tocdata then
                 ?>
-                    <div  class = "doc-toc">
+                    <button id="btn_toc" class="fa fa-bars"></button>
+                    <div id="doc_toc" class = "doc-toc">
                         <?lua
                             if toc then
                                 toc:set("data", tocdata)
@@ -119,7 +120,7 @@ local url = __main__:get("url")
                             end
                         ?>
                     </div>
-                    <div class="doc-content markdown-body">
+                    <div class="doc-content markdown-body" id="doc_content">
                         <?lua
                             if __main__ then
                                 __main__:render()
@@ -145,6 +146,12 @@ local url = __main__:get("url")
         </div>
         <script>
             window.addEventListener('load', (event) => {
+                $("#btn_toc").click(function(){
+                    $("#doc_toc").toggle();
+                });
+                $("#doc_content").click(function(){
+                    $("#doc_toc").hide();
+                });
                 // tree view events
                 var toggler = document.getElementsByClassName("caret");
                 var i;

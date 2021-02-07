@@ -117,8 +117,8 @@ div.search-icon {
     width: 35px;
 }
 div.doc-toc {
-    width: 300px;
-    /* font-size: 11px; */
+    max-width: 80%;
+    padding-right: 10px;
     background-color: #e3e3e3;
     color: #2c2c2c;
     overflow: auto;
@@ -127,7 +127,16 @@ div.doc-toc {
     bottom: 30px;
     border-right: 1px solid #c9c9c9;
     padding-top: 10px;
+    box-shadow: 2px 0px 7px #878887;
+    z-index: 20;
 }
+button#btn_toc {
+    width: 33px;
+    height: 33px;
+    position: fixed;
+    border: 1px solid #dadddd;
+}
+
 div.doc-toc a {
     text-decoration: none;
     color: #2c2c2c;
@@ -178,7 +187,7 @@ div.doc-toc a.highlight {
 
 div.doc-content {
     display: block;
-    width: calc(100% - 300px);
+    width: calc(100% - 30px);
     float: right;
     padding-left: 10px;
 }
