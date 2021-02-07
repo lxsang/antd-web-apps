@@ -29,11 +29,11 @@ body {
     width: 100%;
     padding: 5px;
     border-top: 1px solid #878887;
+    z-index: 22;
 }
 
 #cover {
-    /* height: calc(100% - 50px); */
-    height: calc(100% - 30px);
+    height: calc(100% - 50px);
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -125,9 +125,10 @@ div.doc-toc {
     overflow: auto;
     position: fixed;
     top: 30px;
-    bottom: 0px;
+    bottom: 30px;
     border-right: 1px solid #c9c9c9;
-    padding-top: 10px;
+    padding-top: 0;
+    padding-bottom: 10px;
     box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.65);
     z-index: 20;
 }
@@ -135,7 +136,21 @@ button#btn_toc {
     width: 33px;
     height: 33px;
     position: fixed;
-    border: 1px solid #dadddd;
+    border: 1px solid #c9c9c9;
+    background-color: #e3e3e3;
+    z-index: 21;
+    outline: none;
+}
+
+div.doc-to-header{
+    display: block;
+    padding: 0px;
+    margin: 0px;
+    padding-left: 37px;
+    padding-top: 9px;
+    height: 24px;
+    border-bottom: 1px solid #c9c9c9;
+    font-weight: bold;
 }
 
 div.doc-toc a {

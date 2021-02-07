@@ -11,6 +11,8 @@ end
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link
             rel="stylesheet"
             type="text/css"
@@ -117,6 +119,7 @@ end
                 ?>
                     <button id="btn_toc" class="fa fa-bars"></button>
                     <div id="doc_toc" class = "doc-toc">
+                        <div class = "doc-to-header">Table of content</div>
                         <?lua
                             if toc then
                                 toc:set("data", tocdata)
@@ -145,9 +148,9 @@ end
             </div>
         </div>
         
-        <!--div id = "bottom">
+        <div id = "bottom">
             Powered by antd server, (c) 2019 - <?=os.date("*t").year?> Xuan Sang LE
-        </div-->
+        </div>
         <script>
             window.addEventListener('load', (event) => {
                 $("#btn_toc").click(function(){
