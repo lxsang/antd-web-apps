@@ -84,25 +84,16 @@ end
     <body>
         <div id = "top">
             <div id = "navbar" <?=book_width_css?>>
-                <div class = "doc-name">
+                <?lua
+                    if tocdata then
+                ?>
+                <div class = "doc-toc-menu">
                     <?lua if tocdata then ?>
-                        <a href ="<?=HTTP_ROOT..'/'..tocdata.controller..'/'?>">
+                        <a href ="#" id="btn_toc">
                             <?=tocdata.data.name?>
                         </a>
                     <?lua end ?>
                 </div>
-                <?lua
-                    if elinks then
-                        for k,v in ipairs(elinks) do
-                ?>
-                            <a class = "x-link" target="_blank" href ="<?=v.url?>">
-                                <?=v.name?>
-                            </a>
-                <?lua
-                        end
-                    end
-                    if tocdata then
-                ?>
                 <form id = "search_form" action="<?=HTTP_ROOT..'/'..tocdata.controller..'/search/'?>" method="get" class="search-form">
                     <input id = "search_box" name="q" type = "text" class = "search-box"></input>
                 </form>
@@ -114,12 +105,31 @@ end
         </div>
         <div id = "cover">
             <div id = "book" <?=book_width_css?>>
-                <?lua
-                if tocdata then
-                ?>
-                    <button id="btn_toc" class="fa fa-bars"></button>
                     <div id="doc_toc" class = "doc-toc">
-                        <div class = "doc-to-header">Table of content</div>
+                        <div class = "doc-name doc-toc-header">
+                            <?lua if tocdata then ?>
+                                <a href ="<?=HTTP_ROOT..'/'..tocdata.controller..'/'?>">
+                                    <?=tocdata.data.name?>
+                                </a>
+                            <?lua end ?>
+                        </div>
+                        <?lua
+                        if tocdata then
+                        ?>
+                        <?lua
+                            if elinks then
+                                for k,v in ipairs(elinks) do
+                        ?>
+                                    <div class = "doc-toc-header">
+                                        <a class = "x-link" target="_blank" href ="<?=v.url?>">
+                                            <?=v.name?>
+                                        </a>
+                                    </div>
+                        <?lua
+                            end
+                        end
+                        ?>
+                        <div class = "doc-toc-header doc-toc-legend">Table of content</div>
                         <?lua
                             if toc then
                                 toc:set("data", tocdata)

@@ -54,9 +54,35 @@ body {
     text-align: justify;
     height: 100%;
 }
-div.doc-name {
+div.doc-toc-menu {
     text-align: left;
     padding-top: 3px;
+}
+div.doc-toc-menu a {
+    text-decoration: none;
+    color: #c9c9c9;
+}
+div.doc-toc-legend::before
+{
+    content: "\f0c9";
+    color: #2c2c2c;
+    width: 20px;
+    height: 25px;
+    margin-right: 3px;
+    font-family: "FontAwesome";
+    font-size: 18px;
+}
+div.doc-toc-menu a::before {
+    /* padding-top:13px; */
+    content: "\f02d";
+    color: #c9c9c9;
+    width: 20px;
+    height: 25px;
+    font-family: "FontAwesome";
+    font-size: 18px;
+}
+div.doc-name{
+    font-weight: bold;
 }
 div.doc-name a {
     text-decoration: none;
@@ -66,13 +92,14 @@ div.doc-name a {
 a.x-link,
 a.x-link:hover {
     text-decoration: none;
-    color: #c9c9c9;
-    padding-left: 15px;
+    color: #2c2c2c;
+    font-weight: bold;
+    /* padding-left: 15px; */
     padding-top: 7px;
 }
 a.x-link::before {
     content: "\f08e";
-    color: #c9c9c9;
+    color: #2c2c2c;
     width: 20px;
     height: 25px;
     font-family: "FontAwesome";
@@ -81,7 +108,7 @@ a.x-link::before {
 div.doc-name a::before {
     /* padding-top:13px; */
     content: "\f015";
-    color: #c9c9c9;
+    color: #2c2c2c;
     width: 20px;
     height: 25px;
     font-family: "FontAwesome";
@@ -135,20 +162,18 @@ div.doc-toc {
 button#btn_toc {
     width: 33px;
     height: 33px;
-    position: fixed;
     border: 1px solid #c9c9c9;
     background-color: #e3e3e3;
-    z-index: 21;
     outline: none;
 }
 
-div.doc-to-header{
+div.doc-toc-header{
     display: block;
     padding: 0px;
     margin: 0px;
-    padding-left: 37px;
-    padding-top: 9px;
-    height: 24px;
+    padding-left: 10px;
+    padding: 3px;
+    /* height: 24px; */
     border-bottom: 1px solid #c9c9c9;
     font-weight: bold;
 }
