@@ -110,17 +110,13 @@ end
         </div>
         <div id = "cover">
             <div id = "book" <?=book_width_css?>>
+                <?lua if tocdata then ?>
                     <div id="doc_toc" class = "doc-toc" <?=show_toc_css?> >
                         <div class = "doc-name doc-toc-header">
-                            <?lua if tocdata then ?>
-                                <a href ="<?=HTTP_ROOT..'/'..tocdata.controller..'/'?>">
-                                    <?=tocdata.data.name?>
-                                </a>
-                            <?lua end ?>
+                            <a href ="<?=HTTP_ROOT..'/'..tocdata.controller..'/'?>">
+                                <?=tocdata.data.name?>
+                            </a>
                         </div>
-                        <?lua
-                        if tocdata then
-                        ?>
                         <?lua
                             if elinks then
                                 for k,v in ipairs(elinks) do
@@ -131,8 +127,8 @@ end
                                         </a>
                                     </div>
                         <?lua
+                                end
                             end
-                        end
                         ?>
                         <div class = "doc-toc-header doc-toc-legend">Table of content</div>
                         <?lua
