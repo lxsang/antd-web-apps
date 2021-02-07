@@ -76,12 +76,12 @@
     <?lua
         
         if prev_entry then
-            echo("<a class = 'go_prev' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(prev_entry.path):gsub("=","")..'/'..prev_entry.name:gsub(" ", "_")..".md".." >")
+            echo("<a class = 'go_prev' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(prev_entry.path):gsub("=","")..'/'..prev_entry.name:gsub(" ", "_")..".md?show_toc=false".." >")
             echo(prev_entry.name)
             echo("</a>")
         end
         if next_entry then
-            echo("<a class = 'go_next' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(next_entry.path):gsub("=","")..'/'..next_entry.name:gsub(" ", "_")..".md".." >")
+            echo("<a class = 'go_next' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(next_entry.path):gsub("=","")..'/'..next_entry.name:gsub(" ", "_")..".md?show_toc=false".." >")
             echo(next_entry.name)
             echo("</a>")
         end
@@ -108,12 +108,12 @@ The comment editor supports <b>Markdown</b> syntax. Your email is necessary to n
 <div class = "pagenav">
     <?lua
         if prev_entry then
-            echo("<a class = 'go_prev' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(prev_entry.path):gsub("=","")..'/'..prev_entry.name:gsub(" ", "_")..".md".." >")
+            echo("<a class = 'go_prev' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(prev_entry.path):gsub("=","")..'/'..prev_entry.name:gsub(" ", "_")..".md?show_toc=false".." >")
             echo(prev_entry.name)
             echo("</a>")
         end
         if next_entry then
-            echo("<a class = 'go_next' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(next_entry.path):gsub("=","")..'/'..next_entry.name:gsub(" ", "_")..".md".." >")
+            echo("<a class = 'go_next' href="..HTTP_ROOT..'/'..toc.controller..'/'..std.b64encode(next_entry.path):gsub("=","")..'/'..next_entry.name:gsub(" ", "_")..".md?show_toc=false".." >")
             echo(next_entry.name)
             echo("</a>")
         end

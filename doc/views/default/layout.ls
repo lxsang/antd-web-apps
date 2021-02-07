@@ -3,6 +3,10 @@ local tocdata = __main__:get("toc")
 local elinks = __main__:get("elinks")
 local has_3d = __main__:get("has_3d")
 local url = __main__:get("url")
+local show_toc_css = ''
+if REQUEST.show_toc and REQUEST.show_toc == "false" then
+    show_toc_css = 'style="display:none;"'
+end
 local book_width_css='style="max-width:80%;"'
 if HEADER.mobile then
     book_width_css='style="max-width:95%;"'
@@ -96,6 +100,7 @@ end
                 </div>
                 <form id = "search_form" action="<?=HTTP_ROOT..'/'..tocdata.controller..'/search/'?>" method="get" class="search-form">
                     <input id = "search_box" name="q" type = "text" class = "search-box"></input>
+                    <input  name="show_toc" type = "hidden" value="false"></input>
                 </form>
                 <div class= "search-icon"></div>
                 <?lua
@@ -105,7 +110,7 @@ end
         </div>
         <div id = "cover">
             <div id = "book" <?=book_width_css?>>
-                    <div id="doc_toc" class = "doc-toc">
+                    <div id="doc_toc" class = "doc-toc" <?=show_toc_css?> >
                         <div class = "doc-name doc-toc-header">
                             <?lua if tocdata then ?>
                                 <a href ="<?=HTTP_ROOT..'/'..tocdata.controller..'/'?>">
