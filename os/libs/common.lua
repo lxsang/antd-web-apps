@@ -26,11 +26,20 @@ function sysdb()
 end
 
 function is_auth()
-	if SESSION.sessionid == nil or SESSION.sessionid == '0' then return false end
+	local sessionid = nil
+	if SESSION.sessionid and SESSION.sessionid ~= '0' then
+		sessionid = SESSION.sessionid
+	-- should be used only by API call
+	elseif REQUEST.sessionid and REQUEST.sessionid ~= '0' then
+		sessionid = REQUEST.sessionid
+	end
+	if sessionid == nil then
+		return false
+	end
 	-- query session id from database
 	local db = sysdb()
 	if db == nil then return false end
-	local cond = {exp= {["="] = { sessionid = SESSION.sessionid }}}
+	local cond = {exp= {["="] = { sessionid = sessionid }}}
 	local data = db:find(cond)
 	--print(JSON.encode(data))
 	db:close()

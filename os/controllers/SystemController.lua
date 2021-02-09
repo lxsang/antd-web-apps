@@ -183,7 +183,9 @@ function SystemController:apigateway(...)
                     print("Web socket is not available.")
                 end
             else
-                if REQUEST.json then
+                if REQUEST.path then
+                    exec_with_user_priv(REQUEST)
+                elseif REQUEST.json then
                     data = JSON.decodeString(REQUEST.json)
                     --std.json()
                     exec_with_user_priv(data)
