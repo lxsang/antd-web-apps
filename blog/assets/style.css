@@ -73,6 +73,51 @@ body {
     justify-content: flex-end;
     flex-direction: row;
 }
+div.d3tooltip {
+    position: absolute;
+    padding: 5px;
+    background-color: #2c2c2c;
+    color: white;
+    border: 0px;
+    border-radius: 5px;
+    max-width: 300px;
+    overflow: auto;
+}
+div.d3tooltip a{
+    color: white;
+    text-decoration: underline;
+}
+#floating_container {
+    position: absolute;
+    max-width: 50%;
+    height: calc(100% - 1px);
+    background-color: #2c2c2c;
+    opacity: 0.9;
+    right: 0;
+    overflow:hidden;
+}
+#floating_content
+{
+    overflow-y:auto;
+    height: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#floating_btn_container
+{
+    display: block;
+    height: 24px;
+    padding: 5px;
+    font-weight: bold;
+    border-bottom: 1px solid #cccccc;
+}
+#floating_btn_container a {
+    text-decoration: none;
+    margin-right: 10px;
+}
+#floating_container, #floating_container  a{
+    color: white;
+}
 #navbar.navmobile {
     margin: 0 auto;
     max-width: 960px;

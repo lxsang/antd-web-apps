@@ -18,7 +18,6 @@ function subscribe(prefix) {
                 scheme = undefined;
             });
             obs.on("rendered", function (d) {
-                console.log("rednered");
                 $(".afx-window-title", scheme).html("Subscribe");
                 $("[data-id='send']", scheme).click(function () {
                     var status = $("[data-id='status']", scheme);

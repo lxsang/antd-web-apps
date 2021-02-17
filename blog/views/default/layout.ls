@@ -5,6 +5,7 @@
     local render = __main__:get("render")
     local url = __main__:get("url")
     local tags = __main__:get("tags")
+    local d3 = __main__:get("d3")
     local cls = ""
     if HEADER.mobile then
         cls = "navmobile"
@@ -29,6 +30,14 @@
         <script src="<?=HTTP_ROOT?>/rst/afx.js"> </script>
         <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/assets/main.js"></script>
+<?lua if d3 then ?>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.5.0/d3.min.js" ></script>
+        <script src="https://d3js.org/d3-dispatch.v2.min.js"></script>
+        <script src="https://d3js.org/d3-quadtree.v2.min.js"></script>
+        <script src="https://d3js.org/d3-timer.v2.min.js"></script>
+        <script src="https://d3js.org/d3-force.v2.min.js"></script>
+        <script src="<?=HTTP_ROOT?>/assets/graph.js"></script>
+<?lua end ?>
         <meta property="og:image" content="" />
 <?lua if render then ?>
         <meta name="twitter:card" content="summary" />
@@ -116,14 +125,14 @@
                 <div class = "logo"><a href = "https://lxsang.me"></a></div>
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="<?=HTTP_ROOT?>">Home</a></li>
-                        <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Portfolio</a></li>
-                        <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('<?=HTTP_ROOT?>')" >Contact</a></li>
                         <?lua
                         if not HEADER.mobile then
                         ?>
+                        <li > <i class = "fa fa-globe"></i><a href = "/post/graph">Explore</a></li>
                         <li> <i class = "fa fa-paper-plane"></i><a href="#" onclick="subscribe('<?=HTTP_ROOT?>')">Subscribe</a></li>
-                        <li > <i class = "fa fa-globe"></i><a href = "https://os.lxsang.me" target="_blank">AntOS</a></li>
                         <?lua end ?>
+                        <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Portfolio</a></li>
+                        <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('<?=HTTP_ROOT?>')" >Contact</a></li>
                 </ul>
                 <?lua
                 if not HEADER.mobile then

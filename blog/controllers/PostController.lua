@@ -88,6 +88,43 @@ function PostController:bytag(b64tag, limit, action, id)
     return true
 end
 
+function PostController:json(id)
+    local obj = {
+        error = false,
+        result = false
+    }
+    local data, order = self.blog:fetch({["="] = {id = id}})
+    if not data or #order == 0 then
+        obj.error = "No data found"
+    else
+        data = data[1]
+        obj.result = {
+            id = data.id,
+            title = data.title,
+            description = nil,
+            tags = data.tags,
+            ctime = data.ctimestr,
+            utime = data.utimestr
+        }
+
+        local c, d = data.content:find("%-%-%-%-%-")
+        if c then
+            obj.description = data.content:sub(0, c - 1)
+        else
+            obj.description = data.content
+        end
+        -- convert description to html
+        local content = ""
+        local md = require("md")
+        local callback = function(s) content = content .. s end
+        md.to_html(obj.description, callback)
+        obj.result.description = content
+    end
+    std.json()
+    std.t(JSON.encode(obj));
+    return false;
+end
+
 function PostController:id(pid)
     local data, order = self.blog:fetch({["="] = {id = pid}})
     if not data or #order == 0 then
@@ -128,6 +165,52 @@ end
 function PostController:actionnotfound(...)
     local args = {...}
     return self:notfound("Action [" .. args[1] .. "] not found")
+end
+
+function PostController:graph_json(...)
+    local nodes = self.blog:find({exp= { ["="] = { publish = 1}}, fields = {"id", "title"}})
+    local output = { error = false, result = false }
+    local lut = {}
+    std.json()
+    if not nodes then
+        output.error = "No nodes found"
+    else
+        output.result = {
+            nodes = {},
+            links = {}
+        }
+        for k,v in ipairs(nodes) do
+            local title = v.title
+            output.result.nodes[k] = { id = tonumber(v.id), title = title }
+        end
+        -- get statistic links
+        local links = self.analytical:find({fields = {"pid", "sid", "score"}})
+        if links then
+            local i = 1
+            for k,v in ipairs(links) do
+                local link = { source = tonumber(v.pid), target = tonumber(v.sid), score = tonumber(v.score)}
+                local key = ""
+                if link.source < link.target then
+                    key = v.pid..v.sid
+                else
+                    key = v.sid..v.pid
+                end
+                key = std.sha1(key)
+                if not lut[key] then
+                    output.result.links[i] = link
+                    i = i + 1
+                    lut[key] = true
+                end
+            end
+        end
+    end
+    std.t(JSON.encode(output))
+    return false
+end
+function PostController:graph(...)
+    self.template:set("title", "Posts connection graph")
+    self.template:set("d3", true)
+    return true
 end
 
 function PostController:analyse(n)

@@ -27,7 +27,7 @@ function BlogModel:fetch(cnd, limit, order)
         exp = {["and"] = exp }, 
         order = { ctime = "DESC" },
         fields = {
-            "id", "title", "utime", "ctime", "utimestr", "ctimestr", "rendered", "tags"
+            "id", "title", "utime", "ctime", "utimestr", "content", "ctimestr", "rendered", "tags"
         }    
     }
     if limit then
