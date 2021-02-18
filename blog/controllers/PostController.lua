@@ -236,7 +236,7 @@ function PostController:analyse(n)
         self.analytical:delete({["="] = {["1"] = 1}})
         -- get similarity and put to the table
         for id, v in pairs(vectors) do
-            local top = cluster.top_similarity(id, vectors, n, 0.1)
+            local top = cluster.top_similarity(id, vectors, tonumber(n), 0.1)
             for a, b in pairs(top) do
                 local record = {pid = id, sid = a, score = b}
                 self.analytical:create(record)
