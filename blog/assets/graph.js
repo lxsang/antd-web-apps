@@ -63,7 +63,8 @@ $(document).ready(function () {
                         .force("link",
                             d3.forceLink(links)
                                 .id(d => d.id)
-                                .distance(d => 2.0 / d.score)
+                                .distance(d => 1.0 / d.score)
+                                .strength(d => d.score)
                         )
                         .force("charge", d3.forceManyBody())
                         .force("center", d3.forceCenter());
