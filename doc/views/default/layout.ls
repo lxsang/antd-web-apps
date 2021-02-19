@@ -163,12 +163,24 @@ end
             Powered by antd server, (c) 2019 - <?=os.date("*t").year?> Xuan Sang LE
         </div>
         <script>
+            const toc_class_toggle = () => {
+                if(!$("#doc_toc").is(":hidden"))
+                {
+                    $("#btn_toc").attr("class", "toc-active");
+                }
+                else
+                {
+                    $("#btn_toc").removeClass("toc-active");
+                }
+            };
             window.addEventListener('load', (event) => {
                 $("#btn_toc").click(function(){
                     $("#doc_toc").toggle();
+                    toc_class_toggle();
                 });
                 $("#doc_content").click(function(){
                     $("#doc_toc").hide();
+                    toc_class_toggle();
                 });
                 // tree view events
                 var toggler = document.getElementsByClassName("caret");
@@ -216,7 +228,7 @@ end
             end
         ?>
             });
-        
+        toc_class_toggle();
         </script>
     </body>
 </html>
