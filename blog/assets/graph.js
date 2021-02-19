@@ -210,6 +210,7 @@ $(document).ready(function () {
                             .css("height", "calc(100% - 10px)")
                             .css("margin", "0 auto")
                             .css("display", "block"));
+                    $("#floating_container").show();
                 }
             }
         )

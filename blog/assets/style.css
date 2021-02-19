@@ -95,6 +95,7 @@ div.d3tooltip a{
     opacity: 0.9;
     right: 0;
     overflow:hidden;
+    display: none;
 }
 #floating_content
 {

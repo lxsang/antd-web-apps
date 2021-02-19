@@ -16,7 +16,7 @@
 
     <p>
     Nodes are arranged by force which is modelled by content similarity.
-    The more similar is the nodes content, the stronger is the force between them.
+    The more similar the nodes content, the stronger the force between them.
     Therefore, nodes that share similar topic will tend to group themself together in a cluster.
     </p>
 
