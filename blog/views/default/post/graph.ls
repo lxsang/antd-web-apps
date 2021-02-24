@@ -1,9 +1,7 @@
 <div id="floating_container">
 <div id="floating_btn_container">
-    <i class="fa fa-close"></i>
-    <a id="floating_btn_close" href="#" >Close</a>
-    <i class="fa fa-chain"></i>
-    <a id="floating_btn_read_more" href="#">Read more</a>
+    <a id="floating_btn_close" href="#" ><i class="fa fa-close"></i>&nbsp;Close</a>
+    <a id="floating_btn_read_more" href="#"><i class="fa fa-chain"></i>&nbsp;Read more</a>
 </div>
 <div id="floating_content">
     <p>
