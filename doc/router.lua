@@ -22,6 +22,8 @@ POST_LIMIT = 10
 -- require needed library
 require(BASE_FRW.."silk.api")
 
+package.path = package.path..";"..__ROOT__.."/os/libs/?.lua"
+
 POLICY.mimes["model/gltf-binary"] = true
 
 if REQUEST.r then
