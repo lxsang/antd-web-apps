@@ -2,24 +2,32 @@
 
 set -e
 
+V_ANTD="1.0.6b"
+V_LUA="0.5.2b"
+V_WTERM="1.0.0b"
+V_TUNNEL="0.1.0b"
+V_CGI="1.0.0b"
+V_PUBS="0.1.0a"
+V_ANTOS="1.2.0"
+
 mkdir -p /opt/www/htdocs
 
 if [ "$1" = "full" ]; then
     # base server
-    wget -O- https://get.iohub.dev/antd | bash -s "1.0.6b"
+    wget -O- https://get.iohub.dev/antd | bash -s "$V_ANTD"
     # base plugin
-    wget -O- https://get.iohub.dev/antd_plugin | bash -s "lua-0.5.2b"
-    wget -O- https://get.iohub.dev/antd_plugin | bash -s "wterm-1.0.0b"
-    wget -O- https://get.iohub.dev/antd_plugin | bash -s "tunnel-0.1.0b"
-    wget -O- https://get.iohub.dev/antd_plugin | bash -s "cgi-1.0.0b"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "lua-$V_LUA"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "wterm-$V_WTERM"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "tunnel-$V_TUNNEL"
+    wget -O- https://get.iohub.dev/antd_plugin | bash -s "cgi-$V_CGI"
     # install antos
 
     [ -d /tmp/apub ] && rm -r /tmp/apub
     mkdir -p /tmp/apub
     cd /tmp/apub
-    wget --no-check-certificate "https://github.com/lxsang/antd-tunnel-publishers/raw/master/dist/antd-publishers-0.1.0a.tar.gz"
-    tar xvzf antd-publishers-0.1.0a.tar.gz
-    cd antd-publishers-0.1.0a
+    wget --no-check-certificate "https://github.com/lxsang/antd-tunnel-publishers/raw/master/dist/antd-publishers-$V_PUBS.tar.gz"
+    tar xvzf antd-publishers-$V_PUBS.tar.gz
+    cd antd-publishers-$V_PUBS
     ./configure --prefix=/opt/www && make && make install
 
     cd /opt/www
@@ -96,11 +104,11 @@ cd /opt/www/htdocs
 wget --no-check-certificate "https://github.com/lxsang/antd-web-apps/raw/master/dist/antd_web_apps.tar.gz"
 tar xvzf antd_web_apps.tar.gz
 rm antd_web_apps.tar.gz
-rm -r ci blog doc index.ls info talk get
+rm -r blog doc index.ls info talk get
 
 cd /opt/www/htdocs/os
-wget --no-check-certificate "https://github.com/lxsang/antos/raw/master/release/antos-1.1.2.tar.gz"
-tar xvzf antos-1.1.2.tar.gz
-rm antos-1.1.2.tar.gz
+wget --no-check-certificate "https://github.com/lxsang/antos/raw/master/release/antos-$V_ANTOS.tar.gz"
+tar xvzf antos-$V_ANTOS.tar.gz
+rm antos-$V_ANTOS.tar.gz
 
 echo "Install done..."
