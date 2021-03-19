@@ -4,14 +4,14 @@ type: exec
 name: default
 platform:
   os: linux
-  arch: arm64
+  arch: amd64
 clone:
   disable: true
 steps:
 - name: clone
   commands:
   - pwd
-  - git clone git@iohub.dev:lxsang/antd-web-apps.git
+  - git clone ssh://git@iohub.dev:2222/lxsang/antd-web-apps.git
   - cd ./antd-web-apps && git checkout master
 - name: build
   commands:
