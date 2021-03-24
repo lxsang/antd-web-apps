@@ -107,7 +107,7 @@ rm antd_web_apps.tar.gz
 rm -r blog doc index.ls info talk get
 
 cd /opt/www/htdocs/os
-wget --no-check-certificate "https://github.com/lxsang/antos/raw/master/release/antos-$V_ANTOS.tar.gz"
+wget --no-check-certificate "https://github.com/lxsang/antos/raw/next-1.2.0/release/antos-$V_ANTOS.tar.gz"
 tar xvzf antos-$V_ANTOS.tar.gz
 rm antos-$V_ANTOS.tar.gz
 
