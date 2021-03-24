@@ -8,7 +8,7 @@ V_WTERM="1.0.0b"
 V_TUNNEL="0.1.0b"
 V_CGI="1.0.0b"
 V_PUBS="0.1.0a"
-V_ANTOS="1.2.0"
+V_ANTOS=$(wget -qO- https://github.com/lxsang/antos/raw/master/release/latest)
 
 mkdir -p /opt/www/htdocs
 
