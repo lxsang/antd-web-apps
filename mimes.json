@@ -66,5 +66,9 @@
     "glb": {
         "mime": "model/gltf-binary",
         "binary": true
+    },
+    "ts":{
+        "mime": "text/x.typescript",
+        "binary": false
     }
 }
