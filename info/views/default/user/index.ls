@@ -1,5 +1,5 @@
 <div class="header_container">
-        <?lua if data.photo and data.photo ~= "" then ?>
+        <?lua if data.photo and data.photo ~= "" and data.user ~= "mrsang" then ?>
             <img src="/<?=data.user?>/user/photo"></img>
         <?lua end ?>
         <h1>
@@ -32,5 +32,5 @@
         </p>
 </div>
 <?lua if not HEADER.mobile and data.user == "mrsang" then ?>
-<iframe width="770" height="330" src="https://mars.nasa.gov/layout/embed/send-your-name/future/certificate/?cn=792789419260" frameborder="0"></iframe>
+<!--iframe width="770" height="330" src="https://mars.nasa.gov/layout/embed/send-your-name/future/certificate/?cn=792789419260" frameborder="0"></iframe-->
 <?lua end ?>
