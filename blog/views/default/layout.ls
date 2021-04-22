@@ -28,7 +28,7 @@
         <script src="https://chat.iohub.dev/assets/quicktalk.js"> </script>
 
         <script src="<?=HTTP_ROOT?>/rst/afx.js"> </script>
-        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.4.1.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/assets/main.js"></script>
 <?lua if d3 then ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.5.0/d3.min.js" ></script>
