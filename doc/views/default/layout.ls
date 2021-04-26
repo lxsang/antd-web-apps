@@ -25,7 +25,7 @@ end
             rel="stylesheet"
             type="text/css"
             href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
-        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.2.1.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.4.1.min.js"> </script>
         <?lua
             if has_3d then
         ?>
