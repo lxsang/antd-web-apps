@@ -1,10 +1,12 @@
 require("sqlite")
 function fail(msg)
+	std.custom_header("Connection","close")
 	std.json()
 	std.t(JSON.encode({error=msg}))
 end
 
 function result(obj)
+	std.custom_header("Connection","close")
 	std.json()
 	std.t(JSON.encode({result=obj, error=false}))
 end
