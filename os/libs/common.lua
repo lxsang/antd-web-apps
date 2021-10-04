@@ -1,4 +1,5 @@
 require("sqlite")
+local TUNNEL_KEYCHAIN = "/opt/www/tmp/channels/antunnel_keychain"
 function fail(msg)
 	std.custom_header("Connection","close")
 	std.json()
@@ -48,6 +49,10 @@ function is_auth()
 	if data == nil or data[1] == nil then return die("No user data found") end
 	-- next time check the stamp
 	SESSION.user = data[1].username
+	local f = io.open(TUNNEL_KEYCHAIN, "w")
+	if f then
+		f:write(sessionid)
+	end
 	return true
 end
 
