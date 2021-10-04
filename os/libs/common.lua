@@ -52,6 +52,7 @@ function is_auth()
 	local f = io.open(TUNNEL_KEYCHAIN, "w")
 	if f then
 		f:write(sessionid)
+		f:close()
 	end
 	return true
 end
