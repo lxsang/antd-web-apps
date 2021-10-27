@@ -51,7 +51,7 @@ function is_auth()
 	SESSION.user = data[1].username
 	local f = io.open(TUNNEL_KEYCHAIN, "w")
 	if f then
-		f:write(sessionid)
+		f:write(sessionid..SESSION.user)
 		f:close()
 	end
 	return true
