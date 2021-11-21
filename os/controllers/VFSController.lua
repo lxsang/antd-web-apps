@@ -191,6 +191,7 @@ function VFSController:upload(...)
         if r then
             result(r)
         else
+            self:error(m)
             fail(m)
         end
     else

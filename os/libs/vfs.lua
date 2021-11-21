@@ -141,13 +141,23 @@ vfs.write = function(path,data)
 end
 
 vfs.upload = function(path)
+	if(not path) then
+		return false, "Unknown upload destination, abort!"
+	end
 	local r,m = vfs.checkperm(path,"write")
 	if(r) then
 		local uid = ulib.uid(SESSION.user)
-		local file = m.."/"..REQUEST["upload.file"]
-		ulib.move(REQUEST["upload.tmp"], file)
-		ulib.chown(file, uid.id, uid.gid)
-		return true, nil
+		local index = 0
+		while(REQUEST["upload-"..index..".tmp"] ~= nil) do
+			local file = m.."/"..REQUEST["upload-"..index..".file"]
+			ulib.move(REQUEST["upload-"..index..".tmp"], file)
+			ulib.chown(file, uid.id, uid.gid)
+			index = index + 1
+		end
+		if(index == 0) then
+			return false, "No file is uploaded"
+		end
+		return true, index
 	else
 		return r,m
 	end
