@@ -156,7 +156,9 @@ function SystemController:apigateway(...)
             if use_ws then
                 if std.ws.enable() then
                     -- read header
-                    local header = std.ws.header()
+                    local header = nil
+                    -- wait until we receive request
+                    while(not header) do header = std.ws.header() end
                     if header then
                         if header.mask == 0 then
                             print("Data is not masked")
