@@ -1,4 +1,4 @@
-copyfiles =  assets views models controllers router.lua
+copyfiles =  assets views models ai controllers router.lua
 
 main:
 	- mkdir -p $(BUILDDIR)
