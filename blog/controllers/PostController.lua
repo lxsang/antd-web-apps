@@ -217,7 +217,7 @@ function PostController:analyse(n)
     if not n then
         n = 5
     end
-    local path = "/home/mrsang/aiws/blog-clustering"
+    local path = WWW_ROOT."/ai"
     local gettext = loadfile(path .. "/gettext.lua")()
     local cluster = loadfile(path .. "/cluster.lua")()
     local data = gettext.get({publish = 1})
