@@ -19,7 +19,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Hi, I'm Xuan Sang LE</title>
+        <title>Hi, I'm <?=data.fullname?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="grs/ubuntu-regular.css" />
@@ -39,7 +39,7 @@
                 <div id = "container" class="<?=mobilecls?>" >
                     <img src = "grs/images/mrsang.png" ></img>
                     <div id = "vcard">
-                        <p class = "greeting">Hi, I'm <b>Xuan Sang LE</b></p>
+                        <p class = "greeting">Hi, I'm <b><?=data.fullname?></b></p>
                         <p class = "dedicate">
                             <span class="fa fa-quote-left"></span>
                             <span>
