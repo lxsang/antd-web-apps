@@ -5,10 +5,10 @@ set -e
 V_ANTD="1.0.6b"
 V_LUA="0.5.2b"
 V_WTERM="1.0.0b"
-V_TUNNEL="0.1.0b"
+V_TUNNEL="0.1.3b"
 V_CGI="1.0.0b"
-V_PUBS="0.1.0a"
-V_ANTOS=$(wget -qO- https://github.com/lxsang/antos/raw/master/release/latest)
+V_PUBS="0.1.2a"
+V_ANTOS=$(wget -qO- https://github.com/lxsang/antos/raw/next-1.2.0/release/latest)
 
 mkdir -p /opt/www/htdocs
 
