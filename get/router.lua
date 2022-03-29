@@ -33,7 +33,7 @@ function NotfoundController:index(...)
 
     if ulib.exists(path) then
         std.header("text/plain")
-        std.f(path)
+        std.sendFile(path)
     else
         self:error("No script found: "..path)
     end
