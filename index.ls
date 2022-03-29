@@ -47,12 +47,13 @@
                             </span>
                             <span class="fa fa-quote-right"></span>
                         </p>
-                        <a href="https://info.lxsang.me" class ="about">Find out more about me</a>
+                        <a href="https://blog.iohub.dev" class ="about">Read my blog</a>
+                        <a href="https://info.iohub.dev" class ="about">More about me</a>
                     </div>
                 </div>
             </div>
             <div id = "bottom">
-                Powered by antd server, (c) 2017 - 2018 Xuan Sang LE
+                Powered by antd server, (c) 2017 - 2022 Dany LE
             </div>
         </div>
     </body>
