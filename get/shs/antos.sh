@@ -4,11 +4,11 @@ set -e
 
 V_ANTD="1.0.6b"
 V_LUA="0.5.2b"
-V_WTERM="1.0.0b"
+#V_WTERM="1.0.0b"
 V_TUNNEL="0.1.3b"
-V_CGI="1.0.0b"
+#V_CGI="1.0.0b"
 V_PUBS="0.1.2a"
-V_ANTOS=$(wget -qO- https://github.com/lxsang/antos/raw/next-1.2.0/release/latest)
+V_ANTOS=$(wget -qO- https://github.com/lxsang/antos/raw/1.2.1/release/latest)
 
 mkdir -p /opt/www/htdocs
 
@@ -17,9 +17,9 @@ if [ "$1" = "full" ]; then
     wget -O- https://get.iohub.dev/antd | bash -s "$V_ANTD"
     # base plugin
     wget -O- https://get.iohub.dev/antd_plugin | bash -s "lua-$V_LUA"
-    wget -O- https://get.iohub.dev/antd_plugin | bash -s "wterm-$V_WTERM"
+    #wget -O- https://get.iohub.dev/antd_plugin | bash -s "wterm-$V_WTERM"
     wget -O- https://get.iohub.dev/antd_plugin | bash -s "tunnel-$V_TUNNEL"
-    wget -O- https://get.iohub.dev/antd_plugin | bash -s "cgi-$V_CGI"
+    #wget -O- https://get.iohub.dev/antd_plugin | bash -s "cgi-$V_CGI"
     # install antos
 
     [ -d /tmp/apub ] && rm -r /tmp/apub
@@ -107,7 +107,7 @@ rm antd_web_apps.tar.gz
 rm -r blog doc index.ls info talk get
 
 cd /opt/www/htdocs/os
-wget --no-check-certificate "https://github.com/lxsang/antos/raw/next-1.2.0/release/antos-$V_ANTOS.tar.gz"
+wget --no-check-certificate "https://github.com/lxsang/antos/raw/1.2.1/release/antos-$V_ANTOS.tar.gz"
 tar xvzf antos-$V_ANTOS.tar.gz
 rm antos-$V_ANTOS.tar.gz
 
