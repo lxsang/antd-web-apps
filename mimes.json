@@ -70,5 +70,9 @@
     "ts":{
         "mime": "text/x.typescript",
         "binary": false
+    },
+    "map":{
+        "mime": "application/json",
+        "binary": false
     }
 }
