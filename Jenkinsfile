@@ -32,12 +32,15 @@ pipeline{
             set -e
             export WORKSPACE=$(realpath "./jenkins/workspace/antd-web-apps")
             cd $WORKSPACE
-            make ar
+            [ -d build ] && rm -rf build
+            mkdir -p build/opt/www/htdocs
+            export BUILDDIR="$WORKSPACE/build/opt/www/htdocs"
+            make
           '''
         script {
             // only useful for any master branch
             //if (env.BRANCH_NAME =~ /^master/) {
-            archiveArtifacts artifacts: 'dist/', fingerprint: true
+            archiveArtifacts artifacts: 'build/', fingerprint: true
             //}
         }
       }
