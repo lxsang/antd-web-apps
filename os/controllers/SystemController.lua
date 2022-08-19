@@ -132,10 +132,12 @@ function SystemController:apigateway(...)
             r, e = loadfile(ospath)
             if r then
                 local status, result = pcall(r, data.parameters)
-                if (status) then
-                    echo(JSON.encode(result))
-                else
-                    echo(result)
+                if result then
+                    if (status) then
+                        echo(JSON.encode(result))
+                    else
+                        echo(result)
+                    end
                 end
             else
                 echo(e)
