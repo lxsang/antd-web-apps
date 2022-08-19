@@ -26,7 +26,7 @@ require(BASE_FRW.."silk.api")
 local REGISTRY = {}
 -- set logging level
 REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
-REGISTRY.users_allowed = { phuong = true, mrsang = true }
+REGISTRY.users_allowed = { phuong = true, mrsang = true, dany = true }
 REGISTRY.user = "mrsang"
 REGISTRY.db = DBHelper:new{db=REGISTRY.user}
 REGISTRY.layout = 'default'

@@ -152,7 +152,7 @@
             </div>
         </div>
 <div id = "bottom">
-        Powered by antd server, (c) 2017 - <?=os.date("*t").year?> Xuan Sang LE
+        Powered by antd server, (c) 2017 - <?=os.date("*t").year?> Dany LE
     </div>
 </body>
 </html>

@@ -1,2 +1,2 @@
 # antd-web-apps
-Some web apps for antd server
+Various web apps for antd server
