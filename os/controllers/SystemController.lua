@@ -194,7 +194,14 @@ function SystemController:apigateway(...)
                     data = JSON.decodeString(REQUEST.json)
                     exec_with_user_priv(data)
                 elseif args and #args > 0 then
-                    local decoded = std.b64decode(args[1])
+                    -- data is encoded in url safe base64
+                    local encoded = args[1]:gsub('_', '/'):gsub('-', '+')
+                    if #encoded % 4 == 2 then
+                        encoded = encoded.."=="
+                    elseif #encoded %4 == 3 then
+                        encoded = encoded.."="
+                    end
+                    local decoded = std.b64decode(encoded)
                     data = JSON.decodeString(bytes.__tostring(decoded))
                     if data and data.path then
                         exec_with_user_priv(data)
