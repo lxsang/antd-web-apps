@@ -35,6 +35,8 @@ function is_auth()
 	-- should be used only by API call
 	elseif REQUEST.sessionid and REQUEST.sessionid ~= '0' then
 		sessionid = REQUEST.sessionid
+	elseif REQUEST.access_token and REQUEST.access_token ~= '0' then
+		sessionid = REQUEST.access_token
 	end
 	if sessionid == nil then
 		return false

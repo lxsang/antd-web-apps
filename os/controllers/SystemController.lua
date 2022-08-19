@@ -98,6 +98,7 @@ function SystemController:application(...)
 end
 
 function SystemController:apigateway(...)
+    local args={...}
     local use_ws = false
     if REQUEST and REQUEST.ws == "1" then
         -- override the global echo command
@@ -189,8 +190,15 @@ function SystemController:apigateway(...)
                     exec_with_user_priv(REQUEST)
                 elseif REQUEST.json then
                     data = JSON.decodeString(REQUEST.json)
-                    --std.json()
                     exec_with_user_priv(data)
+                elseif args and #args > 0 then
+                    local decoded = std.b64decode(args[1])
+                    data = JSON.decodeString(bytes.__tostring(decoded))
+                    if data and data.path then
+                        exec_with_user_priv(data)
+                    else
+                        fail("Unknown request")
+                    end
                 else
                     fail("Unkown request")
                 end

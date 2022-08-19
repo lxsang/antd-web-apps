@@ -5,8 +5,8 @@ main:  copy
 	for f in $(PROJS); do  BUILDDIR=$(BUILDDIR)/"$${f}" make -C  "$${f}" ; done
 
 copy:
-	cp -rf $(copyfiles) $(BUILDDIR)
-	cp -r silk $(BUILDDIR)
+	cp -rfv $(copyfiles) $(BUILDDIR)
+	cp -rv silk $(BUILDDIR)
 
 ar:
 	-[ -d /tmp/antd_web_apps ] && rm -r /tmp/antd_web_apps
