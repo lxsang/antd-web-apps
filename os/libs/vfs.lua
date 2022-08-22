@@ -3,16 +3,16 @@ local vfs = {}
 
 vfs.ospath = function(path)
 	local user = SESSION.user
-	local prefix = string.match(path, "%a+://")
+	local prefix = string.match(path, "%a+:/")
 	if(prefix ~= nil) then
 		local suffix = string.gsub(path,prefix,"")
-		if prefix == "home://" then
+		if prefix == "home:/" then
 			return string.format(VFS_HOME,user)..'/'..suffix 
-		elseif prefix == "desktop://" then
+		elseif prefix == "desktop:/" then
 			return string.format(VFS_HOME,user).."/.desktop/"..suffix
-		elseif prefix == "shared://" then
+		elseif prefix == "shared:/" then
 			return require("shared").ospath(std.trim(suffix,"/")) 
-		elseif prefix == "os://" then
+		elseif prefix == "os:/" then
 			return WWW_ROOT.."/"..suffix
 		else
 			return nil
