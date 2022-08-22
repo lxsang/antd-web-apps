@@ -152,7 +152,6 @@ vfs.upload = function(path)
 			local file = m.."/"..REQUEST["upload-"..index..".file"]
 			local ret = ulib.move(REQUEST["upload-"..index..".tmp"], file)
 			if not ret then
-				print("USEEEEEEEEEEE SENDDDDDDDDDDDDDDDDDFILE")
 				local ret = ulib.send_file(REQUEST["upload-"..index..".tmp"], file)
 			end
 			if not ret then
