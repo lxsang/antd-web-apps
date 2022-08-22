@@ -150,7 +150,14 @@ vfs.upload = function(path)
 		local index = 0
 		while(REQUEST["upload-"..index..".tmp"] ~= nil) do
 			local file = m.."/"..REQUEST["upload-"..index..".file"]
-			ulib.move(REQUEST["upload-"..index..".tmp"], file)
+			local ret = ulib.move(REQUEST["upload-"..index..".tmp"], file)
+			if not ret then
+				print("USEEEEEEEEEEE SENDDDDDDDDDDDDDDDDDFILE")
+				local ret = ulib.send_file(REQUEST["upload-"..index..".tmp"], file)
+			end
+			if not ret then
+			    return false, "Unable to copy file"
+			end
 			ulib.chown(file, uid.id, uid.gid)
 			index = index + 1
 		end

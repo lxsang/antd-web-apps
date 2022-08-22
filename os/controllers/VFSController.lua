@@ -186,7 +186,7 @@ end
 function VFSController:upload(...)
     auth_or_die("User unauthorized. Please login")
     local vfs = require("vfs")
-    if REQUEST then
+    if REQUEST and REQUEST.path then
         local r, m = require("vfs").upload(REQUEST.path)
         if r then
             result(r)
@@ -195,7 +195,7 @@ function VFSController:upload(...)
             fail(m)
         end
     else
-        fail("Query not found")
+        fail("Invalid query")
     end
     return false
 end
