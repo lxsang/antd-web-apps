@@ -140,10 +140,12 @@ function SystemController:apigateway(...)
             r, e = load(data.code)
             if r then
                 local status, result = pcall(r)
-                if (status) then
-                    echo(JSON.encode(result))
-                else
-                    echo(result)
+                if result then
+                    if (status) then
+                        echo(JSON.encode(result))
+                    else
+                        echo(result)
+                    end
                 end
             else
                 echo(e)
@@ -169,12 +171,13 @@ function SystemController:apigateway(...)
     end
 
     if (is_auth()) then
-        local pid = ulib.fork()
+        local pid = ulib.fork()--std.pfork(HTTP_REQUEST.id)
         if (pid == -1) then
             echo("{'error':'Cannot create process'}")
         elseif pid > 0 then -- parent
             -- wait for the child exit or websocket exit
             ulib.waitpid(pid, 0)
+            --ulib.kill(pid)
             print("Parent exit")
         else -- child
             if use_ws then
@@ -189,7 +192,7 @@ function SystemController:apigateway(...)
                             std.ws.close(1012)
                         elseif header.opcode == std.ws.CLOSE then
                             print("Connection closed")
-                            std.ws.close(1000)
+                            -- std.ws.close(1000)
                         elseif header.opcode == std.ws.TEXT then
                             -- read the file
                             local data = std.ws.read(header)
@@ -198,7 +201,7 @@ function SystemController:apigateway(...)
                                 exec_with_user_priv(data)
                                 std.ws.close(1011)
                             else
-                                echo("Error: Invalid  request")
+                                print("Error: Invalid  request")
                                 std.ws.close(1011)
                             end
                         end
