@@ -43,7 +43,8 @@ function UserController:login(...)
         local request = JSON.decodeString(REQUEST.json)
         local r = ulib.auth(request.username,request.password)
         if r == true then
-            local cookie = {sessionid=std.sha1(request.username..request.password)} -- iotos_user = request.username
+            local salt = utils.generate_salt(20)
+            local cookie = {sessionid=std.sha1(request.username..request.password..salt)} -- iotos_user = request.username
             local db = sysdb();
             if db == nil then return fail("Cannot setup session") end
             local cond = {exp= {["="] = { sessionid = cookie.sessionid }}}
