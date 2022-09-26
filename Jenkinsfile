@@ -28,15 +28,17 @@ pipeline{
   {
     stage('Build') {
       steps {
-        sshCommand remote: remote, command: '''
-            set -e
-            export WORKSPACE=$(realpath "./jenkins/workspace/antd-web-apps")
-            cd $WORKSPACE
-            [ -d build ] && rm -rf build
-            mkdir -p build/opt/www/htdocs
-            export BUILDDIR="$WORKSPACE/build/opt/www/htdocs"
-            make
-          '''
+        sh'''
+          export -p | tee build.source
+cat <<"EOF" >>build.source
+          cd $WORKSPACE
+          [ -d build ] && rm -rf build
+          mkdir -p build/opt/www/htdocs
+          export BUILDDIR="$WORKSPACE/build/opt/www/htdocs"
+          make
+EOF
+        '''
+        sshScript remote: remote, script: "build.source"
         script {
             // only useful for any master branch
             //if (env.BRANCH_NAME =~ /^master/) {
