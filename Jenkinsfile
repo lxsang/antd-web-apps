@@ -25,6 +25,7 @@ pipeline{
           [ -d build ] && rm -rf build
           mkdir -p build/opt/www/htdocs
           export BUILDDIR="$WORKSPACE/build/opt/www/htdocs"
+          make
         '''
         script {
             // only useful for any master branch
