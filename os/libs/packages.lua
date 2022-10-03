@@ -3,8 +3,11 @@ local vfs = require("vfs")
 local uid = ulib.uid(SESSION.user)
 
 packages._cache = function(y)
-	local p = vfs.ospath(y)
-	local f = io.open(p.."/packages.json", "w")
+	local p = vfs.ospath(y).."/packages.cache"
+	if y:find("^os://") then
+		p = __api__.tmpdir.."/packages.cache"
+	end
+	local f = io.open(p, "w")
 	local has_cache = false
 	local i = 1
 	local meta = {}
@@ -28,7 +31,7 @@ packages._cache = function(y)
 		f:write(table.concat(meta, ","))
 		f:close()
 		if has_cache == false then
-			ulib.delete(p.."/packages.json");
+			ulib.delete(p);
 		end
 	end
 end
@@ -40,7 +43,10 @@ packages.list = function(paths)
 	local first = true
 	--std.f(__ROOT__.."/system/packages.json")
 	for k,v in pairs(paths) do
-		local osp = vfs.ospath(v.."/packages.json")
+		local osp = vfs.ospath(v.."/packages.cache")
+		if v:find("^os://") then
+			osp = __api__.tmpdir.."/packages.cache"
+		end
 		if  ulib.exists(osp) == false then
 			packages._cache(v)
 		end
