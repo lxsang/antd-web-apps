@@ -121,7 +121,7 @@ function SystemController:apigateway(...)
         ulib.setenv("LOGNAME", SESSION.user, 1)
         if home then
             ulib.setenv("HOME", home, 1)
-            --ulib.setenv("PWD", home,1)
+            ulib.setenv("PWD", home,1)
             local paths = ""
             if ulib.exists(home.."/bin") then
                 paths = home.."/bin:"
