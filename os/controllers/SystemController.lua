@@ -107,6 +107,9 @@ function SystemController:apigateway(...)
     --else
     --    std.json()
     end
+    -- preload modules
+    require("vfs")
+    -- TODO
     local exec_with_user_priv = function(data)
         local uid = ulib.uid(SESSION.user)
         if not ulib.setgid(uid.gid) or not ulib.setuid(uid.id) then
