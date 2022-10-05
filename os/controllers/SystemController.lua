@@ -107,11 +107,20 @@ function SystemController:apigateway(...)
     --else
     --    std.json()
     end
-    -- preload modules
-    require("vfs")
-    -- TODO
     local exec_with_user_priv = function(data)
         local uid = ulib.uid(SESSION.user)
+        -- disable unused modules
+        package.loaded["silk.Router"] = nil
+        package.loaded["silk.BaseController"] = nil
+        package.loaded["silk.DBHelper"] = nil
+        package.loaded["silk.Template"] = nil
+        package.loaded["silk.api"] = nil
+        package.loaded["silk.Logger"] = nil
+        package.loaded["silk.BaseModel"] = nil
+        package.loaded["silk.BaseObject"] = nil
+        package.loaded["os.controllers.SystemController"] = nil
+        -- user only allowed to load module in the following paths
+        package.path = __api__.apiroot.."/?.lua;"..WWW_ROOT .. '/libs/?.lua'
         if not ulib.setgid(uid.gid) or not ulib.setuid(uid.id) then
             echo("Cannot set permission to execute the code")
             return
