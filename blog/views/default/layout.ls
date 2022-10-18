@@ -152,7 +152,14 @@
             </div>
         </div>
 <div id = "bottom">
-        Powered by antd server, (c) 2017 - <?=os.date("*t").year?> Dany LE. This site does not use cookie, but some third-party contents (e.g. Youtube video) may do
+        Powered by antd server, (c) 2017 - <?=os.date("*t").year?> Dany LE.
+        <?lua
+        if not HEADER.mobile then
+        ?>
+        This site does not use cookie, but some third-party contents (e.g. Youtube, Twitter) may do.
+        <?lua
+        end
+        ?>
     </div>
 </body>
 </html>
