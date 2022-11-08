@@ -57,9 +57,7 @@ function IndexController:pdf(...)
     print(cmd)
     local r = os.execute(cmd)
     if r then
-        local mime = std.mimeOf(tmp_file)
-        std.header(mime)
-        std.f(tmp_file)
+        std.sendFile(tmp_file)
         return false
     else
         return self:error("Sorry.Problem generate PDF file")
