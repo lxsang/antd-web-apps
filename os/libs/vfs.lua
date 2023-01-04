@@ -153,6 +153,7 @@ vfs.upload = function(path)
 			local ret = ulib.move(REQUEST["upload-"..index..".tmp"], file)
 			if not ret then
 				ret = ulib.send_file(REQUEST["upload-"..index..".tmp"], file)
+				ulib.delete(REQUEST["upload-"..index..".tmp"])
 			end
 			if not ret then
 			    return false, "Unable to copy file"
