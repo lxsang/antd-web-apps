@@ -1,0 +1,1135 @@
+afx-app-window div.afx-window-wrapper{
+    padding:0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+afx-app-window ul.afx-window-top{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    padding:0;
+}
+afx-app-window ul.afx-window-top li{
+    list-style: none;
+}
+
+afx-app-window ul li.afx-window-title{
+    float:none;
+    overflow: hidden;
+}
+
+afx-app-window div.afx-window-content
+{
+    overflow: hidden;
+    width: 100%;
+    flex-grow: 1;
+}
+afx-app-window div.afx-window-grip{
+    height: 10px;
+    width: 10px;
+    background-color: transparent;
+}
+afx-button button{
+    outline: none;
+}
+
+afx-button i.icon-style {
+    float: left;
+}
+afx-calendar-view afx-grid-view afx-grid-row:nth-child(even) afx-grid-cell
+{
+    background-color: transparent;
+}
+afx-calendar-view afx-grid-view .grid_row_header afx-grid-cell{
+    border-right: 0;
+}
+afx-apps-dock{
+    float: left;
+    position: absolute;
+    overflow: hidden;
+}
+afx-file-view {
+    position: relative;
+}
+afx-file-view afx-label.status{
+    position: absolute;
+    bottom: 1px;
+    left:0px;
+    transform: translateZ(0);
+}
+afx-file-view afx-list-view > div.list-container > ul  li{
+    float:left;
+    display: block;
+}
+
+afx-file-view afx-list-view i{
+    display: block;
+}
+
+afx-file-view afx-grid-view i{
+    display: inline-block;
+}
+
+
+afx-file-view afx-tree-view{
+    margin:0;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+afx-file-view afx-tree-view .afx_tree_item_odd{
+    background-color: transparent;
+}
+
+afx-file-view afx-tree-view div{
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: transparent;
+    padding:0;
+}
+
+afx-file-view  div.treecontainer{
+    display: block;
+    overflow: auto;
+    padding:0;
+    margin:0;
+}
+
+afx-float-list div.list-container > ul{
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+afx-float-list div.list-container > ul li{
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    list-style: none;
+}
+afx-grid-view afx-grid-row afx-grid-cell{
+    user-select:none;
+    -webkit-user-select:none;
+    cursor:default;
+}
+
+afx-grid-view .grid_row_header afx-grid-cell{
+    user-select:none;
+    -webkit-user-select:none;
+    cursor:default;
+    font-weight: bold;
+}
+
+afx-grid-view {
+    display: block;
+}
+afx-label  i.icon-style {
+    float: left;
+}
+afx-label  i.label-text{
+    font-weight: normal;
+    font-style: normal;
+    margin-left: 3px;
+}
+afx-list-view{
+    overflow:hidden;
+    display: block;
+}
+
+afx-list-view afx-list-item
+{
+    display: contents;
+}
+afx-list-view > div.list-container{
+    overflow: auto;
+}
+afx-list-view > div.list-container >  ul{
+    margin:0;
+    padding: 0;
+}
+
+afx-list-view  > div.list-container > ul  li{
+    margin:0;
+    padding:0;
+    list-style: none;
+    position: relative;
+    -webkit-user-select:none;
+    cursor:default;
+}
+
+afx-list-view  i.closable{
+    display: inline-block;
+    position:absolute;
+    top:0px;
+    right:2px;
+    cursor: pointer;
+}
+
+afx-list-view  i.closable:before{
+    content: "\f00d"; 
+    font-family: "FontAwesome";
+    font-style: normal;
+}
+
+afx-list-view.dropdown {
+    padding:0;
+    margin: 0;
+}
+afx-list-view.dropdown > div.list-container{
+    overflow: visible;
+}
+afx-list-view.dropdown > div.list-container > ul{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+afx-list-view.dropdown > div.list-container > ul  li{
+    display: inline-block;
+    width:100%;
+}
+
+
+afx-menu {
+    position:relative;
+    display:inline-block;
+    z-index: 100000;
+}
+afx-menu a{
+    text-decoration: none;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
+}
+afx-menu a afx-label{
+    flex:1;
+}
+afx-menu ul{
+    padding:0;
+    margin: 0;
+    display:inline-block;
+}
+afx-menu ul li{
+    white-space:nowrap;
+}
+
+afx-menu span.shortcut{
+   text-align: right;
+}
+
+afx-menu ul  li {
+    list-style:none;
+    margin:0;
+    position: relative;
+    float: left;
+    cursor:default;
+}
+afx-menu ul  li.fix_padding{
+    padding-top:1px;
+    padding-bottom: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+afx-menu afx-menu ul  li.fix_padding{
+    padding:3px;
+    padding-left: 5px;
+    padding-right: 5px;
+} 
+afx-menu  afx-menu {
+    top:100%;
+    left:0;
+    position: absolute;
+    display:none;
+}
+
+afx-menu  afx-menu li{
+    float:none;
+    cursor:default;
+}
+afx-menu  afx-menu afx-menu, afx-menu  ul.context afx-menu{
+    top:-4px;
+    left: 100%;
+}
+
+afx-menu afx-menu   li:hover > afx-menu, ul.context  li:hover > afx-menu
+{
+    display: block;
+}
+afx-menu li.afx-corner-fix{
+    height: 3px;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+afx-menu li.afx-corner-fix:hover{
+    background-color: transparent;
+}
+
+
+ afx-menu ul.context{
+    position: absolute;
+    z-index: 1000000;
+    padding: 0;
+ }
+ afx-menu  ul.context li{
+    clear:float;
+ }
+afx-nspinner{
+    display: flex;
+    flex-direction: row;
+}
+afx-nspinner ul{
+    padding:0;
+    margin: 0;
+    list-style: none;
+}
+afx-nspinner input{
+    margin: 0;
+}
+afx-nspinner ul li{
+    display: block;
+    padding:0;
+    margin: 0;
+}
+
+afx-nspinner ul li.incr i:before{
+    content: "\f0d8"; 
+    font-family: "FontAwesome";
+    font-style: normal;
+
+}
+afx-nspinner ul li.decr i:before{
+    content: "\f0d7"; 
+    font-family: "FontAwesome";
+    font-style: normal;
+
+}
+afx-slider{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+afx-slider div.container{
+    display: block;
+    border:0;
+    position: relative;
+    padding:0;
+    cursor: pointer;
+}
+
+afx-slider div.progress {
+    padding:0;
+    margin: 0;
+    display: block;
+    border:0;
+}
+
+afx-slider div.dragpoint {
+    display: block;
+}
+
+afx-switch span{
+    display: inline-block;
+    cursor: pointer;
+}
+
+afx-sys-panel{
+    padding:0;
+    margin: 0;
+}
+afx-sys-panel > div{
+     width: 100%;
+     margin:0;
+     padding: 0;
+     position:absolute;
+ }
+afx-sys-panel .afx-panel-os-menu {
+    padding:0;
+    margin: 0;
+    float:left;
+    margin-right: 5px;
+}
+
+afx-sys-panel .afx-panel-os-stray{
+    float:right;
+    position: relative;
+}
+
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu  {
+    right: 0;
+    position: absolute;
+}
+
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu  afx-menu{
+    left: -100%;
+    right: 100%;
+    top:-4px;
+}
+
+afx-sys-panel afx-overlay
+{
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+afx-sys-panel afx-hbox[data-id="btlist"]  afx-button button
+{
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: 0px;
+}
+afx-tab-bar {
+    display: block;
+    width: 100%;
+    
+}
+afx-tab-bar afx-list-view {
+    padding:0;
+    margin:0;
+}
+afx-tab-bar afx-list-view > div.list-container > ul afx-list-item:nth-child(even) li
+{
+    background-color: transparent;
+}
+
+
+afx-tab-bar afx-list-view  > div.list-container > ul  li{
+    float:left;
+}
+
+afx-tab-container{
+    display: block;
+}
+afx-tree-view{
+    overflow: auto;
+    display: block;
+}
+afx-tree-view afx-tree-view{
+    padding:0;
+    overflow: hidden;
+    display: block;
+}
+afx-tree-view ul{
+    margin:0;
+    padding:0;
+}
+afx-tree-view li{
+    list-style: none;
+    margin:0;
+    padding: 0;
+}
+afx-tree-view div{
+    -webkit-user-select:none;
+    cursor:default;
+}
+afx-tree-view i.icon-style {
+    float:left;
+    margin-right: 3px;
+}
+
+afx-tree-view .afx-tree-view-folder-open:before{
+    content: "\f147"; 
+    font-family: "FontAwesome";
+}
+afx-tree-view .afx-tree-view-folder-close:before{
+    content: "\f196"; 
+    font-family: "FontAwesome";
+}
+
+afx-app-window div.afx-window-wrapper{
+    border:1px solid #a6a6a6;
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.65);
+    border-radius: 5px;
+    background-color:#dfdfdf;
+}
+afx-app-window.unactive > div.afx-window-wrapper{
+    background-color: #f6f6f6;
+}
+
+afx-app-window ul.afx-window-top{
+    height: 20px;
+    border-bottom: 1px solid #a6a6a6;
+}
+afx-app-window ul.afx-window-top li{
+    margin-left: 3px;
+    margin-top:4px;
+    
+}
+afx-app-window ul.afx-window-top .afx-window-close,.afx-window-minimize,.afx-window-maximize{
+    width: 11px;
+    height: 11px;
+    border-radius: 10px;
+}
+afx-app-window ul li.afx-window-close{
+    background-color: #Fc605b;
+     float:left;
+}
+afx-app-window ul li.afx-window-minimize{
+    background-color: #fec041;
+     float:left;
+}
+afx-app-window ul li.afx-window-maximize{
+    background-color: #35cc4b;
+     float:left;
+}
+
+afx-app-window ul li.afx-window-title{
+    margin-top:1px;
+    text-align: center;
+}
+
+afx-app-window div.afx-window-content
+{
+    background-color: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+afx-app-window.unactive div.afx-window-content
+{
+    background-color:white;
+}
+afx-button button{
+    padding: 4px;
+    border: 1px solid #a6a6a6;
+    background-color: #f6F6F6;
+    color: #414339;
+    border-radius: 6px;
+    font-family: "Ubuntu";
+
+}
+
+afx-button button[disabled]{
+    color: #a6a6a6;
+}
+afx-button i.icon-style {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+afx-button button:active, afx-button button.btactive {
+    background-color: #2786F3;
+    color: white;
+    border: 1px solid #dedede;
+}
+afx-calendar-view  div{
+    text-align: center;
+}
+afx-calendar-view > div {
+    font-weight: bold;
+}
+
+afx-calendar-view i.prevmonth, afx-calendar-view i.nextmonth{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+afx-calendar-view i.prevmonth{
+    margin-right: 20px;
+}
+afx-calendar-view i.nextmonth{
+    margin-left: 20px;
+}
+
+afx-calendar-view i.prevmonth:before{
+    content: "\f104"; 
+    font-family: "FontAwesome";
+    font-size: 16px;
+    font-style: normal;
+    /*position:absolute;
+    top:25%;
+    right:5px;*/
+}
+afx-calendar-view i.nextmonth:before{
+    content: "\f105"; 
+    font-family: "FontAwesome";
+    font-size: 16px;
+    font-style: normal;
+    margin-left: 20px;
+    /*position:absolute;
+    top:25%;
+    right:5px;*/
+}
+
+/*
+afx-calendar-view afx-grid-view afx-grid-row.selected{
+    background-color: white;
+    color:#414339;
+}*/
+
+afx-calendar-view afx-grid-view afx-grid-row.afx-grid-row-selected afx-grid-cell
+{
+    background-color: transparent;
+    color:black;
+}
+afx-calendar-view afx-grid-view  afx-grid-row.afx-grid-row-selected afx-grid-cell.afx-grid-cell-selected
+{
+    background-color: #116cd6;
+    color:white;
+    border-radius: 6px;
+}
+afx-color-picker canvas.color-palette, afx-color-picker div.color-sample{
+    border: 1px solid #a6a6a6;
+    /*border-radius: 3px;*/
+}
+afx-apps-dock{
+    bottom: 0;
+    top: 0;
+    width: 32px;
+    background-color:#e7e7e7;
+    padding:0;
+    padding-top: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border:1px solid #a6a6a6;
+    box-shadow: none;
+}
+afx-apps-dock afx-button button{
+    width: 32px;
+    height: 32px;
+    font-size: 19px;
+    margin-bottom: 0;
+    padding:0px;
+    background-color: transparent;
+    border:0;
+    border-radius: 0;
+}
+afx-apps-dock afx-button afx-label i.icon-style{
+    width: 24px;
+    height: 24px;
+    margin-left: 2px;
+    margin-bottom: 0px;
+    border:0;
+}
+
+afx-apps-dock afx-button.selected > button {
+    background-color: #2786F3;
+    color: white;
+    border: 1px solid #dedede;
+}
+afx-file-view afx-label.status{
+    padding:3px;
+    right: 0px;
+    height: 15px;
+    background-color: #f6F6F6;
+    border-top: 1px solid #cbcbcb;
+}
+afx-file-view afx-list-view > div.list-container > ul  li{
+    width:70px;
+    height: 60px;
+    background-color: transparent;
+    text-align: center;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+afx-file-view afx-list-view > div.list-container > ul afx-list-item:nth-child(even) li {
+    background-color: transparent;
+}
+afx-file-view afx-list-view i.dir:before{
+    content: "\f07b"; 
+    font-family: "FontAwesome";
+    font-size: 32px;
+    color: #76D2F9;
+    font-weight: normal;
+    font-style: normal;
+}
+afx-file-view afx-list-view i{
+    width: 100%;
+    margin-left: 3px;
+}
+
+
+afx-file-view afx-list-view i.file:before{
+    content: "\f016"; 
+    font-family: "FontAwesome";
+    font-size: 28px;
+    color: #414339;
+    font-style: normal;
+    font-weight: normal;
+}
+afx-file-view afx-list-view > div.list-container > ul > afx-list-item > li.selected
+{
+    background-color: transparent;
+}
+afx-file-view afx-list-view div.list-container > ul  li.selected  i.label-text {
+    background-color: #116cd6;
+    color:white;
+    border-radius: 6px;
+}
+afx-file-view afx-grid-view{
+    padding:0;
+}
+afx-file-view afx-grid-view i.file:before{
+    content: "\f016"; 
+    font-family: "FontAwesome";
+    font-size: 16px;
+    color: #414339;
+    font-style: normal;
+    font-weight: normal;
+}
+afx-file-view afx-grid-view i.dir:before{
+    content: "\f07b"; 
+    font-family: "FontAwesome";
+    font-size: 16px;
+    color: #76D2F9;
+    font-style: normal;
+    font-weight: normal;
+}
+afx-file-view afx-grid-view i{
+    margin-right: 5px;
+}
+afx-file-view afx-grid-view afx-grid-row.afx-grid-row-selected  i:before{
+    color:white;
+}
+afx-file-view afx-grid-view afx-grid-row afx-grid-cell
+{
+    padding: 3px;
+}
+
+afx-file-view afx-grid-view .grid_row_header afx-grid-cell{
+    background-color: #dfdfdf;
+    border-top: 1px solid #a6a6a6;
+    border-right: 1px solid #a6a6a6;
+    border-bottom: 1px solid #a6a6a6;
+    padding: 3px;
+}
+
+afx-file-view afx-tree-view .afx-tree-view-folder-close:before{
+    content: "\f07b"; 
+    font-family: "FontAwesome";
+    font-size: 16px;
+    color:#76D2F9;
+}
+afx-file-view afx-tree-view .afx-tree-view-folder-open:before{
+    content: "\f07c"; 
+    font-family: "FontAwesome";
+    color:#76D2F9;
+    font-size: 16px;
+}
+
+afx-file-view afx-tree-view .afx-tree-view-item:before{
+    content: "\f016"; 
+    font-family: "FontAwesome";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+afx-file-view afx-tree-view div.afx_tree_item_selected, afx-file-view afx-tree-view div.afx_tree_item_selected:hover{
+    background-color: transparent;
+}
+
+afx-file-view afx-tree-view li.itemname{
+    padding:3px;
+    padding-right: 5px;
+}
+afx-file-view afx-tree-view div.afx_tree_item_selected .itemname{
+    background-color: #116cd6;
+    color:white;
+    border-radius: 3px;
+    
+}
+afx-file-view afx-tree-view div.afx_tree_item_selected i.file:before{
+    color:white;
+}
+
+afx-file-view afx-tree-view .afx_folder_item{
+    font-weight: normal;
+}
+afx-grid-view afx-grid-row:nth-child(even) afx-grid-cell
+{
+    background-color: #f5F5F5;
+}
+
+afx-grid-view afx-grid-row.afx-grid-row-selected afx-grid-cell
+{
+    background-color: #116cd6;
+    color:white;
+}
+afx-grid-view afx-grid-row.afx-grid-row-selected afx-grid-cell.afx-grid-cell-selected
+{
+    font-weight: bold;
+}
+
+
+afx-grid-view .grid_row_header afx-grid-cell{
+    border: 0;
+}
+
+afx-label  i.icon-style {
+    width: 16px;
+    height: 16px;
+}
+afx-list-view  > div.list-container > ul  li{
+    padding: 5px;
+    padding-top:3px;
+    padding-bottom: 3px;
+    padding-right: 10px;
+    background-color: white;
+}
+afx-list-view > div.list-container > ul afx-list-item:nth-child(even) li{
+    background-color:#f5F5F5;
+}
+afx-list-view  i.closable{
+    width: 16px;
+    height: 16px;
+}
+
+afx-list-view  i.closable:before{
+    font-size: 10px;
+    margin-left: 10px;
+    color: #414339;
+}
+
+afx-list-view  > div.list-container > ul  li > i {
+    margin-right: 3px;
+    
+}
+afx-list-view > div.list-container > ul > afx-list-item > li.selected{
+    background-color: #116cd6;
+    color:white;
+}
+
+afx-list-view.dropdown > div.list-container > ul{
+    border:1px solid #a6a6a6;
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.65);
+    border-radius: 3px;
+    max-height: 150px;
+    background-color: white;
+    border-top-left-radius: 0px;
+    z-index: 10;
+}
+
+afx-list-view.dropdown div.list-container div{
+    color: #414339;
+    padding-top:3px;
+    padding-bottom: 3px;
+    border:1px solid #a6a6a6;
+    border-radius: 3px;
+    background-color: transparent;
+    height: 17px;
+}
+afx-list-view.dropdown div.list-container div > afx-label{
+    padding-left:3px;
+}
+afx-list-view.dropdown div.list-container div:before {
+    content: "\f107"; 
+    font-family: "FontAwesome";
+    font-size: 11px;
+    font-style: normal;
+    color: #414339;
+    position: absolute;
+    top:25%;
+    right: 5px;
+ }
+afx-list-view.dropdown > div.list-container > ul  li:hover{
+    background-color: #dcdcdc;
+    color: #414339;
+}
+afx-list-view ul.complex-content{
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+afx-list-view ul.complex-content li{
+    padding:0;
+    background-color: transparent;
+    color:#5e5f59;
+    list-style: none;
+}
+afx-list-view  > div.list-container > ul  li.selected ul.complex-content li{
+    color:white;
+}
+
+afx-list-view  div.button_container afx-button{
+    margin-right: 2px;
+}
+afx-list-view  div.button_container afx-button button{
+    border-radius: 0;
+    padding-left:5px;
+    padding-top:1px;
+    padding-bottom: 1px;
+    padding-right: 5px;
+
+}
+
+afx-menu afx-switch span{
+    width: 20px;
+    height: 16px;
+    font-size: 16px;
+    /*margin-top:5px;*/
+}
+afx-menu span.shortcut{
+   text-align: right;
+}
+afx-menu li:hover > a afx-switch span:before{
+    color:white;
+}
+
+afx-menu afx-menu ul {
+    padding: 0;
+    border:1px solid #a6a6a6;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    /*box-shadow: 2px 2px 2px #cbcbcb;*/
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.65);
+    background-color: #e7e7e7;
+}
+afx-menu ul  li /*, afx-menu ul >afx-menu-entry > li*/{
+    padding:3px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+afx-menu  afx-menu li{
+    min-width: 150px;
+}
+
+afx-menu li:hover  {
+    background-color: #2786F3;
+}
+afx-menu li:hover > a {
+    color: white;
+}
+
+afx-menu afx-menu .afx_submenu:before, afx-menu  ul.context  .afx_submenu:before{
+    content: "\f054"; 
+    font-family: "FontAwesome";
+    font-size: 10px;
+    right:5px;
+    color: #414339;
+    position:absolute;
+    top:25%;
+ }
+
+ afx-menu ul.context{
+    border:1px solid #a6a6a6;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.65);
+    background-color: #e7e7e7;
+ }
+ afx-menu  ul.context li{
+    min-width: 150px;
+ }
+afx-nspinner ul li{
+    border: 1px solid #a6a6a6;
+    width: 100%;
+}
+
+afx-nspinner ul li.incr{
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+
+afx-nspinner ul li.decr{
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+afx-nspinner ul li:hover{
+    color:#116cD6;
+}
+afx-nspinner ul li.incr i:before{
+    font-size: 16px;
+}
+afx-nspinner ul li.decr i:before{
+    font-size: 16px;
+}
+afx-overlay {
+    background-color: rgba(231, 231, 231, 0.7);
+}
+afx-resizer.vertical {
+    background-color: transparent;
+    border-top: 1px solid #cbcbcb;
+}
+afx-resizer.horizontal {
+    background-color: transparent;
+    border-left: 1px solid #cbcbcb;
+}
+
+afx-slider div.container{
+    border-radius: 3px;
+    height: 5px;
+    background-color: #e6e6e6;
+}
+
+afx-slider div.progress {
+    background-color: #116cd6;
+    border-radius: 3px;
+}
+
+afx-slider div.dragpoint {
+    width: 15px;
+    height: 15px;
+    border:1px solid #6b6b6b;
+    border-radius: 15px;
+    background-color:#e6e6e6;
+}
+
+afx-switch span{
+    width: 30px;
+    height:24px;
+    font-size: 24px;
+    font-family: "FontAwesome";
+}
+afx-switch span:before{
+    content: "\f204"; 
+    color: #414339;
+    font-style: normal;
+    font-weight: normal;
+}
+afx-switch span.swon:before{
+    content: "\f205";
+    color: #116cd6;
+    font-style: normal;
+    font-weight: normal;
+}
+afx-sys-panel > div{
+     background-color: #e7e7e7;
+     border-bottom: 1px solid #9c9C9C;
+     box-shadow:none;
+     height: 22px;
+ }
+
+afx-sys-panel .afx-panel-os-menu li
+{
+    font-weight: bold;
+    background-color: #e7414d;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+}
+afx-sys-panel .afx-panel-os-menu a {
+    color: white;
+}
+
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu  {
+    left: calc(100% - 170px);
+}
+
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu li.afx_submenu a{
+    margin-left: 10px;
+}
+
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu li.afx_submenu:before {
+    content: "\f054"; 
+    font-family: "FontAwesome";
+    font-size: 10px;
+    position:absolute;
+    text-align: left;
+    left:5px;
+    top:25%;
+ }
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu ul{
+    border:1px solid #a6a6a6;
+    border-radius: 5px;
+    border-top-right-radius: 0px;
+}
+afx-sys-panel afx-menu.afx-panel-os-stray afx-menu li{
+    min-width: 150px;
+}
+
+afx-sys-panel afx-overlay
+{
+    background-color: #e7e7e7;
+    border: 1px solid #9c9C9C;
+    width: 250px;
+}
+afx-sys-panel afx-list-view[data-id="applist"]
+{
+    border-top: 1px solid #afafaf;
+    border-bottom: 1px solid #afafaf;
+}
+
+afx-sys-panel afx-list-view[data-id="applist"] > div.list-container > ul li
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: transparent;
+}
+
+afx-sys-panel afx-hbox[data-id="btlist"]  afx-button button
+{
+    border: 0;
+    border-left: 1px solid #afafaf;
+}
+
+afx-sys-panel afx-list-view[data-id="applist"] > div.list-container > ul li:hover{
+    background-color: #cecece;
+}
+afx-sys-panel afx-list-view[data-id="applist"] > div.list-container > ul li.selected
+{
+    background-color: #116cd6;
+    color:white;
+}
+
+afx-sys-panel afx-list-view[data-id="applist"] afx-label.search-header {
+    font-weight: bold;
+
+}
+afx-sys-panel afx-list-view[data-id="applist"] afx-label  i,
+afx-sys-panel afx-list-view[data-id="applist"] afx-label  i::before {
+    margin-right: 10px;
+}
+
+afx-sys-panel div[data-id="searchicon"]:before{
+    content: "\f002";
+    display: block;
+    background-color:transparent;
+    color:#afafaf;
+    font-family: "FontAwesome";
+    padding-left:3px;
+    font-size: 25px;
+}
+afx-sys-panel input{
+    border:0;
+    height: 25px;
+    color:#afafaf;
+    background-color: transparent;
+}
+
+afx-tab-bar afx-list-view > div.list-container > ul > afx-list-item > li.selected
+{
+    background-color: #116cd6;
+    color:white;
+}
+
+afx-tab-bar afx-list-view  > div.list-container > ul  li{
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-bottom: 2px;
+    padding-right:15px;
+    padding-top:2px;
+    border:1px solid #c3c3c3;
+}
+afx-tree-view div{
+    padding:3px;
+}
+
+afx-tree-view i.icon-style {
+    width: 16px;
+    height: 16px;
+}
+afx-tree-view div.afx_tree_item_selected{
+    background-color: #116cd6;
+    color:white;
+}
+afx-tree-view div.afx_tree_item_selected:hover{
+    background-color: #116cd6;
+    color:white;
+}
+
+afx-tree-view .afx_folder_item{
+    font-weight: bold;
+}
+/*
+afx-tree-view .afx_tree_item_odd{
+    background-color: #f5F5F5;
+}
+*/

@@ -1,12 +1,13 @@
 BUILDDIR?=./build
-PROJS?=grs info blog os doc talk get
-copyfiles =  index.ls mimes.json
+PROJS?=grs blog talk get info
+# info blog doc talk get
+copyfiles =  layout.ls index.lua mimes.json
 main:  copy
 	for f in $(PROJS); do  BUILDDIR=$(BUILDDIR)/"$${f}" make -C  "$${f}" ; done
 
 copy:
 	cp -rfv $(copyfiles) $(BUILDDIR)
-	cp -rv silk $(BUILDDIR)
+#	cp -rv silk $(BUILDDIR)
 
 ar:
 	-[ -d /tmp/antd_web_apps ] && rm -r /tmp/antd_web_apps
@@ -19,4 +20,3 @@ ar:
 clean:
 	-for f in $(PROJS); do rm -r $(BUILDDIR)/"$${f}"; done
 	-for f in $(copyfiles); do rm -r $(BUILDDIR)/"$${f}"; done
-	-rm -r $(BUILDDIR)/silk

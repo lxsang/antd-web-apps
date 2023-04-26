@@ -15,28 +15,27 @@ BaseModel:subclass("BlogModel",{
 })
 
 function BlogModel:fetch(cnd, limit, order)
-    local exp = {}
-    exp[1] = {["="] = { publish = 1 }}
-    if cnd then   
-        exp[2] = cnd
-    else
-
-    end
-
-    local cond = { 
-        exp = {["and"] = exp }, 
-        order = { ctime = "DESC" },
+    local filter = {
+        order = { "ctime$desc" },
         fields = {
             "id", "title", "utime", "ctime", "utimestr", "content", "ctimestr", "rendered", "tags"
-        }    
+        }
     }
+
     if limit then
-        cond.limit = limit
+        filter.limit = limit
     end
     if order then
-        cond.order = order
+        filter.order = order
     end
-    return self:find(cond)
+
+    filter.where = {}
+    if cnd then
+        filter.where = cnd
+    end
+    filter.where.publish = 1
+
+    return self:find(filter)
 end
 
 function BlogModel:minid()

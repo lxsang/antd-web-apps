@@ -1,6 +1,6 @@
 <div class="header_container">
         <?lua if data.photo and data.photo ~= "" and data.user ~= "mrsang" then ?>
-            <img src="/<?=data.user?>/user/photo"></img>
+            <img src="<?=HTTP_ROOT?>/<?=data.user?>/user/photo"></img>
         <?lua end ?>
         <h1>
             <span class="name"><?=data.fullname?></span>

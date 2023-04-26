@@ -21,7 +21,15 @@ class QuickTalk {
                 this.instant_compose.parentNode.removeChild(this.instant_compose);
             }
             this.instant_compose = this.compose(editor, 0, true, (data) => {
-                this.show_comment(container, data, true).scrollIntoView();
+                this.show_comment(container, data, true);
+                if(this.options.page)
+                {
+                    this.options.page.scrollTop = this.options.page.scrollHeight;
+                }
+                else
+                {
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
             });
         });
     }
@@ -199,9 +207,9 @@ class QuickTalk {
         container.appendChild(preview);
         container.appendChild(footer);
         at.appendChild(container);
-        if (this.options.page) {
-            this.options.page.scrollTop = container.offsetTop - this.options.page.offsetTop;
-        }
+        //if (this.options.page) {
+        //    this.options.page.scrollTop = container.offsetTop - this.options.page.offsetTop;
+        //}
         
         //container.scrollIntoView();
         return container;
@@ -228,6 +236,7 @@ class QuickTalk {
     show_comment(at, comment, show_footer) {
         let container = document.createElement("div");
         container.setAttribute("class", "quick-talk-comment");
+        container.setAttribute("id", "comment-" + comment.id);
         let header = document.createElement("div");
         header.setAttribute("class", "quick-talk-comment-header");
         let username = document.createElement("span");
@@ -265,7 +274,8 @@ class QuickTalk {
                     this.instant_compose.parentNode.removeChild(this.instant_compose);
                 }
                 this.instant_compose = this.compose(editor, parseInt(comment.id), true, (data) => {
-                    this.show_comment(sub_comments, data, false).scrollIntoView();
+                    this.show_comment(sub_comments, data, false);
+                    //.scrollIntoView();
                 });
             });
             container.appendChild(footer);

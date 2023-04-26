@@ -1,7 +1,8 @@
 BaseController:subclass("IndexController")
 
 function IndexController:index(...)
-    local file = io.open("/home/mrsang/doc/library.md", "r")
+    -- TODO: add description to router
+    local file = io.open(DOC_COVER, "r")
     if file then
         local content = ""
         local md = require("md")

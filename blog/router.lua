@@ -1,26 +1,30 @@
-
 -- the rewrite rule for the framework
 -- should be something like this
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
-DIR_SEP = "/"
+package.path = _SERVER["LIB_DIR"].."/lua/?.lua"
+require("silk.api")
+-- crypto lib
+enc = require("enc")
 WWW_ROOT = __ROOT__.."/blog"
+-- TODO: change me
+DB_FILE = "/home/dany/databases/mrsang.db"
+-- add aditional paths
+package.path = package.path..";"..WWW_ROOT .. '/?.lua'
+
+DIR_SEP = "/"
 if HEADER.Host then
     HTTP_ROOT= "https://"..HEADER.Host
 else
-    HTTP_ROOT = "https://blog.lxsang.me"
+    HTTP_ROOT = "https://blog.iohub.dev"
 end
--- class path: path.to.class
-BASE_FRW = ""
--- class path: path.to.class
-CONTROLLER_ROOT = BASE_FRW.."blog.controllers"
-MODEL_ROOT = BASE_FRW.."blog.models"
+-- TODO remove me
+HTTP_ROOT = HTTP_ROOT.."/next/blog"
+CONTROLLER_ROOT = "blog.controllers"
+MODEL_ROOT = "blog.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
-LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
-POST_LIMIT = 10
--- require needed library
-require(BASE_FRW.."silk.api")
+POST_LIMIT = 3
 
 if REQUEST.r then
     REQUEST.r = REQUEST.r:gsub("%:", "/")
@@ -29,8 +33,8 @@ end
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
-REGISTRY.db = DBHelper:new{db="mrsang"}
+REGISTRY.logger = Logger:new{ level = Logger.INFO}
+REGISTRY.db = DBModel:new{db=DB_FILE}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true
 

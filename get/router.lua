@@ -3,7 +3,8 @@
 -- should be something like this
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
-DIR_SEP = "/"
+package.path = _SERVER["LIB_DIR"].."/lua/?.lua"
+require("silk.api")
 WWW_ROOT = __ROOT__.."/get"
 if HEADER.Host then
     HTTP_ROOT= "https://"..HEADER.Host
@@ -11,16 +12,11 @@ else
     HTTP_ROOT = "https://get.iohub.dev"
 end
 -- class path: path.to.class
-BASE_FRW = ""
--- class path: path.to.class
-CONTROLLER_ROOT = BASE_FRW.."get.controllers"
-MODEL_ROOT = BASE_FRW.."get.models"
+CONTROLLER_ROOT = "get.controllers"
+MODEL_ROOT = "get.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
-LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
 
--- require needed library
-require(BASE_FRW.."silk.api")
 
 function NotfoundController:index(...)
     local args = {...}
@@ -32,7 +28,6 @@ function NotfoundController:index(...)
     local path = WWW_ROOT..DIR_SEP.."shs"..DIR_SEP..name..".sh"
 
     if ulib.exists(path) then
-        std.header("text/plain")
         std.sendFile(path)
     else
         self:error("No script found: "..path)
@@ -44,8 +39,7 @@ end
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = false, DEBUG = false}}
-
+REGISTRY.logger = Logger:new{ level = Logger.INFO}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = false
 

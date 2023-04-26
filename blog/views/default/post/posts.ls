@@ -23,16 +23,16 @@
             local atags = {}
             local i = 1
             for tag in data.tags:gmatch(",*([^,]+)") do
-                tag = std.trim(tag, " ")
+                tag = ulib.trim(tag, " ")
                 if tag ~= "" then
-                    local b64tag = std.b64encode(tag)
+                    local b64tag = enc.b64encode(tag)
                     atags[i] = '<a href = "'..HTTP_ROOT..'/post/bytag/'..b64tag:gsub("=","")..'/'..POST_LIMIT..'">'..tag.."</a>"
                     i = i+ 1
                 end
             end
             echo(table.concat(atags, ", "))
-            local url = HTTP_ROOT.."/post/id/"..data.id
-            local old_url = HTTP_ROOT.."/r:id:"..data.id
+            local url = HTTP_ROOT.."/post/id/"..string.format("%d",data.id)
+            local old_url = HTTP_ROOT.."/r:id:"..string.format("%d",data.id)
         ?>
         </span>
         <!--div class="fb-like" data-href="<?=old_url?>" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div-->
@@ -58,7 +58,7 @@
                 end
                 if title then
                     echo(content:sub(0, b))
-                    echo("<a class = 'title_link' href='"..HTTP_ROOT.."/post/id/"..data.id.."'>"..title.."</a>")
+                    echo("<a class = 'title_link' href='"..url.."'>"..title.."</a>")
                     echo(content:sub(c))
                 else
                     echo(content)
@@ -67,18 +67,18 @@
         </div>
         <div class = "detail">
                 <span></span>
-                <?='<a href="'..HTTP_ROOT..'/post/id/'..data.id..'" ></a>'?>
+                <?='<a href="'..url..'" ></a>'?>
                 <span></span>
         </div>
     </div>
 </div>
 <?lua
     end
-    local beforelk = HTTP_ROOT.."/post/beforeof/"..first_id.."/"..POST_LIMIT
-    local afterlk = HTTP_ROOT.."/post/afterof/"..last_id.."/"..POST_LIMIT
+    local beforelk = HTTP_ROOT.."/post/beforeof/"..string.format("%d",first_id).."/"..POST_LIMIT
+    local afterlk = HTTP_ROOT.."/post/afterof/"..string.format("%d",last_id).."/"..POST_LIMIT
     if action == "bytag" or action == "search" then
-        beforelk = HTTP_ROOT.."/post/"..action.."/"..query.."/"..POST_LIMIT.."/before/"..first_id
-        afterlk = HTTP_ROOT.."/post/"..action.."/"..query.."/"..POST_LIMIT.."/after/"..last_id
+        beforelk = HTTP_ROOT.."/post/"..action.."/"..query.."/"..POST_LIMIT.."/before/"..string.format("%d",first_id)
+        afterlk = HTTP_ROOT.."/post/"..action.."/"..query.."/"..POST_LIMIT.."/after/"..string.format("%d",last_id)
     end
 ?>
 <div class = "time-travel">

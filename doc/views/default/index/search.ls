@@ -7,9 +7,9 @@
             local title = io.read()
             io.close()
             file = file:gsub(map.local_path, map.vfs_path)
-            title = std.trim(std.trim(title, "#"), " ")
+            title = ulib.trim(ulib.trim(title, "#"), " ")
             echo("<div>")
-            echo("<p class= 'result-header'><a href='"..HTTP_ROOT..'/'..controller..'/'..std.b64encode(file):gsub("=","")..'/'..title:gsub(" ", "_")..".md'>")
+            echo("<p class= 'result-header'><a href='"..HTTP_ROOT..'/'..controller..'/'..enc.b64encode(file):gsub("=","")..'/'..title:gsub(" ", "_")..".md'>")
             echo(title)
             echo("</a></p>")
             for i,content in ipairs(arr) do

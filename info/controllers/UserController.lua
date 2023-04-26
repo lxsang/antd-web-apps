@@ -28,7 +28,7 @@ function UserController:photo(...)
     local prefix = data[1].photo:match("%a+://")
     local suffix = data[1].photo:gsub(prefix,"")
     local path = string.format("/home/%s/", self.registry.user)..suffix
-    print(path)
+    LOG_DEBUG("Photo path: %s", path)
     if ulib.exists(path) then
         local mime = std.mimeOf(path)
         std.sendFile(path)

@@ -74,5 +74,9 @@
     "map":{
         "mime": "application/json",
         "binary": false
+    },
+    "sh":{
+        "mime": "text/plain",
+        "binary": false
     }
 }

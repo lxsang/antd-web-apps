@@ -1,6 +1,7 @@
 
 
 <?lua
+    local chat_uri="https://chat.iohub.dev/comment"
     local title = __main__:get("title")
     local render = __main__:get("render")
     local url = __main__:get("url")
@@ -18,17 +19,20 @@
         <meta charset="UTF-8">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/ubuntu-regular.css" />
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/afx.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/afx.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/style.css" />
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/assets/github-markdown.css" />
 
         <link rel="stylesheet" type="text/css" href="https://chat.iohub.dev/assets/quicktalk.css" />
         <script src="https://chat.iohub.dev/assets/quicktalk.js"> </script>
+        
+        <!--link rel="stylesheet" type="text/css" href="https://app.iohub.dev/next/talk/assets/quicktalk.css" />
+        <script src="https://app.iohub.dev/next/talk/assets/quicktalk.js"> </script-->
 
-        <script src="<?=HTTP_ROOT?>/rst/afx.js"> </script>
-        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.4.1.min.js"> </script>
+        <script src="<?=HTTP_ROOT?>/assets/afx.js"> </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/assets/main.js"></script>
 <?lua if d3 then ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/6.5.0/d3.min.js" ></script>
@@ -41,8 +45,8 @@
         <meta property="og:image" content="" />
 <?lua if render then ?>
         <meta name="twitter:card" content="summary" />
-        <meta name="twitter:site" content="@blog.lxsang.me" />
-        <meta name="twitter:creator" content="@lexsang" />
+        <meta name="twitter:site" content="@blog.iohub.dev" />
+        <meta name="twitter:creator" content="@DanyLE" />
         <meta property="og:url" content="<?=url?>" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content="<?=title?>" />
@@ -54,9 +58,9 @@
         <script src="<?=HTTP_ROOT?>/rst/katex/katex.min.js"> </script>
         <script src="<?=HTTP_ROOT?>/rst/katex/auto-render.min.js"> </script>
 <?lua else ?>
-        <meta property="og:url"           content="https://blog.lxsang.me" />
+        <meta property="og:url"           content="https://blog.iohub.dev" />
         <meta property="og:type"          content="article" />
-        <meta property="og:title"         content="Xuan Sang LE's blog" />
+        <meta property="og:title"         content="Dany LE's blog" />
         <meta property="og:description"   content="Blog Home" />
 <?lua end ?>
         <script>    
@@ -66,7 +70,7 @@
                 var options = {
                     target: "quick_talk_comment_thread",
                     page: "desktop",
-                    api_uri: "https://chat.iohub.dev/comment",
+                    api_uri: "<?=chat_uri?>",
                     uri: "<?=url?>",
                     author: {
                         first: "mrsang",
@@ -122,22 +126,25 @@
 
         <div id = "top">
             <div id = "navbar" class = "<?=cls?>">
-                <div class = "logo"><a href = "https://lxsang.me"></a></div>
+                <div class = "logo"><a href = "https://iohub.dev"></a></div>
                 <ul>
                         <li><i class = "fa fa-home"></i><a href="<?=HTTP_ROOT?>">Home</a></li>
                         <?lua
                         if not HEADER.mobile then
                         ?>
-                        <li > <i class = "fa fa-globe"></i><a href = "/post/graph">Explore</a></li>
+                        <li > <i class = "fa fa-globe"></i><a href = "<?=HTTP_ROOT?>/post/graph">Explore</a></li>
                         <li> <i class = "fa fa-paper-plane"></i><a href="#" onclick="subscribe('<?=HTTP_ROOT?>')">Subscribe</a></li>
                         <?lua end ?>
-                        <li ><i class = "fa fa-address-card"></i><a href="https://info.lxsang.me" >Portfolio</a></li>
+                        <li ><i class = "fa fa-address-card"></i><a href="https://info.iohub.dev" >Portfolio</a></li>
                         <li><i class = "fa fa-envelope"></i><a href="#" onclick="mailtoMe('<?=HTTP_ROOT?>')" >Contact</a></li>
                 </ul>
                 <?lua
                 if not HEADER.mobile then
                 ?>
-                <input type = "text" class = "search-box"></input>
+                <form class="search-form" method="get" action="<?=HTTP_ROOT?>/post/search">
+                    <input type = "text" class = "search-box" name="q"></input>
+                    <input type="submit" hidden ></input>
+                </form>
                 <div class= "search-icon"></div>
                 <?lua
                 end

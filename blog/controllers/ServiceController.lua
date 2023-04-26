@@ -21,7 +21,7 @@ function ServiceController:sendmail()
         fail("unknown request")
     end
     local rq = (JSON.decodeString(REQUEST.json))
-    local to = "mrsang@lxsang.me"
+    local to = "mrsang@iohub.dev"
     local from = "From: " .. rq.email .. "\n"
     local suject = "Subject: " .. rq.subject .. "\n"
     local content = "Contact request from:" .. rq.name .. "\n Email: " .. rq.email .. "\n" .. rq.content .. "\n"
@@ -45,7 +45,7 @@ function ServiceController:subscribe()
     end
     local rq = (JSON.decodeString(REQUEST.json))
     -- check if email is exist
-    local data = self.subscribers:find({exp = {["="] = {email = rq.email}}})
+    local data = self.subscribers:find({where = {email = rq.email}})
     if data and #data > 0 then
         fail("You are already/previously subscribed")
     else

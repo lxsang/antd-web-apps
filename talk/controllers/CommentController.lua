@@ -10,6 +10,7 @@ local function process_md(input)
 end
 
 local function sendmail(to, subject, content)
+    LOG_DEBUG("Sending email to %s", to)
     local from = "From: contact@iohub.dev\nTo: " .. to .. "\n"
     local suject = "Subject: " .. subject .. "\n"
 
@@ -31,17 +32,17 @@ function CommentController:index(...)
     end
     local rq = (JSON.decodeString(REQUEST.json))
     if (rq) then
-        local pages, order = self.pages:find({exp = {["="] = {uri = rq.page}}})
+        local pages, order = self.pages:find({where = {uri = rq.page}})
         if not pages or #order == 0 then
             fail("Be the first to comment")
         else
             local pid = pages[1].id
-            local comments, order = self.comment:find(
-                                        {
-                    exp = {
-                        ["and"] = {{["="] = {pid = pid}}, {[" = "] = {rid = 0}}}
+            local comments, order = self.comment:find({
+                    where = {
+                        pid = pid,
+                        rid = 0
                     },
-                    order = {time = "ASC"},
+                    order = {"time$asc"},
                     fields = {"id", "time", "name", "rid", "pid", "content"}
                 })
             if not comments or #order == 0 then
@@ -55,13 +56,11 @@ function CommentController:index(...)
                     local sub_comments, suborder =
                         self.comment:find(
                             {
-                                exp = {
-                                    ["and"] = {
-                                        {["="] = {pid = pid}},
-                                        {[" = "] = {rid = data.id}}
-                                    }
+                                where = {
+                                    pid = pid,
+                                    rid = data.id
                                 },
-                                order = {time = "ASC"}
+                                order = {"time$asc"}
 
                             })
                     if sub_comments and #suborder ~= 0 then
@@ -92,7 +91,7 @@ function CommentController:post(...)
     end
     local rq = (JSON.decodeString(REQUEST.json))
     if rq then
-        local pages, order = self.pages:find({exp = {["="] = rq.page}})
+        local pages, order = self.pages:find({where = rq.page})
         if not pages or #order == 0 then
             -- insert data
             if self.pages:create(rq.page) then
@@ -120,19 +119,27 @@ function CommentController:post(...)
                              ".\nBest regards,\nEmail automatically sent by QuickTalk API")
             end
             -- send mail to all users of current page
-            local cmts, cmti = self.comment:select("MIN(id) as id,email",
-                                                   "pid=" .. rq.comment.pid ..
-                                                       " AND email != '" ..
-                                                       rq.comment.email ..
-                                                       "' GROUP BY email")
+            local cmts, cmti = self.comment:find(
+                {
+                    where = {
+                        pid = rq.comment.pid,
+                        ["email$ne"] = rq.comment.email
+                    },
+                    fields = {"id", "email"}
+                })
+                -- check duplicate email
             if cmts and #cmti > 0 then
+                local sent = {}
                 for idx, v in pairs(cmti) do
-                    sendmail(cmts[v].email, rq.comment.name ..
+                    if not sent[cmts[v].email] then
+                        sendmail(cmts[v].email, rq.comment.name ..
                                  " has written something on a page that you've commented on",
                              rq.comment.name ..
                                  " has written something on a page that you've commented. \nPlease visit this page: " ..
-                                 rq.page.uri ..
+                                 rq.page.uri..
                                  " for updates on the discussion.\nBest regards,\nEmail automatically sent by QuickTalk API")
+                        sent[cmts[v].email] = true
+                    end
                 end
             end
             rq.comment.email = ""

@@ -29,8 +29,8 @@
                         <span><?=entry.subtitle?></span>
                         <span class="date">
                         <?lua
-                            if entry["start"]:match("^20%d.*") and entry['end']:match("^20%d.*")  then
-                                echo(entry.start.."-"..entry['end'])
+                            if tostring(entry["start"]):match("^20%d.*") and tostring(entry['end']):match("^20%d.*")  then
+                                echo("%d-%d",entry["start"],entry['end'])
                             end
                         ?>
                         </span>
@@ -71,8 +71,8 @@
                             <span><?=entry.subtitle?></span>
                             <span class="date">
                             <?lua
-                                if entry["start"]:match("^20%d.*") and entry['end']:match("^20%d.*") then
-                                    echo(entry.start.."-"..entry['end'])
+                                if tostring(entry["start"]):match("^20%d.*") and tostring(entry['end']):match("^20%d.*") then
+                                    echo("%d-%d",entry["start"],entry['end'])
                                 end
                             ?>
                             </span>

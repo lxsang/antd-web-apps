@@ -9,5 +9,8 @@ BaseModel:subclass("AnalyticalModel",{
 })
 
 function AnalyticalModel:similarof(id)
-    return self:find({ exp = {["="] = {pid = id}}, order = {score = "DESC"}})
+    return self:find({
+        where = {pid = id},
+        order = { "score$desc"}
+    })
 end

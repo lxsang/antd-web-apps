@@ -3,11 +3,12 @@
     <head>
         <script type="text/javascript" src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/style.css" />
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
+                <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+
         <?lua
             if not toc then
         ?>
-        <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/rst/ubuntu-regular.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin" />
         <?lua
             end
         ?>

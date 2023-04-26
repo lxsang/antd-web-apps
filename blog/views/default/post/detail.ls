@@ -14,9 +14,9 @@
             local atags = {}
             local i = 1
             for tag in data.tags:gmatch(",*([^,]+)") do
-                tag = std.trim(tag, " ")
+                tag = ulib.trim(tag, " ")
                 if tag ~= "" then
-                    local b64tag = std.b64encode(tag)
+                    local b64tag = enc.b64encode(tag)
                     atags[i] = '<a href = "'..HTTP_ROOT..'/post/bytag/'..b64tag:gsub("=","")..'/'..POST_LIMIT..'">'..tag.."</a>"
                     i = i+ 1
                 end

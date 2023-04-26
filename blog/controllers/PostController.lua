@@ -6,6 +6,34 @@ BaseController:subclass(
     }
 )
 
+local tools = {}
+tools.sum = function(v)
+    local sum  = 0.0
+    for i=1,#v do sum = sum + v[i] end
+    return sum
+end
+
+tools.mean = function(v)
+    return tools.sum(v)/#v
+    
+end
+
+tools.argmax = function(v)
+    local maxv = 0.0
+    local maxi = 0.0
+    for i = 1,#v do
+        if v[i] >= maxv then
+            maxi = i
+            maxv = v[i]
+        end
+    end
+    return maxi,maxv
+end
+
+tools.cmp = function(a,b)
+    return a[2] > b[2]
+end
+
 function PostController:index(...)
     return self:top(table.unpack({...}))
 end
@@ -22,7 +50,7 @@ end
 
 function PostController:afterof(id, limit)
     limit = limit or POST_LIMIT
-    local data, order = self.blog:fetch({[">"] = {id = id}}, limit, {ctime = "ASC"})
+    local data, order = self.blog:fetch({["id$gt"] = tonumber(id)}, limit, { "ctime$asc"})
     if not data or #order == 0 then
         return self:notfound("No entry found")
     end
@@ -36,9 +64,68 @@ function PostController:afterof(id, limit)
     return true
 end
 
+function PostController:search(...)
+    local index_file = DB_FILE..".index.json"
+    local st = require("stmr")
+    local indexes, err_code = JSON.decodeFile(index_file)
+    local terms = REQUEST.q
+    if not err_code then
+        -- prepare the vectors
+        local docs = {}
+        local tid = 1
+        local tokens = {}
+        local search_vector = {}
+        for word in string.gmatch(terms,'%w+') do
+            local token = st.stmr(word:lower())
+            local index = indexes[token]
+            if index then
+                for id,v in pairs(index) do
+                    if not docs[id] then
+                        docs[id] = {}
+                    end
+                    docs[id][token] = v
+                end
+                tokens[tid] = token
+                tid = tid + 1
+            end
+        end
+        --echo(JSON.encode(docs))
+        --echo(JSON.encode(tokens))
+        
+        -- now create one vector for each documents
+        local mean_tfidf = {}
+        for id,doc in pairs(docs) do
+            local vector = {}
+            for i,token in ipairs(tokens) do
+                if doc[token] then
+                    vector[i] = doc[token]
+                else
+                    vector[i] = 0
+                end
+            end
+            local data, order = self.blog:find({
+                where = {id = tonumber(id)},
+                fields = {"id", "title", "utime", "ctime", "content"}
+            })
+            if data and data[1] then
+                data[1].content = data[1].content:sub(1,255)
+                table.insert(mean_tfidf, {id, tools.mean(vector), data[1]})
+            end
+        end
+        table.sort(mean_tfidf, tools.cmp)
+        self.template:setView("search")
+        self.template:set("result", mean_tfidf)
+        self.template:set("title", "Search result")
+        return true
+    else
+        LOG_ERROR("Unable to parse file %s", index_file)
+        return self:notfound("Internal search error")
+    end
+end
+
 function PostController:beforeof(id, limit)
     limit = limit or POST_LIMIT
-    local data, order = self.blog:fetch({["<"] = {id = id}}, limit)
+    local data, order = self.blog:fetch({["id$lt"] = tonumber(id)}, limit)
     if not data or #order == 0 then
         return self:notfound("No entry found")
     end
@@ -58,15 +145,15 @@ function PostController:list(data, order)
 end
 
 function PostController:bytag(b64tag, limit, action, id)
-    local tag = bytes.__tostring(std.b64decode(b64tag .. "=="))
-    local cond = {["LIKE"] = {tags = "%%" .. tag .. "%%"}}
+    local tag = tostring(enc.b64decode(b64tag .. "=="))
+    local cond = {["tags$like"] = "%%"..tag.."%%"}
     local order = nil
     limit = limit or POST_LIMIT
     if action == "before" then
-        cond = {["and"] = {cond, {["<"] = {id = id}}}}
+        cond["id$lt"] = tonumber(id)
     elseif action == "after" then
-        cond = {["and"] = {cond, {[">"] = {id = id}}}}
-        order = {ctime = "ASC"}
+        cond["id$gt"] = tonumber(id)
+        order = {"ctime$asc"}
     end
     local data, sort = self.blog:fetch(cond, limit, order)
     if not data or #sort == 0 then
@@ -93,7 +180,7 @@ function PostController:json(id)
         error = false,
         result = false
     }
-    local data, order = self.blog:fetch({["="] = {id = id}})
+    local data, order = self.blog:fetch({id = tonumber(id)})
     if not data or #order == 0 then
         obj.error = "No data found"
     else
@@ -126,7 +213,7 @@ function PostController:json(id)
 end
 
 function PostController:id(pid)
-    local data, order = self.blog:fetch({["="] = {id = pid}})
+    local data, order = self.blog:fetch({id = tonumber(pid)})
     if not data or #order == 0 then
         return self:notfound("No post found")
     end
@@ -149,7 +236,8 @@ function PostController:id(pid)
     self.template:set("similar_posts", similar_posts)
     self.template:set("render", true)
     self.template:set("tags", data.tags)
-    self.template:set("url", HTTP_ROOT .. "/post/id/" .. pid)
+    self.template:set("url", string.format(HTTP_ROOT .. "/post/id/%d",pid))
+    -- self.template:set("url", string.format("https://blog.lxsang.me/post/id/%d",pid))
     self.template:setView("detail")
     return true
 end
@@ -168,7 +256,7 @@ function PostController:actionnotfound(...)
 end
 
 function PostController:graph_json(...)
-    local nodes = self.blog:find({exp= { ["="] = { publish = 1}}, fields = {"id", "title"}})
+    local nodes = self.blog:find({ where = {publish = 1}, fields = {"id", "title"}})
     local output = { error = false, result = false }
     local lut = {}
     std.json()
@@ -195,7 +283,7 @@ function PostController:graph_json(...)
                 else
                     key = v.sid..v.pid
                 end
-                key = std.sha1(key)
+                key = enc.sha1(key)
                 if not lut[key] then
                     output.result.links[i] = link
                     i = i + 1
@@ -210,42 +298,5 @@ end
 function PostController:graph(...)
     self.template:set("title", "Posts connection graph")
     self.template:set("d3", true)
-    return true
-end
-
-function PostController:analyse(n)
-    if not n then
-        n = 5
-    end
-    local path = WWW_ROOT..DIR_SEP.."ai"
-    local gettext = loadfile(path .. "/gettext.lua")()
-    local cluster = loadfile(path .. "/cluster.lua")()
-    local data = gettext.get({publish = 1})
-    local documents = {}
-    if data then
-        local sw = gettext.stopwords(path .. "/stopwords.txt")
-        for k, v in pairs(data) do
-            local bag = cluster.bow(data[k].content, sw)
-            documents[data[k].id] = bag
-        end
-        cluster.tfidf(documents)
-        --local v = cluster.search("arm", documents)
-        --echo(JSON.encode(v))
-        local vectors, maxv, size = cluster.get_vectors(documents)
-        -- purge the table
-        self.analytical:delete({["="] = {["1"] = 1}})
-        -- get similarity and put to the table
-        for id, v in pairs(vectors) do
-            local top = cluster.top_similarity(id, vectors, tonumber(n), 0.1)
-            for a, b in pairs(top) do
-                local record = {pid = id, sid = a, score = b}
-                self.analytical:create(record)
-            end
-        end
-        self.template:set("message", "Analyse complete")
-    else
-        self.template:set("message", "Cannot analyse")
-    end
-    self.template:set("title", "TFIDF-analyse")
     return true
 end

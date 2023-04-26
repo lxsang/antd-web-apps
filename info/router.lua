@@ -3,32 +3,33 @@
 -- should be something like this
 -- ^\/apps\/+(.*)$ = /apps/router.lua?r=<1>&<query>
 -- some global variables
-DIR_SEP = "/"
+package.path = _SERVER["LIB_DIR"].."/lua/?.lua"
+require("silk.api")
 WWW_ROOT = __ROOT__.."/info"
 if HEADER.Host then
     HTTP_ROOT= "https://"..HEADER.Host
 else
-    HTTP_ROOT = "https://info.lxsang.me"
+    HTTP_ROOT = "https://info.iohub.dev"
 end
--- class path: path.to.class
-BASE_FRW = ""
--- class path: path.to.class
-CONTROLLER_ROOT = BASE_FRW.."info.controllers"
-MODEL_ROOT = BASE_FRW.."info.models"
+-- TODO remove me
+HTTP_ROOT = HTTP_ROOT.."/next/info"
+
+CONTROLLER_ROOT = "info.controllers"
+MODEL_ROOT = "info.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
-LOG_ROOT = WWW_ROOT..DIR_SEP.."logs"
 
--- require needed library
-require(BASE_FRW.."silk.api")
 
 -- registry object store global variables
 local REGISTRY = {}
 -- set logging level
-REGISTRY.logger = Logger:new{ levels = {INFO = false, ERROR = true, DEBUG = false}}
+REGISTRY.logger = Logger:new{ level = Logger.INFO}
 REGISTRY.users_allowed = { phuong = true, mrsang = true, dany = true }
-REGISTRY.user = "mrsang"
-REGISTRY.db = DBHelper:new{db=REGISTRY.user}
+-- TODO change me
+REGISTRY.user = "dany"
+REGISTRY.dbfile = "/home/"..REGISTRY.user.."/databases/"..REGISTRY.user..".db"
+
+REGISTRY.db = DBModel:new{db=REGISTRY.dbfile}
 REGISTRY.layout = 'default'
 REGISTRY.fileaccess = true
 
@@ -67,10 +68,12 @@ function NotfoundController:index(...)
         self:error("404: Controller "..args[1].." not found : "..args[2])
         return
     end
-    REQUEST.r = std.trim(REQUEST.r:gsub(user, ""), "/")
+    LOG_DEBUG("Request: %s", REQUEST.r)
+    REQUEST.r = ulib.trim(REQUEST.r:gsub(user, ""), "/")
     if REGISTRY.db then REGISTRY.db:close() end
     REGISTRY.user = user
-    REGISTRY.db = DBHelper:new{db=REGISTRY.user}
+    REGISTRY.dbfile = "/home/"..REGISTRY.user.."/databases/"..REGISTRY.user..".db"
+    REGISTRY.db = DBModel:new{db=REGISTRY.dbfile}
     REGISTRY.db:open()
     router:delegate()
 end

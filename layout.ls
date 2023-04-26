@@ -1,7 +1,5 @@
 <?lua
     std.html()
-    require("sqlite")
-    local user = "mrsang"
     local die = function(m)
         echo(m)
         debug.traceback=nil
@@ -9,9 +7,10 @@
     end
     local mobilecls = ""
     if HEADER.mobile then mobilecls = "mobile" end
-    local db = require("os.libs.dbmodel").get(user,"user",nil)
+    local db = DBModel:new{db="/home/dany/databases/mrsang.db"}
     if db == nil then die("cannot get db data") end
-    local data, a = db:getAll()
+    db:open()
+    local data, a = db:getAll("user")
     db:close()
     if data == nil or data[1] == nil then die("Cannot fetch user info") end
     data = data[1]
@@ -22,8 +21,8 @@
         <title>Hi, I'm <?=data.fullname?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="grs/ubuntu-regular.css" />
-        <link rel="stylesheet" type="text/css" href="grs/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
         <link rel="stylesheet" type="text/css" href="grs/mainsite.css" />
     </head>
     <body>

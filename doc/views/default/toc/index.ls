@@ -20,7 +20,7 @@ gentree = function(data, controller, cpath)
             selected = "class = 'selected'"
         end
     end
-    local markup = '<li '..selected..'>'..caret..'<a '..highlight..' href="'..HTTP_ROOT..'/'..controller..'/'..std.b64encode(data.path):gsub("=","")..'/'..data.name:gsub(" ", "_")..'.md">'..data.name.."</a>"
+    local markup = '<li '..selected..'>'..caret..'<a '..highlight..' href="'..HTTP_ROOT..'/'..controller..'/'..enc.b64encode(data.path):gsub("=","")..'/'..data.name:gsub(" ", "_")..'.md">'..data.name.."</a>"
     if data.entries then
         markup = markup.."<ul class='nested "..active.."'>"
         for k,v in pairs(data.entries) do

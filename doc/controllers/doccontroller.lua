@@ -107,8 +107,8 @@ function DocController:loadTOC()
                                         if line then
                                             local file =
                                                 {
-                                                    name = std.trim(
-                                                        std.trim(line, "#"), " "),
+                                                    name = ulib.trim(
+                                                        ulib.trim(line, "#"), " "),
                                                     path = vf.path,
                                                     tpath = vf.path,
                                                     parent = section,
@@ -145,14 +145,14 @@ function DocController:index(...)
     if args[1] then
         local b64text = args[1]
         if b64text then
-            local p = bytes.__tostring(std.b64decode(b64text .. "=="))
+            local p = tostring(enc.b64decode(b64text .. "=="))
             if p then
                 toc.cpath = p
                 path = getpath(p, self)
                 if path and ulib.exists(path) then
                     self.template:set("url", HTTP_ROOT .. '/' .. self.name ..
                                           '/' ..
-                                          std.b64encode(toc.cpath):gsub("=", ""))
+                                          enc.b64encode(toc.cpath):gsub("=", ""))
                 end
             end
         end
@@ -188,7 +188,7 @@ function DocController:search(...)
         local arr = explode(query, " ")
         local patterns = {}
         for k, v in ipairs(arr) do
-            local world = std.trim(v, " ")
+            local world = ulib.trim(v, " ")
             if v and v ~= "" then
                 cmd = cmd .. " -e '" .. v .. "' "
                 table.insert(patterns, v:lower())
