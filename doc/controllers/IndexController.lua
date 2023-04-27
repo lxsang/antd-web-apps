@@ -8,7 +8,7 @@ function IndexController:index(...)
         local md = require("md")
         local callback = function(s) content = content .. s end
         md.to_html(file:read("*a"), callback)
-        file.close()
+        file:close()
         self.template:set("data", content)
     end
     return true

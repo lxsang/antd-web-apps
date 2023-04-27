@@ -14,15 +14,17 @@ if HEADER.Host then
 else
     HTTP_ROOT = "https://doc.iohub.dev"
 end
+-- TODO remove me
+HTTP_ROOT = HTTP_ROOT.."/next/doc"
 
 -- class path: path.to.class
-CONTROLLER_ROOT = ."doc.controllers"
+CONTROLLER_ROOT = "doc.controllers"
 MODEL_ROOT = "doc.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
 
 -- TODO change me
-DOC_DIR = "/home/mrsang/doc"
+DOC_DIR = "/home/dany/doc"
 DOC_COVER = DOC_DIR.."/library.md"
 
 package.path = package.path..";"..__ROOT__.."/os/libs/?.lua"

@@ -167,7 +167,7 @@ function DocController:index(...)
         local md = require("md")
         local callback = function(s) content = content .. s end
         md.to_html(pre_process_md(file:read("*a"), self), callback)
-        file.close()
+        file:close()
         content, has_3d = post_process_md(content, self)
         -- replace some display plugins
 

@@ -25,7 +25,7 @@ end
             rel="stylesheet"
             type="text/css"
             href="<?=HTTP_ROOT?>/rst/katex/katex.min.css" />
-        <script src="<?=HTTP_ROOT?>/rst/gscripts/jquery-3.4.1.min.js"> </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
         <?lua
             if has_3d then
         ?>
@@ -67,14 +67,8 @@ end
             rel="stylesheet"
             type="text/css"
             href="<?=HTTP_ROOT?>/assets/github-markdown.css" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="<?=HTTP_ROOT?>/rst/font-awesome.css" />
-        <link
-            rel="stylesheet"
-            type="text/css"
-            href="<?=HTTP_ROOT?>/rst/ubuntu-regular.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin" />
         <title>
             <?lua
                 if tocdata then

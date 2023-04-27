@@ -1,5 +1,5 @@
 BUILDDIR?=./build
-PROJS?=grs blog talk get info
+PROJS?=grs blog talk get info doc
 # info blog doc talk get
 copyfiles =  layout.ls index.lua mimes.json
 main:  copy
