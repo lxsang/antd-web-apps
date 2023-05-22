@@ -1,7 +1,7 @@
 
 <html>
     <head>
-        <script type="text/javascript" src="<?=HTTP_ROOT?>/rst/gscripts/showdown.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?=HTTP_ROOT?>/style.css" />
                 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
 

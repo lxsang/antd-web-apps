@@ -11,8 +11,8 @@ if HEADER.Host then
 else
     HTTP_ROOT = "https://info.iohub.dev"
 end
--- TODO remove me
-HTTP_ROOT = HTTP_ROOT.."/next/info"
+
+DB_LOC="/opt/www/databases"
 
 CONTROLLER_ROOT = "info.controllers"
 MODEL_ROOT = "info.models"
@@ -25,9 +25,10 @@ local REGISTRY = {}
 -- set logging level
 REGISTRY.logger = Logger:new{ level = Logger.INFO}
 REGISTRY.users_allowed = { phuong = true, mrsang = true, dany = true }
--- TODO change me
-REGISTRY.user = "dany"
-REGISTRY.dbfile = "/home/"..REGISTRY.user.."/databases/"..REGISTRY.user..".db"
+
+REGISTRY.user = "mrsang"
+
+REGISTRY.dbfile = DB_LOC.."/"..REGISTRY.user..".db"
 
 REGISTRY.db = DBModel:new{db=REGISTRY.dbfile}
 REGISTRY.layout = 'default'
@@ -72,7 +73,7 @@ function NotfoundController:index(...)
     REQUEST.r = ulib.trim(REQUEST.r:gsub(user, ""), "/")
     if REGISTRY.db then REGISTRY.db:close() end
     REGISTRY.user = user
-    REGISTRY.dbfile = "/home/"..REGISTRY.user.."/databases/"..REGISTRY.user..".db"
+    REGISTRY.dbfile = DB_LOC.."/"..REGISTRY.user..".db"
     REGISTRY.db = DBModel:new{db=REGISTRY.dbfile}
     REGISTRY.db:open()
     router:delegate()

@@ -54,15 +54,14 @@ function CommentController:index(...)
                     data.children = {}
                     -- find all the replies to this thread
                     local sub_comments, suborder =
-                        self.comment:find(
-                            {
-                                where = {
-                                    pid = pid,
-                                    rid = data.id
-                                },
-                                order = {"time$asc"}
+                        self.comment:find({
+                            where = {
+                                pid = pid,
+                                rid = data.id
+                            },
+                            order = {"time$asc"}
 
-                            })
+                        })
                     if sub_comments and #suborder ~= 0 then
                         for i, subc in pairs(suborder) do
                             sub_comments[subc].content =

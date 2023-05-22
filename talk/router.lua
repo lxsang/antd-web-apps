@@ -7,8 +7,8 @@ require("silk.api")
 -- crypto lib
 enc = require("enc")
 WWW_ROOT = __ROOT__.."/talk"
--- TODO change me
-DB_FILE = "/home/dany/databases/quicktalk.db"
+DB_LOC="/opt/www/databases"
+DB_FILE = DB_LOC.."/quicktalk.db"
 function fail(msg)
     std.json()
     std.t(JSON.encode({error = msg}))
@@ -24,9 +24,6 @@ if HEADER.Host then
 else
     HTTP_ROOT = "https://talk.iohub.dev"
 end
-
--- TODO remove me
-HTTP_ROOT = HTTP_ROOT.."/next/talk"
 
 -- class path: path.to.class
 CONTROLLER_ROOT = "talk.controllers"

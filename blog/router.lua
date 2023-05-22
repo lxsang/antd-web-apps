@@ -7,8 +7,8 @@ require("silk.api")
 -- crypto lib
 enc = require("enc")
 WWW_ROOT = __ROOT__.."/blog"
--- TODO: change me
-DB_FILE = "/home/dany/databases/mrsang.db"
+DB_LOC="/opt/www/databases"
+DB_FILE = DB_LOC.."/mrsang.db"
 -- add aditional paths
 package.path = package.path..";"..WWW_ROOT .. '/?.lua'
 
@@ -18,8 +18,7 @@ if HEADER.Host then
 else
     HTTP_ROOT = "https://blog.iohub.dev"
 end
--- TODO remove me
-HTTP_ROOT = HTTP_ROOT.."/next/blog"
+
 CONTROLLER_ROOT = "blog.controllers"
 MODEL_ROOT = "blog.models"
 -- file path: path/to/file

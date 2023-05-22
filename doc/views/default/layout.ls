@@ -154,7 +154,7 @@ end
         </div>
         
         <div id = "bottom">
-            Powered by antd server, (c) 2019 - <?=os.date("*t").year?> Xuan Sang LE
+            Powered by antd server, (c) 2019 - <?=os.date("*t").year?> Dany LE
         </div>
         <script>
             const toc_class_toggle = () => {

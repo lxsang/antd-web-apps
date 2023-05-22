@@ -1,7 +1,6 @@
 BaseController:subclass("IndexController")
 
 function IndexController:index(...)
-    -- TODO: add description to router
     local file = io.open(DOC_COVER, "r")
     if file then
         local content = ""
