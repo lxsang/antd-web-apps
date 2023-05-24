@@ -23,7 +23,7 @@ CONTROLLER_ROOT = "blog.controllers"
 MODEL_ROOT = "blog.models"
 -- file path: path/to/file
 VIEW_ROOT = WWW_ROOT..DIR_SEP.."views"
-POST_LIMIT = 3
+POST_LIMIT = 10
 
 if REQUEST.r then
     REQUEST.r = REQUEST.r:gsub("%:", "/")
