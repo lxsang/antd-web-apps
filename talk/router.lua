@@ -9,6 +9,7 @@ enc = require("enc")
 WWW_ROOT = __ROOT__.."/talk"
 DB_LOC="/opt/www/databases"
 DB_FILE = DB_LOC.."/quicktalk.db"
+SMTP_SETTING=DB_LOC.."/smtp.json"
 function fail(msg)
     std.json()
     std.t(JSON.encode({error = msg}))

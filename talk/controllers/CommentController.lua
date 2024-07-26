@@ -11,15 +11,64 @@ end
 
 local function sendmail(to, subject, content)
     LOG_DEBUG("Sending email to %s", to)
-    local from = "From: contact@iohub.dev\nTo: " .. to .. "\n"
-    local suject = "Subject: " .. subject .. "\n"
 
-    local cmd = 'echo "' .. utils.escape(from .. suject .. content) ..
-                    '"| sendmail ' .. to
-    local r = os.execute(cmd)
+    local setting = JSON.decodeFile(SMTP_SETTING)
 
-    if r then return true end
-    return false
+    local socket = require 'socket'
+    local smtp = require 'socket.smtp'
+    local ssl = require 'ssl'
+    local https = require 'ssl.https'
+    local ltn12 = require 'ltn12'
+
+    local sslCreate = function()
+        local sock = socket.tcp()
+        return setmetatable({
+            connect = function(_, host, port)
+                local r, e = sock:connect(host, port)
+                if not r then return r, e end
+                sock = ssl.wrap(sock, {mode='client', protocol='tlsv1_2'})
+                return sock:dohandshake()
+            end
+        }, {
+            __index = function(t,n)
+                return function(_, ...)
+                    return sock[n](sock, ...)
+                end
+            end
+        })
+    end
+
+    local setting = JSON.decodeFile(SMTP_SETTING)
+
+    if not setting then
+        return false
+    end
+
+    local from = "contact@iohub.dev"
+    
+    local msg = {
+        headers = {
+            from = string.format("QuickTalk <%s>", from),
+            to = string.format("%s <%s>",to,to),
+            subject = subject
+        },
+        body = content
+    }
+    LOG_INFO("Send mail on server %s user %s port %d: %s", setting.server, setting.user, setting.port, JSON.encode(msg))
+    local ok, err = smtp.send {
+        from = string.format("<%s>",from),
+        rcpt = string.format('<%s>', to),
+        source = smtp.message(msg),
+        user = setting.user,
+        password = setting.password,
+        server = setting.server,
+        port = math.floor(setting.port),
+        create = sslCreate
+    }
+
+    if not ok then return false end
+    return true
+
 end
 function CommentController:index(...)
     if (REQUEST.method == "OPTIONS") then
