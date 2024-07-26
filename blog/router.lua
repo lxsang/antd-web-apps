@@ -9,6 +9,7 @@ enc = require("enc")
 WWW_ROOT = __ROOT__.."/blog"
 DB_LOC="/opt/www/databases"
 DB_FILE = DB_LOC.."/mrsang.db"
+SMTP_SETTING=DB_LOC.."/smtp.json"
 -- add aditional paths
 package.path = package.path..";"..WWW_ROOT .. '/?.lua'
 

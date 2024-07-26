@@ -19,24 +19,66 @@ end
 function ServiceController:sendmail()
     if not REQUEST.json then
         fail("unknown request")
+        return
+    end
+    local setting = JSON.decodeFile(SMTP_SETTING)
+
+    local socket = require 'socket'
+    local smtp = require 'socket.smtp'
+    local ssl = require 'ssl'
+    local https = require 'ssl.https'
+    local ltn12 = require 'ltn12'
+
+    local sslCreate = function()
+        local sock = socket.tcp()
+        return setmetatable({
+            connect = function(_, host, port)
+                local r, e = sock:connect(host, port)
+                if not r then return r, e end
+                sock = ssl.wrap(sock, {mode='client', protocol='tlsv1_2'})
+                return sock:dohandshake()
+            end
+        }, {
+            __index = function(t,n)
+                return function(_, ...)
+                    return sock[n](sock, ...)
+                end
+            end
+        })
+    end
+
+
+    if not setting then
+        fail("Dont know how to connect to SMTP server")
+        return
     end
     local rq = (JSON.decodeString(REQUEST.json))
-    local to = "mrsang@iohub.dev"
-    local from = "From: " .. rq.email .. "\n"
-    local suject = "Subject: " .. rq.subject .. "\n"
-    local content = "Contact request from:" .. rq.name .. "\n Email: " .. rq.email .. "\n" .. rq.content .. "\n"
-
-    local cmd = 'echo "' .. utils.escape(from .. suject .. content) .. '"| sendmail ' .. to
-
-    --print(cmd)
-    local r = os.execute(cmd)
-
-    if r then
-        result(r)
+    local to = "contact@iohub.dev"
+    
+    local msg = {
+        headers = {
+            from = string.format("%s <%s>", rq.name, rq.email),
+            to = string.format("Contact <%s>",to),
+            subject = rq.subject
+        },
+        body = rq.content
+    }
+    LOG_INFO("Send mail on server %s user %s port %d: %s", setting.server, setting.user, setting.port, JSON.encode(msg))
+    local ok, err = smtp.send {
+        from = string.format("<%s>",rq.email),
+        rcpt = string.format('<%s>', to),
+        source = smtp.message(msg),
+        user = setting.user,
+        password = setting.password,
+        server = setting.server,
+        port = math.floor(setting.port),
+        create = sslCreate
+    }
+    if not ok then
+        fail(err)
     else
-        fail("Cannot send email at the moment, the service may be down")
+        result("Email sent")
     end
-    return false
 end
 
 function ServiceController:subscribe()
