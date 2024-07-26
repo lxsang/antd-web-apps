@@ -44,6 +44,7 @@
 <?lua end ?>
         <meta property="og:image" content="" />
 <?lua if render then ?>
+        <?lua url = url:gsub("lxsang.me", "iohub.dev") ?>
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@blog.iohub.dev" />
         <meta name="twitter:creator" content="@DanyLE" />
